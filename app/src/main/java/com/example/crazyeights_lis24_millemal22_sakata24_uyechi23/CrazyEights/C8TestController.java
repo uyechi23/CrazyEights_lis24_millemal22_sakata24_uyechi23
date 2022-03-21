@@ -12,6 +12,14 @@ public class C8TestController implements View.OnClickListener{
         this.info = textview;
     }
 
+    /*
+    External Citation:
+        Date:       14 March 2022
+        Problem:    Wanted to make TextView scrollable
+        Resource:   https://stackoverflow.com/questions/1748977/making-textview-scrollable-on-android
+        Solution:   Added android:scrollbars = "vertical" in xml file and currText.setMovementMethod(new ScrollingMovementMethod());
+     */
+
     @Override
     public void onClick(View view) {
         // clear the current TextView (from previous test)

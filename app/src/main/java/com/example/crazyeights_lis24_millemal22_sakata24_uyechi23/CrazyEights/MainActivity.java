@@ -26,14 +26,6 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
  */
 public class MainActivity extends AppCompatActivity {
 
-    /*
-    External Citation:
-        Date:       14 March 2022
-        Problem:    Wanted to make TextView scrollable
-        Resource:   https://stackoverflow.com/questions/1748977/making-textview-scrollable-on-android
-        Solution:   Added android:scrollbars = "vertical" in xml file and currText.setMovementMethod(new ScrollingMovementMethod());
-     */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
