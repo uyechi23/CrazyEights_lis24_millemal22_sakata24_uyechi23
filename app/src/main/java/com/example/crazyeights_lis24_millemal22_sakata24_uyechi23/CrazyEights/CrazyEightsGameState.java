@@ -215,7 +215,7 @@ public class CrazyEightsGameState extends GameState {
     public void setPlayerTurn(String turn){ this.playerTurn = turn; }
     public void setPlayerNames(String[] playerNames){ this.playerNames = playerNames; }
     public void setPlayerIndex(int index){ this.playerIndex = index; }
-    public void setPlayerHands(Hashtable<String, Deck> table){ this.playerHands = table; }
+    public void setPlayerHands(Hashtable<String,Deck> table){ this.playerHands = table; }
     public void setDrawPile(Deck deck){ this.drawPile = deck; }
     public void setDiscardPile(Deck deck){ this.discardPile = deck; }
     public void setSuit(String suit){ this.currentSuit = suit; }

@@ -41,31 +41,31 @@ public class Card {
     // images
     private int[][] resIdx = {
             {
-                    R.drawable.card_clubs_a, R.drawable.card_clubs_02, R.drawable.card_clubs_03,
-                    R.drawable.card_clubs_04, R.drawable.card_clubs_05, R.drawable.card_clubs_06,
-                    R.drawable.card_clubs_07, R.drawable.card_clubs_08, R.drawable.card_clubs_09,
-                    R.drawable.card_clubs_10, R.drawable.card_clubs_j, R.drawable.card_clubs_q,
+                    R.drawable.card_clubs_a, R.drawable.card_clubs_2, R.drawable.card_clubs_3,
+                    R.drawable.card_clubs_4, R.drawable.card_clubs_5, R.drawable.card_clubs_6,
+                    R.drawable.card_clubs_7, R.drawable.card_clubs_8, R.drawable.card_clubs_9,
+                    R.drawable.card_clubs_0, R.drawable.card_clubs_j, R.drawable.card_clubs_q,
                     R.drawable.card_clubs_k,
             },
             {
-                    R.drawable.card_diamonds_a, R.drawable.card_diamonds_02, R.drawable.card_diamonds_03,
-                    R.drawable.card_diamonds_04, R.drawable.card_diamonds_05, R.drawable.card_diamonds_06,
-                    R.drawable.card_diamonds_07, R.drawable.card_diamonds_08, R.drawable.card_diamonds_09,
-                    R.drawable.card_diamonds_10, R.drawable.card_diamonds_j, R.drawable.card_diamonds_q,
+                    R.drawable.card_diamonds_a, R.drawable.card_diamonds_2, R.drawable.card_diamonds_3,
+                    R.drawable.card_diamonds_4, R.drawable.card_diamonds_5, R.drawable.card_diamonds_6,
+                    R.drawable.card_diamonds_7, R.drawable.card_diamonds_8, R.drawable.card_diamonds_9,
+                    R.drawable.card_diamonds_0, R.drawable.card_diamonds_j, R.drawable.card_diamonds_q,
                     R.drawable.card_diamonds_k,
             },
             {
-                    R.drawable.card_hearts_a, R.drawable.card_hearts_02, R.drawable.card_hearts_03,
-                    R.drawable.card_hearts_04, R.drawable.card_hearts_05, R.drawable.card_hearts_06,
-                    R.drawable.card_hearts_07, R.drawable.card_hearts_08, R.drawable.card_hearts_09,
-                    R.drawable.card_hearts_10, R.drawable.card_hearts_j, R.drawable.card_hearts_q,
+                    R.drawable.card_hearts_a, R.drawable.card_hearts_2, R.drawable.card_hearts_3,
+                    R.drawable.card_hearts_4, R.drawable.card_hearts_5, R.drawable.card_hearts_6,
+                    R.drawable.card_hearts_7, R.drawable.card_hearts_8, R.drawable.card_hearts_9,
+                    R.drawable.card_hearts_0, R.drawable.card_hearts_j, R.drawable.card_hearts_q,
                     R.drawable.card_hearts_k,
             },
             {
-                    R.drawable.card_spades_a, R.drawable.card_spades_02, R.drawable.card_spades_03,
-                    R.drawable.card_spades_04, R.drawable.card_spades_05, R.drawable.card_spades_06,
-                    R.drawable.card_spades_07, R.drawable.card_spades_08, R.drawable.card_spades_09,
-                    R.drawable.card_spades_10, R.drawable.card_spades_j, R.drawable.card_spades_q,
+                    R.drawable.card_spades_a, R.drawable.card_spades_2, R.drawable.card_spades_3,
+                    R.drawable.card_spades_4, R.drawable.card_spades_5, R.drawable.card_spades_6,
+                    R.drawable.card_spades_7, R.drawable.card_spades_8, R.drawable.card_spades_9,
+                    R.drawable.card_spades_0, R.drawable.card_spades_j, R.drawable.card_spades_q,
                     R.drawable.card_spades_k,
             },
     };
@@ -303,19 +303,19 @@ public class Card {
 
         int secondIndex = -1;
         switch(this.getFace()){
-            case "Ace": secondIndex = 0;
-            case "Two": secondIndex = 1;
-            case "Three": secondIndex = 2;
-            case "Four": secondIndex = 3;
-            case "Five": secondIndex = 4;
-            case "Six": secondIndex = 5;
-            case "Seven": secondIndex = 6;
-            case "Eight": secondIndex = 7;
-            case "Nine": secondIndex = 8;
-            case "Ten": secondIndex = 9;
-            case "Jack": secondIndex = 10;
-            case "Queen": secondIndex = 11;
-            case "King": secondIndex = 12;
+            case "Ace": secondIndex = 0; break;
+            case "Two": secondIndex = 1; break;
+            case "Three": secondIndex = 2; break;
+            case "Four": secondIndex = 3; break;
+            case "Five": secondIndex = 4; break;
+            case "Six": secondIndex = 5; break;
+            case "Seven": secondIndex = 6; break;
+            case "Eight": secondIndex = 7; break;
+            case "Nine": secondIndex = 8; break;
+            case "Ten": secondIndex = 9; break;
+            case "Jack": secondIndex = 10; break;
+            case "Queen": secondIndex = 11; break;
+            case "King": secondIndex = 12; break;
         }
 
         // I think if this is here, we can cycle through each card in the deck, mark it

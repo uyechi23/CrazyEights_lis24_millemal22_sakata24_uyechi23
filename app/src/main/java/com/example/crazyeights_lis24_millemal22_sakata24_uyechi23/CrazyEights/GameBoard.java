@@ -26,50 +26,40 @@ import android.widget.LinearLayout;
  */
 public class GameBoard extends SurfaceView {
 
-    //Paint colors for the cards
-    Paint cardFrontColor = new Paint();
-    Paint cardBackColor = new Paint();
-    Paint diamondHeartColor = new Paint();
-    Paint spadeClubColor = new Paint();
-    Paint invalidCardColor = new Paint();
-
     //Gameboard dimensions
     float boardWidth = 2000.0f; //Need to get from xml file maybe start the game with a popup window then                                                        4
     float boardHeight = 853.0f; //the surface view can be created, and onDraw can be invalidated then the getters might work
-    float boardStartY = 0.0f;
-    float boardEndY = boardHeight;
+
+    /**
+     * slot dimensions
+     *
+     * slot1: current player
+     * slot2: left of current player
+     * slot3: above current player
+     * slot4: right of current player
+     *
+     * slot_[0]: Start X
+     * slot_[1]: Start Y
+     * slot_[2]: End X
+     * slot_[3]: End Y
+     */
 
     //slot 1 dimensions (current player)
-    float slot1StartX = boardWidth/3;           //667
-    float slot1StartY = (2 * (boardHeight/3));  //569
-    float slot1EndX = slot1StartX * 2;
-    float slot1EndY = boardEndY;
-
-    //slot 2 dimensions (left of current)
-    float slot2StartX = 0.0f;               //0
-    float slot2StartY = (boardHeight/3);    //400
-    float slot2EndX = slot1StartX;          //300
-    float slot2EndY = slot1StartY;          //600
-
-    //slot 3 dimensions (above current)
-    float slot3StartX = slot1StartX;        //300
-    float slot3StartY = boardStartY;        //200
-    float slot3EndX = slot1EndX;            //600
-    float slot3EndY = slot2StartY;          //400
-
-
-    //slot 4 dimensions (right of current)
-    float slot4StartX = slot1EndX;          //600
-    float slot4StartY = slot2StartY;        //400
-    float slot4EndX = boardWidth;           //900
-    float slot4EndY = slot2EndY;            //600
+    float[] slot1 = {(boardWidth/3), (2 * (boardHeight/3)),
+            ((boardWidth/3) * 2), boardHeight};
+    float[] slot2 = {0.0f, (boardHeight/3),
+            (boardWidth/3), (2 * (boardHeight/3))};
+    float[] slot3 = {(boardWidth/3), 0.0f,
+            ((boardWidth/3) * 2), (boardHeight/3)};
+    float[] slot4 = {((boardWidth/3) * 2), (boardHeight/3),
+            boardWidth, (2 * (boardHeight/3))};
 
     //Current player Card Dimensions
-    float playerCardHeight = (slot1EndY-slot1StartY)/2;     //100
+    float playerCardHeight = (slot1[3]-slot1[1])/2;
     float playerCardWidth = playerCardHeight/2;
 
     //Other Player Card Dimensions
-    float otherCardHeight = (slot1EndY-slot1StartY)/3;      //67ish
+    float otherCardHeight = (slot1[3]-slot1[1])/3;
     float otherCardWidth = otherCardHeight/2;
 
     public GameBoard(Context context) {
@@ -81,18 +71,6 @@ public class GameBoard extends SurfaceView {
         super(context, attrs);
         setWillNotDraw(false);
 
-        //Putting the colors in the paint
-        setBackgroundColor(0xFF7EA8FB);
-        cardFrontColor.setColor(Color.WHITE);
-        cardFrontColor.setStyle(Paint.Style.FILL);
-        cardBackColor.setColor(0xFFB3E5FF);
-        cardBackColor.setStyle(Paint.Style.FILL);
-        diamondHeartColor.setColor(Color.RED);
-        diamondHeartColor.setStyle(Paint.Style.FILL);
-        spadeClubColor.setColor(Color.BLACK);
-        spadeClubColor.setStyle(Paint.Style.FILL);
-        invalidCardColor.setColor(0x9E9E9E9E);
-        invalidCardColor.setStyle(Paint.Style.FILL);
 
     }
 
@@ -106,23 +84,7 @@ public class GameBoard extends SurfaceView {
      * stacked- will have to make it so the one they tap is fully visible (might cover other cards)
      */
     public void drawCurrentPlayerCard(Canvas canvas /* , float amount of cards in hand*/){
-        /**
-         * float cardStartX = slot1StartX;
-         * float cardStartY = (slot1EndY - slot1StartY)/2
-         * float add = (slot1EndX - slot1StartX) / amountCards;
-         *
-         *  //adds each card stacked
-         * for (amountCards){
-         *      drawRect(cardStartX, cardStartY, cardStartX+playerCardWidth, slot1EndY, cardFrontColor);
-         *      cardStartX += add;
-         * }
-         *
-         * //adds each card one after the other
-         * for (amountCards){
-         *      drawRect(cardStartX, cardStartY, cardStartX+playerCardWidth, slot1EndY, cardFrontColor);
-         *      cardStartX += (playerCardWidth + *spacing*);
-         * }
-         */
+
 
     }
 
@@ -134,23 +96,7 @@ public class GameBoard extends SurfaceView {
      * the slot number, and then the slot number can be referenced here
      */
     public void drawOtherPlayerCards(Canvas canvas /* , float amount of cards in hand , player *so i can get the slot number* */){
-    /**
-     * float cardStartX = slot_StartX;
-     * float cardStartY = (slot_EndY - slot_StartY)/2;
-     * float add = (slot_EndX - slot_StartX) / amountCards
-     *
-     * //adds each card stacked
-     * for(amountCards){
-     *      drawRect(cardStartX, cardStartY, cardStartX+playerCardWidth, slot_EndY, cardBackColor);
-     *      cardStartX += add;
-     * }
-     *
-     * //adds each card one after the other
-     * for (amountCards) {
-     *      drawRect(cardStartX, cardStartY, cardStartX + playerCardWidth, slot_EndY, cardBColor);
-     *      cardStartX += (playerCardWidth + * spacing *);
-     * }
-     */
+
 
     }
 
@@ -158,13 +104,17 @@ public class GameBoard extends SurfaceView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        //slot paint
+        Paint slotPaint = new Paint();
+        slotPaint.setColor(Color.GREEN);
+
       //  drawCurrentPlayerCard(canvas);
-        float startY = slot1EndY - ((slot1EndY-slot1StartY) / 2);
-        float endX = slot1StartX + playerCardWidth;
-        canvas.drawRect(slot1StartX, slot1StartY, slot1EndX, slot1EndY, cardBackColor);
-        canvas.drawRect(slot2StartX, slot2StartY, slot2EndX, slot2EndY, cardBackColor);
-        canvas.drawRect(slot3StartX, slot3StartY, slot3EndX, slot3EndY, cardBackColor);
-        canvas.drawRect(slot4StartX, slot4StartY, slot4EndX, slot4EndY, cardBackColor);
+        float startY = slot1[3] - ((slot1[3]-slot1[1]) / 2);
+        float endX = slot1[0] + playerCardWidth;
+        canvas.drawRect(slot1[0], slot1[1], slot1[2], slot1[3], slotPaint);
+        canvas.drawRect(slot2[0], slot2[1], slot2[2], slot2[3], slotPaint);
+        canvas.drawRect(slot3[0], slot3[1], slot3[2], slot3[3], slotPaint);
+        canvas.drawRect(slot4[0], slot4[1], slot4[2], slot4[3], slotPaint);
         //canvas.drawRect(slot1StartX, startY, endX, boardEndY, cardFrontColor);                                              //300,100
         //canvas.drawRect(slot1EndX/3, startY, (slot1EndX/3)+playerCardWidth, boardEndY, cardFrontColor);
         //canvas.drawRect(2*(slot1EndX/3), startY, (2*(slot1EndX/3))+playerCardWidth, boardEndY, cardFrontColor);
@@ -175,10 +125,10 @@ public class GameBoard extends SurfaceView {
         Paint textPaint = new Paint();
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(30.0f);
-        canvas.drawText(player1, slot1StartX+275, slot1EndY, textPaint);
-        canvas.drawText(player2, slot2StartX+275, slot2EndY, textPaint);
-        canvas.drawText(player3, slot3StartX+275, slot3EndY, textPaint);
-        canvas.drawText(player4, slot4StartX+275, slot4EndY, textPaint);
+        canvas.drawText(player1, slot1[0]+275, slot1[3], textPaint);
+        canvas.drawText(player2, slot2[0]+275, slot2[3], textPaint);
+        canvas.drawText(player3, slot3[0]+275, slot3[3], textPaint);
+        canvas.drawText(player4, slot4[0]+275, slot4[3], textPaint);
 
     }
 }
