@@ -5,7 +5,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.gameConfiguration.GameConfig;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameState;
 
-public class CrazyEightsMainActivity extends GameMainActivity {
+public class C8MainActivity extends GameMainActivity {
     @Override
     public GameConfig createDefaultConfig() {
         return null;

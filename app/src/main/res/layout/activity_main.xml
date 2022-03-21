@@ -12,45 +12,49 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
+            android:layout_height="wrap_content"
             android:background="#009688"
             android:outlineProvider="bounds">
 
+            <!--
+            External Citation
+                Date:       28 January 2022
+                Problem:    Could not get menu icon to properly display on regular Button
+                Resources:  https://developer.android.com/reference/android/widget/ImageButton
+                            https://developer.android.com/studio/write/image-asset-studio
+                Solution:   Changed Button to ImageButton to use the android:src property
+                            Generated icon resource files using Android Studio's asset generator
+            -->
             <ImageButton
-                android:id="@+id/menuButton"
+                android:id="@+id/menu_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                app:srcCompat="@drawable/menu_button_foreground" />
+                android:background="@color/transparent"
+                android:src="@mipmap/menu_button_round"
+                android:contentDescription="@string/menu_icon_desc"
+                android:tooltipText="@string/menu_icon_desc"
+                android:paddingVertical="10sp"
+                android:paddingHorizontal="10sp"/>
 
             <ImageButton
-                android:id="@+id/settingsButton"
+                android:id="@+id/settings_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                app:srcCompat="@drawable/settings_option_foreground" />
+                android:layout_gravity="end"
+                android:background="@color/transparent"
+                android:contentDescription="@string/settings_icon_desc"
+                android:paddingHorizontal="10sp"
+                android:paddingVertical="10sp"
+                android:src="@mipmap/settings_option_round"
+                android:tooltipText="@string/settings_icon_desc"
+                tools:ignore="RedundantDescriptionCheck"/>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/gameBoardLayout"
+        <com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.GameBoard
+            android:id="@+id/gameBoard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.GameBoard
-                android:id="@+id/gameBoard"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,12 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.icu.text.DateTimePatternGenerator;
+import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.SurfaceView;
-import android.widget.LinearLayout;
 
 /**
  * GameBoard
@@ -22,13 +19,16 @@ import android.widget.LinearLayout;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 24 February 2022
+ * @version 21 March 2022
  */
 public class GameBoard extends SurfaceView {
 
-    //Gameboard dimensions
-    float boardWidth = 2000.0f; //Need to get from xml file maybe start the game with a popup window then                                                        4
-    float boardHeight = 853.0f; //the surface view can be created, and onDraw can be invalidated then the getters might work
+    // Game state info
+    C8GameState state;
+
+    //Game board dimensions
+    float boardWidth; //Need to get from xml file maybe start the game with a popup window then                                                        4
+    float boardHeight; //the surface view can be created, and onDraw can be invalidated then the getters might work
 
     /**
      * slot dimensions
@@ -37,30 +37,20 @@ public class GameBoard extends SurfaceView {
      * slot2: left of current player
      * slot3: above current player
      * slot4: right of current player
-     *
-     * slot_[0]: Start X
-     * slot_[1]: Start Y
-     * slot_[2]: End X
-     * slot_[3]: End Y
      */
 
-    //slot 1 dimensions (current player)
-    float[] slot1 = {(boardWidth/3), (2 * (boardHeight/3)),
-            ((boardWidth/3) * 2), boardHeight};
-    float[] slot2 = {0.0f, (boardHeight/3),
-            (boardWidth/3), (2 * (boardHeight/3))};
-    float[] slot3 = {(boardWidth/3), 0.0f,
-            ((boardWidth/3) * 2), (boardHeight/3)};
-    float[] slot4 = {((boardWidth/3) * 2), (boardHeight/3),
-            boardWidth, (2 * (boardHeight/3))};
+    // slot dimensions
+    Rect slot1;
+    Rect slot2;
+    Rect slot3;
+    Rect slot4;
 
-    //Current player Card Dimensions
-    float playerCardHeight = (slot1[3]-slot1[1])/2;
-    float playerCardWidth = playerCardHeight/2;
+    // text size
+    float fontSize = 30.0f;
 
-    //Other Player Card Dimensions
-    float otherCardHeight = (slot1[3]-slot1[1])/3;
-    float otherCardWidth = otherCardHeight/2;
+    // paints
+    Paint slotPaint = new Paint();
+    Paint textPaint = new Paint();
 
     public GameBoard(Context context) {
         super(context);
@@ -70,8 +60,6 @@ public class GameBoard extends SurfaceView {
     public GameBoard(Context context, AttributeSet attrs){
         super(context, attrs);
         setWillNotDraw(false);
-
-
     }
 
     /**
@@ -104,31 +92,58 @@ public class GameBoard extends SurfaceView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        //slot paint
-        Paint slotPaint = new Paint();
+        // initialize instance variables; cannot declare them above
+        // since the getWidth() and getHeight() methods do not work
+        // until the canvas is initialized
+        initBoard();
+
+        // draw slots
+        canvas.drawRect(slot1, slotPaint);
+        canvas.drawRect(slot2, slotPaint);
+        canvas.drawRect(slot3, slotPaint);
+        canvas.drawRect(slot4, slotPaint);
+
+        // draw player names
+        canvas.drawText("Player 1", slot1.centerX(),
+                slot1.bottom - (int) (0.5 * fontSize), textPaint);
+        canvas.drawText("Player 2", slot2.centerX(),
+                slot2.bottom - (int) (0.5 * fontSize), textPaint);
+        canvas.drawText("Player 3", slot3.centerX(),
+                slot3.bottom - (int) (0.5 * fontSize), textPaint);
+        canvas.drawText("Player 4", slot4.centerX(),
+                slot4.bottom - (int) (0.5 * fontSize), textPaint);
+
+    }
+
+    public void initBoard(){
+        //Game board dimensions
+        this.boardWidth = getWidth();
+        this.boardHeight = getHeight();
+
+        /*
+         * slot dimensions
+         *
+         * slot1: current player
+         * slot2: left of current player
+         * slot3: above current player
+         * slot4: right of current player
+         */
+        slot1 = new Rect((int) (boardWidth/3), (int) (2 * (boardHeight/3)),
+                (int) ((boardWidth/3) * 2), (int) boardHeight);
+        slot2 = new Rect(0, (int) (boardHeight/3),
+                (int) (boardWidth/3), (int) (2 * (boardHeight/3)));
+        slot3 = new Rect((int) (boardWidth/3), 0,
+                (int) ((boardWidth/3) * 2), (int) (boardHeight/3));
+        slot4 = new Rect((int) ((boardWidth/3) * 2), (int) (boardHeight/3),
+                (int) boardWidth, (int) (2 * (boardHeight/3)));
+
+
+        // slot paint
         slotPaint.setColor(Color.GREEN);
 
-      //  drawCurrentPlayerCard(canvas);
-        float startY = slot1[3] - ((slot1[3]-slot1[1]) / 2);
-        float endX = slot1[0] + playerCardWidth;
-        canvas.drawRect(slot1[0], slot1[1], slot1[2], slot1[3], slotPaint);
-        canvas.drawRect(slot2[0], slot2[1], slot2[2], slot2[3], slotPaint);
-        canvas.drawRect(slot3[0], slot3[1], slot3[2], slot3[3], slotPaint);
-        canvas.drawRect(slot4[0], slot4[1], slot4[2], slot4[3], slotPaint);
-        //canvas.drawRect(slot1StartX, startY, endX, boardEndY, cardFrontColor);                                              //300,100
-        //canvas.drawRect(slot1EndX/3, startY, (slot1EndX/3)+playerCardWidth, boardEndY, cardFrontColor);
-        //canvas.drawRect(2*(slot1EndX/3), startY, (2*(slot1EndX/3))+playerCardWidth, boardEndY, cardFrontColor);
-        String player1 = "Player 1";
-        String player2 = "Player 2";
-        String player3 = "Player 3";
-        String player4 = "Player 4";
-        Paint textPaint = new Paint();
+        // text paint
         textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(30.0f);
-        canvas.drawText(player1, slot1[0]+275, slot1[3], textPaint);
-        canvas.drawText(player2, slot2[0]+275, slot2[3], textPaint);
-        canvas.drawText(player3, slot3[0]+275, slot3[3], textPaint);
-        canvas.drawText(player4, slot4[0]+275, slot4[3], textPaint);
-
+        textPaint.setTextSize(fontSize);
+        textPaint.setTextAlign(Paint.Align.CENTER);
     }
 }

@@ -1,16 +1,14 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
-import android.util.Log;
 import androidx.annotation.NonNull;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameState;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.ProxyPlayer;
-import java.util.Collections;
+
 import java.util.Hashtable;
 import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * CrazyEightsGameState
@@ -24,7 +22,7 @@ import java.util.Set;
  *
  * @version 15 March 2022
  */
-public class CrazyEightsGameState extends GameState {
+public class C8GameState extends GameState {
     /* Instance variables */
     private String playerTurn; // name of player whose turn it is
     private String[] playerNames; // names of the players
@@ -43,7 +41,7 @@ public class CrazyEightsGameState extends GameState {
      *
      * @param players - a String array of player names
      */
-    public CrazyEightsGameState(String[] players) {
+    public C8GameState(String[] players) {
         // take the input array as the playerNames
         this.playerNames = players;
 
@@ -105,7 +103,7 @@ public class CrazyEightsGameState extends GameState {
      * @param players - a String array of player names
      * @param randSeed - a seed to change the shuffling pattern of the deck
      */
-    public CrazyEightsGameState(String[] players, int randSeed) {
+    public C8GameState(String[] players, int randSeed) {
         // take the input array as the playerNames
         this.playerNames = players;
 
@@ -167,7 +165,7 @@ public class CrazyEightsGameState extends GameState {
      * @param origState - the original CrazyEightsGameState
      * @param p - the GamePlayer this object will be sent to
      */
-    public CrazyEightsGameState(CrazyEightsGameState origState, GamePlayer p) {
+    public C8GameState(C8GameState origState, GamePlayer p) {
         // take the input array as the playerNames
         this.setPlayerNames(origState.getPlayerNames());
 
@@ -197,11 +195,11 @@ public class CrazyEightsGameState extends GameState {
             return;
         }
         else if(p instanceof GameComputerPlayer) {
-            CrazyEightsComputerPlayer computerPlayer = (CrazyEightsComputerPlayer) p;
+            C8ComputerPlayer computerPlayer = (C8ComputerPlayer) p;
             playerName = computerPlayer.getName();
         }
         else {
-            CrazyEightsHumanPlayer humanPlayer = (CrazyEightsHumanPlayer) p;
+            C8HumanPlayer humanPlayer = (C8HumanPlayer) p;
             playerName = humanPlayer.getName();
         }
 

@@ -16,13 +16,13 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
  *
  * @version 24 February 2022
  */
-public class CrazyEightsComputerPlayer extends GameComputerPlayer {
+public class C8ComputerPlayer extends GameComputerPlayer {
     /**
      * constructor
      *
      * @param name the player's name (e.g., "John")
      */
-    public CrazyEightsComputerPlayer(String name) {
+    public C8ComputerPlayer(String name) {
         super(name);
     }
 

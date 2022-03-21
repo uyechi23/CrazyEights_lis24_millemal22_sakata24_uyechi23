@@ -156,7 +156,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -165,7 +165,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -174,7 +174,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -183,7 +183,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -192,7 +192,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -259,7 +259,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -268,7 +268,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -277,7 +277,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -286,7 +286,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -319,7 +319,7 @@ tools:context=".CrazyEights.MainActivity">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/card_diamonds_08"
+                android:src="@drawable/card_diamonds_8"
                 android:paddingHorizontal="20dp"
                 android:scaleX="2"
                 android:scaleY="2"
@@ -329,7 +329,7 @@ tools:context=".CrazyEights.MainActivity">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/card_back"
+                android:src="@drawable/card_back_blue_1"
                 android:paddingHorizontal="20dp"
                 android:scaleX="2"
                 android:scaleY="2"
@@ -363,7 +363,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -372,7 +372,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -381,7 +381,7 @@ tools:context=".CrazyEights.MainActivity">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/card_back"
+                    android:src="@drawable/card_back_blue_1"
                     tools:ignore="ContentDescription"
                     android:layout_gravity="bottom"
                     android:scaleX="1.75"
@@ -439,7 +439,7 @@ tools:context=".CrazyEights.MainActivity">
                     android:layout_height="wrap_content"
                     android:scaleX="2.5"
                     android:scaleY="2.5"
-                    android:src="@drawable/card_clubs_07"
+                    android:src="@drawable/card_clubs_7"
                     tools:ignore="ContentDescription,UseAppTint"
                     android:tint="@color/translucent_black"
                     android:layout_weight="1"
@@ -469,7 +469,7 @@ tools:context=".CrazyEights.MainActivity">
                     android:layout_height="wrap_content"
                     android:scaleX="2.5"
                     android:scaleY="2.5"
-                    android:src="@drawable/card_diamonds_03"
+                    android:src="@drawable/card_diamonds_3"
                     tools:ignore="ContentDescription"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal|bottom"/>

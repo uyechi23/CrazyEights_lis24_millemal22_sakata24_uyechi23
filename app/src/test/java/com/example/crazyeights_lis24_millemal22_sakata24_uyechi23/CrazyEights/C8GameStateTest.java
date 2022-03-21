@@ -4,12 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class CrazyEightsGameStateTest {
+public class C8GameStateTest {
 
     @Test
     public void drawCard() {
         String[] players = {"Maliyah", "Tyler", "Selena", "Jake"};
-        CrazyEightsGameState state = new CrazyEightsGameState(players, 1);
+        C8GameState state = new C8GameState(players, 1);
         Card topOfDrawPile = state.getDrawPile().peekTopCard();
         boolean isValid = state.drawCard();
         Deck currPlayerHand = state.getPlayerHands().get(state.getPlayerTurn());
@@ -22,7 +22,7 @@ public class CrazyEightsGameStateTest {
     @Test
     public void playCard() {
         String[] players = {"Maliyah", "Tyler", "Selena", "Jake"};
-        CrazyEightsGameState state = new CrazyEightsGameState(players, 1);
+        C8GameState state = new C8GameState(players, 1);
         Card toBePlayed = new Card("Seven", "Hearts");
         boolean isValid = state.playCard(1); // play the 7 of Hearts
         assertEquals(state.getCurrentFace(), toBePlayed.getFace());
@@ -33,7 +33,7 @@ public class CrazyEightsGameStateTest {
     @Test
     public void nextPlayer() {
         String[] players = {"Maliyah", "Tyler", "Selena", "Jake"};
-        CrazyEightsGameState state = new CrazyEightsGameState(players);
+        C8GameState state = new C8GameState(players);
         String currentPlayer = state.getPlayerTurn();
         boolean isValid = state.nextPlayer();
         String nextPlayer = state.getPlayerTurn();

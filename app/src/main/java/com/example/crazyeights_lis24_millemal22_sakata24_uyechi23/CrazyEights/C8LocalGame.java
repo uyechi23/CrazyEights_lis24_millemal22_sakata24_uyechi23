@@ -17,12 +17,12 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
  *
  * @version 24 February 2022
  */
-public class CrazyEightsLocalGame extends LocalGame {
+public class C8LocalGame extends LocalGame {
 
     // game state
-    CrazyEightsGameState state;
+    C8GameState state;
 
-    public CrazyEightsLocalGame(CrazyEightsGameState initState) {
+    public C8LocalGame(C8GameState initState) {
         this.state = initState;
 
     }
@@ -34,7 +34,7 @@ public class CrazyEightsLocalGame extends LocalGame {
 
         // make a copy of the game state and nullify any
         // data the player shouldn't have access to
-        CrazyEightsGameState newState = new CrazyEightsGameState(state, p);
+        C8GameState newState = new C8GameState(state, p);
 
         newState.turnDiscardPileFaceDown();
 

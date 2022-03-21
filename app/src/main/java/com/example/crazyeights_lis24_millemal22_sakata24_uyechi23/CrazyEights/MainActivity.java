@@ -29,14 +29,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.c8gamestatetest);
 
-        // access the button from the c8gamestatetest file and assign an onClickListener
-        Button runTest = findViewById(R.id.RunTestButton);
-        C8TestController listener = new C8TestController(findViewById(R.id.EditText));
+//        ------------C8 Game State Test------------
+//        setContentView(R.layout.c8gamestatetest);
+//
+//        // access the button from the c8gamestatetest file and assign an onClickListener
+//        Button runTest = findViewById(R.id.RunTestButton);
+//        C8TestController listener = new C8TestController(findViewById(R.id.EditText));
+//
+//        // attach on click listener to runTest button
+//        runTest.setOnClickListener(listener);
 
-        // attach on click listener to runTest button
-        runTest.setOnClickListener(listener);
+        // display activity_main (game board)
+        setContentView(R.layout.activity_main);
+
     }
 
 }

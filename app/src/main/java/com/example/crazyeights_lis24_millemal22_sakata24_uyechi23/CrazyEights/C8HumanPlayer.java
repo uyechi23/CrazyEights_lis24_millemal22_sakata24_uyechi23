@@ -20,7 +20,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
  *
  * @version 24 February 2022
  */
-public class CrazyEightsHumanPlayer extends GameHumanPlayer {
+public class C8HumanPlayer extends GameHumanPlayer {
     /**
      * instance variables
      */
@@ -30,7 +30,7 @@ public class CrazyEightsHumanPlayer extends GameHumanPlayer {
      *
      * @param name the name of the player
      */
-    public CrazyEightsHumanPlayer(String name) {
+    public C8HumanPlayer(String name) {
         super(name);
     }
 
