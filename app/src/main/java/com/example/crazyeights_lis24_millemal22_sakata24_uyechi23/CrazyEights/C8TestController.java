@@ -33,7 +33,7 @@ public class C8TestController implements View.OnClickListener{
         playerNames[1] = "Maliyah";
         playerNames[2] = "Selena";
         playerNames[3] = "Jake";
-        C8HumanPlayer player1 = new C8HumanPlayer(playerNames[0]);
+        C8HumanPlayer player1 = new C8HumanPlayer(playerNames[0], 0xFF000000);
         C8GameState firstInstance =
                 new C8GameState(playerNames, 1);
         C8GameState firstCopy =

@@ -8,6 +8,8 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.animation.AnimationSurface;
+
 /**
  * GameBoard
  *
@@ -21,7 +23,7 @@ import android.view.SurfaceView;
  *
  * @version 21 March 2022
  */
-public class GameBoard extends SurfaceView {
+public class GameBoard extends AnimationSurface {
 
     // Game state info
     C8GameState state;
