@@ -153,7 +153,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
             // determine the position of this card's top/left corner
             float left = topRect.left + i*deltaX;
             float top = topRect.top + i*deltaY;
-            // draw a card into the appropriate rectangle
+            // draw a card into the appropriate rectangle (other player hand cards should be null)
             drawCard(g,
                     new RectF(left, top, left + topRect.width(), top + topRect.height()),
                     playerDeck.getCards().get(i));
