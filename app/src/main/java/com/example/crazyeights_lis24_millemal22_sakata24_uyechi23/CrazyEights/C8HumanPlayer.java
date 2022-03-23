@@ -40,6 +40,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
     private Activity currActivity; // the activity of the current player
     private GameBoard gameBoard; // animation surface of the player GUI
     private int backgroundColor; // background color of GUI
+    private boolean stateUpdated;
     /**
      * constructor
      *
@@ -64,6 +65,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         }else if(info instanceof C8GameState){
             // if it is a GameState object, typecast to a C8GameState object and save it
             this.state = (C8GameState) info;
+            this.stateUpdated = true;
         }
         // any other types of GameInfo objects passed to here do nothing
     }
@@ -115,12 +117,22 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
 
     @Override
     public void tick(Canvas canvas) {
+        // if state was not received yet at start
+        if(state == null) return;
+        // if state was not updated
+        if(!this.stateUpdated) return;
 
+        // toggle that we updated the state GUI so we can re-toggle and draw for another state
+        this.stateUpdated = false;
+
+        //TODO: We need to implement the draw here if we are using Animator interface
+        //      also good if we intend to do animations. For now tick will only draw
+        //      if state is changed. This is also the only reference to the canvas we have
     }
 
     /**
-     * draws a sequence of card-backs, each offset a bit from the previous one, so that all can be
-     * seen to some extent
+     * draws a sequence of cards, each offset a bit from the previous one, so that all can be
+     * seen
      *
      * @param g
      * 		the canvas to draw on
@@ -131,20 +143,20 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
      * 		the horizontal change between the drawing position of two consecutive cards
      * @param deltaY
      * 		the vertical change between the drawing position of two consecutive cards
-     * @param numCards
-     * 		the number of card-backs to draw
+     * @param playerDeck
+     * 		the hand of the player to draw
      */
-    private void drawCardBacks(Canvas g, RectF topRect, float deltaX, float deltaY,
-                               int numCards) {
-        // loop through from back to front, drawing a card-back in each location
-        for (int i = numCards-1; i >= 0; i--) {
-            // determine theh position of this card's top/left corner
+    private void drawPlayerHand(Canvas g, RectF topRect, float deltaX, float deltaY,
+                                Deck playerDeck) {
+        // loop through from back to front, drawing a card in each location
+        for (int i = playerDeck.size()-1; i >= 0; i--) {
+            // determine the position of this card's top/left corner
             float left = topRect.left + i*deltaX;
             float top = topRect.top + i*deltaY;
-            // draw a card-back (hence null) into the appropriate rectangle
+            // draw a card into the appropriate rectangle
             drawCard(g,
                     new RectF(left, top, left + topRect.width(), top + topRect.height()),
-                    null);
+                    playerDeck.getCards().get(i));
         }
     }
 
