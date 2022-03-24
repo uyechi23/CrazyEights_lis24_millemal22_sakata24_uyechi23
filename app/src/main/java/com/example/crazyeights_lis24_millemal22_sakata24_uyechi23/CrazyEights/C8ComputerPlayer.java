@@ -46,7 +46,7 @@ public class C8ComputerPlayer extends GameComputerPlayer {
                     return;
                 }
                 // If number matches play card
-                if(state.getCurrentSuit().equals(state.getPlayerHands().get(state.getPlayerTurn()).getCards().get(i).face)) {
+                if(state.getCurrentFace().equals(state.getPlayerHands().get(state.getPlayerTurn()).getCards().get(i).face)) {
                     state.movePlay(i, state.getPlayerTurn());
                     return;
                 }
