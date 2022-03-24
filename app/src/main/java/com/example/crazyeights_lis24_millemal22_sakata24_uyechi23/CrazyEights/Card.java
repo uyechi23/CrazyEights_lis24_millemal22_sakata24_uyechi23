@@ -39,7 +39,7 @@ public class Card {
 
     // array that contains the android resource indices for the 52 card
     // images
-    private int[][] resIdx = {
+    private static int[][] resIdx = {
             {
                     R.drawable.card_clubs_a, R.drawable.card_clubs_2, R.drawable.card_clubs_3,
                     R.drawable.card_clubs_4, R.drawable.card_clubs_5, R.drawable.card_clubs_6,
@@ -68,10 +68,25 @@ public class Card {
                     R.drawable.card_spades_0, R.drawable.card_spades_j, R.drawable.card_spades_q,
                     R.drawable.card_spades_k,
             },
+            {
+                    R.drawable.card_back_blue_1, R.drawable.card_back_blue_2,
+                    R.drawable.card_back_blue_3, R.drawable.card_back_blue_4,
+                    R.drawable.card_back_blue_5,
+            },
+            {
+                    R.drawable.card_back_green_1, R.drawable.card_back_green_2,
+                    R.drawable.card_back_green_3, R.drawable.card_back_green_4,
+                    R.drawable.card_back_green_5,
+            },
+            {
+                    R.drawable.card_back_red_1, R.drawable.card_back_red_2,
+                    R.drawable.card_back_red_3, R.drawable.card_back_red_4,
+                    R.drawable.card_back_red_5,
+            }
     };
 
     // the array of card images
-    private Bitmap[][] cardImages = null;
+    private static Bitmap[][] cardImages = null;
 
 
     /**
@@ -318,10 +333,6 @@ public class Card {
             case "King": secondIndex = 12; break;
         }
 
-        // I think if this is here, we can cycle through each card in the deck, mark it
-        // as valid or invalid, then the drawing class will gray it out if it's invalid.
-        boolean validPlay = true;
-
         Bitmap bitmap = cardImages[firstIndex][secondIndex];
 
         // create the source rectangle
@@ -331,30 +342,63 @@ public class Card {
         g.drawBitmap(bitmap, r, where, p);
     }
 
+    public static void drawBack(Canvas g, RectF where, String chars){
+        // create new paint
+        Paint p = new Paint();
+        p.setColor(Color.BLACK);
+
+        // split a String into single-character tokens
+        String[] toks = chars.split("");
+
+        // initialize color/type indices
+        int color = 4;
+        int type = 0;
+
+        // choose index based on color
+        switch(toks[0]){
+            case "B": color = 4; break;
+            case "G": color = 5; break;
+            case "R": color = 6; break;
+        }
+
+        // choose index based on type
+        type = Integer.parseInt(toks[1]);
+        if(type < 0 || type > 4) type = 0;
+
+        // create bitmap
+        Bitmap bitmap = cardImages[color][type];
+
+        // create source rectangle
+        Rect r = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        // draw the bitmap into target rectangle
+        g.drawBitmap(bitmap, r, where, p);
+    }
+
     /**
      * initializes the card images
      *
      * @param activity - the current activity
      */
-    public void initImages(Activity activity) {
+    public static void initImages(Activity activity) {
         // if it's already initialized, then ignore
-        if (this.cardImages != null) return;
+        if (cardImages != null) return;
 
         // create the outer array
-        this.cardImages = new Bitmap[resIdx.length][];
+        cardImages = new Bitmap[resIdx.length][];
 
         // loop through the resource-index array, creating a
         // "parallel" array with the images themselves
         for (int i = 0; i < resIdx.length; i++) {
             // create an inner array
-            this.cardImages[i] = new Bitmap[this.resIdx[i].length];
+            cardImages[i] = new Bitmap[resIdx[i].length];
             for (int j = 0; j < resIdx[i].length; j++) {
                 // create the bitmap from the corresponding image
                 // resource, and set the corresponding array element
-                this.cardImages[i][j] =
+                cardImages[i][j] =
                         BitmapFactory.decodeResource(
                                 activity.getResources(),
-                                this.resIdx[i][j]);
+                                resIdx[i][j]);
             }
         }
     }
