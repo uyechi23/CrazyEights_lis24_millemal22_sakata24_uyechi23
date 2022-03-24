@@ -1,6 +1,7 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameState;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
 
 /**
@@ -28,6 +29,31 @@ public class C8ComputerPlayer extends GameComputerPlayer {
 
     @Override
     protected void receiveInfo(GameInfo info) {
+        // Makes sure the info message is a Game State before sending an action
+        if(!(info instanceof GameState)) {
+            return;
+        }
+
+        C8GameState state = (C8GameState) info;
+
+        // Checks if its the players turn
+        if(state.getPlayerTurn().equals(this.name)) {
+            // Check all cards in hand to see if any are playable
+            for(int i = 0; i < state.getPlayerHands().get(state.getPlayerTurn()).size(); i++) {
+                // If suit matches play card
+                if(state.getCurrentSuit().equals(state.getPlayerHands().get(state.getPlayerTurn()).getCards().get(i).suit)) {
+                    state.movePlay(i, state.getPlayerTurn());
+                    return;
+                }
+                // If number matches play card
+                if(state.getCurrentSuit().equals(state.getPlayerHands().get(state.getPlayerTurn()).getCards().get(i).face)) {
+                    state.movePlay(i, state.getPlayerTurn());
+                    return;
+                }
+            }
+            // None of your cards are playable keep drawing until you get a playable one
+            state.moveDraw(state.getPlayerTurn());
+        }
 
     }
 
