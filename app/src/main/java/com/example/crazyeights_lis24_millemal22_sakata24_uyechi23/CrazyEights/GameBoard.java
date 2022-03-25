@@ -65,31 +65,6 @@ public class GameBoard extends AnimationSurface {
         setWillNotDraw(false);
     }
 
-    /**
-     * Draws the outline of the cards of whoever's turn it is
-     * Needs the amount of cards as a parameter so it can allot
-     * the spacing using the slot width
-     *
-     * How many cards per row, or do we want them stacked on top of each other?
-     * cards per row- may need to resize the cards at some point
-     * stacked- will have to make it so the one they tap is fully visible (might cover other cards)
-     */
-    public void drawCurrentPlayerCard(Canvas canvas /* , float amount of cards in hand*/){
-
-
-    }
-
-    /**
-     * draws the back of the other players' cards
-     * uses the amount of cards for spacing
-     * will need to receive the slot number somehow since the players will be rotating slots
-     * maybe have the slot number in the Player object so when the turn is changed it changes
-     * the slot number, and then the slot number can be referenced here
-     */
-    public void drawOtherPlayerCards(Canvas canvas /* , float amount of cards in hand , player *so i can get the slot number* */){
-
-
-    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -115,9 +90,11 @@ public class GameBoard extends AnimationSurface {
                 slot3.bottom - (int) (0.5 * fontSize), textPaint);
         canvas.drawText("Player 4", slot4.centerX(),
                 slot4.bottom - (int) (0.5 * fontSize), textPaint);
-        if(state != null) {
-            drawPlayerHand(canvas, slot1, state.getPlayerHands().get(state.getPlayerNames()[0]));
-        }
+        //if(state != null) {
+        //    drawPlayerHand(canvas, slot1, state.getPlayerHands().get(state.getPlayerNames()[0]));
+        //}\
+
+       //drawCard(canvas, slot1, state.getDiscardPile().peekTopCard()); //this did not work at all
     }
 
     public void initBoard(){

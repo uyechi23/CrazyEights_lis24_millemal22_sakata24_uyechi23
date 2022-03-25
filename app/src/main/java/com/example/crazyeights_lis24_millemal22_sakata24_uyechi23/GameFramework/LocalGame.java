@@ -227,10 +227,10 @@ public abstract class LocalGame implements Game, Tickable {
                     //If we have to actually perform a setup phase, so check for that and send out
                     //info accordingly.
                     gameStage = GameStage.SETUP_PHASE;
-                    if (this.state.getNumSetupTurns() == 0) {
+                    //if (this.state.getNumSetupTurns() == 0) { //getNumSetupTurns is null
                         gameStage = GameStage.DURING_GAME;
-                    }
-                    Logger.log(TAG, "Num of setup turns is " + this.state.getNumSetupTurns());
+                    //}
+                    Logger.log(TAG, "Num of setup turns is " /* + this.state.getNumSetupTurns()*/); //null
                     Logger.debugLog(TAG, "broadcasting initial state - setup phase");
                     // send each player the initial state of the game
                     sendAllUpdatedState();

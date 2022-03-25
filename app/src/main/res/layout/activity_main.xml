@@ -31,11 +31,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:src="@mipmap/menu_button_round"
                 android:contentDescription="@string/menu_icon_desc"
-                android:tooltipText="@string/menu_icon_desc"
+                android:paddingHorizontal="10sp"
                 android:paddingVertical="10sp"
-                android:paddingHorizontal="10sp"/>
+                android:src="@mipmap/menu_button_round"
+                android:tooltipText="@string/menu_icon_desc" />
 
             <ImageButton
                 android:id="@+id/settings_button"
@@ -48,14 +48,42 @@
                 android:paddingVertical="10sp"
                 android:src="@mipmap/settings_option_round"
                 android:tooltipText="@string/settings_icon_desc"
-                tools:ignore="RedundantDescriptionCheck"/>
+                tools:ignore="RedundantDescriptionCheck" />
 
         </LinearLayout>
 
         <com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.GameBoard
             android:id="@+id/gameBoard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <SeekBar
+                android:id="@+id/seekBar3"
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="10"
+                android:progress="3" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

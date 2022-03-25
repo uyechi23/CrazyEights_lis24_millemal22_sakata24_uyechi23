@@ -19,7 +19,7 @@ public abstract class GameState extends GameInfo {
     private static final long serialVersionUID = -5109179064333136954L;
 
     //How many setup phases we have, initially set to 0
-    protected int numSetupTurns = 0;
+    protected int numSetupTurns = 0; ///Changed to see if it runs, still returns null
 
     //How many setup turns have passed, initially set to 0
     protected int currentSetupTurn = 0;
@@ -29,9 +29,7 @@ public abstract class GameState extends GameInfo {
      *
      * @return Number of Setup turns in game
      */
-    public int getNumSetupTurns() {
-        return numSetupTurns;
-    }
+    public int getNumSetupTurns() { return numSetupTurns; } //Is returning null
 
     /**
      * getCurrentSetupTurn

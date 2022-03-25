@@ -25,7 +25,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 15 March 2022
+ * @version 18 March 2022
  */
 public class Card {
 
@@ -151,7 +151,7 @@ public class Card {
     }
 
     /**
-     * Deep copy constructor fot a Card
+     * Deep copy constructor for a Card
      *
      * @param orig - the Card to copy
      */
