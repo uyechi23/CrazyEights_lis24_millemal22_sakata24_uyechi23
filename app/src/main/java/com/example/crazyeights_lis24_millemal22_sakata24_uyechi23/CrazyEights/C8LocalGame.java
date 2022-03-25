@@ -2,6 +2,7 @@ package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.LocalGame;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.GameAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameState;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 
 /**
@@ -23,6 +24,7 @@ public class C8LocalGame extends LocalGame {
     C8GameState state;
 
     public C8LocalGame(C8GameState initState) {
+
         this.state = initState;
 
     }

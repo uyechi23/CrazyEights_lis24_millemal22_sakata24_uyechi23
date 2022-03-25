@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
 //        runTest.setOnClickListener(listener);
 
         // display activity_main (game board)
+        String[] players = {"p1", "p2", "p3", "p4"};
+        //C8GameState newState = new C8GameState(players);
+        // newGame = new C8LocalGame(newState);
         setContentView(R.layout.activity_main);
 
     }

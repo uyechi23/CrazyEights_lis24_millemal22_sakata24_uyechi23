@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.Deck;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.Game;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.animation.AnimationSurface;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.animation.Animator;
@@ -35,12 +36,12 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
     /**
      * instance variables
      */
-    private Deck myHand; // player hand
     protected C8GameState state; // player state w/ censored info
     private Activity currActivity; // the activity of the current player
     private GameBoard gameBoard; // animation surface of the player GUI
     private int backgroundColor; // background color of GUI
-    private boolean stateUpdated;
+    private boolean stateUpdated; // if the state was updated recently
+
     /**
      * constructor
      *
@@ -125,94 +126,19 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         // toggle that we updated the state GUI so we can re-toggle and draw for another state
         this.stateUpdated = false;
 
-        //TODO: We need to implement the draw here if we are using Animator interface
-        //      also good if we intend to do animations. For now tick will only draw
-        //      if state is changed. This is also the only reference to the canvas we have
-    }
-
-    /**
-     * draws a sequence of cards, each offset a bit from the previous one, so that all can be
-     * seen
-     *
-     * @param g
-     * 		the canvas to draw on
-     * @param topRect
-     * 		the rectangle that defines the location of the top card (and the size of all
-     * 		the cards
-     * @param deltaX
-     * 		the horizontal change between the drawing position of two consecutive cards
-     * @param deltaY
-     * 		the vertical change between the drawing position of two consecutive cards
-     * @param playerDeck
-     * 		the hand of the player to draw
-     */
-    private void drawPlayerHand(Canvas g, RectF topRect, float deltaX, float deltaY,
-                                Deck playerDeck) {
-        // loop through from back to front, drawing a card in each location
-        for (int i = playerDeck.size()-1; i >= 0; i--) {
-            // determine the position of this card's top/left corner
-            float left = topRect.left + i*deltaX;
-            float top = topRect.top + i*deltaY;
-            // draw a card into the appropriate rectangle (other player hand cards should be null)
-            drawCard(g,
-                    new RectF(left, top, left + topRect.width(), top + topRect.height()),
-                    playerDeck.getCards().get(i));
-        }
-    }
-
-    /**
-     * draws a card on the canvas; if the card is null, draw a card-back
-     *
-     * @param g
-     * 		the canvas object
-     * @param rect
-     * 		a rectangle defining the location to draw the card
-     * @param c
-     * 		the card to draw; if null, a card-back is drawn
-     */
-    private static void drawCard(Canvas g, RectF rect, Card c) {
-        if (c == null) {
-            // draw card back
-            Card.drawBack(g, rect, "B0");
-        }
-        else {
-            // just draw the card
-            c.drawOn(g, rect);
-        }
-    }
-
-    /**
-     * scales a rectangle, moving all edges with respect to its center
-     *
-     * @param rect
-     * 		the original rectangle
-     * @param factor
-     * 		the scaling factor
-     * @return
-     * 		the scaled rectangle
-     */
-    private static RectF scaledBy(RectF rect, float factor) {
-        // compute the edge locations of the original rectangle, but with
-        // the middle of the rectangle moved to the origin
-        float midX = (rect.left+rect.right)/2;
-        float midY = (rect.top+rect.bottom)/2;
-        float left = rect.left-midX;
-        float right = rect.right-midX;
-        float top = rect.top-midY;
-        float bottom = rect.bottom-midY;
-
-        // scale each side; move back so that center is in original location
-        left = left*factor + midX;
-        right = right*factor + midX;
-        top = top*factor + midY;
-        bottom = bottom*factor + midY;
-
-        // create/return the new rectangle
-        return new RectF(left, top, right, bottom);
+        // redraw the gameboard
+        this.gameBoard.draw(canvas);
     }
 
     @Override
     public void onTouch(MotionEvent event) {
+        // ignore everything except down-touch events
+        if (event.getAction() != MotionEvent.ACTION_DOWN) return;
 
+        // get the location of the touch on the surface
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+
+        //
     }
 }
