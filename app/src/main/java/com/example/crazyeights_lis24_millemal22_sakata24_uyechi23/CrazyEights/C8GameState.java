@@ -20,7 +20,7 @@ import java.util.Random;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 15 March 2022
+ * @version 26 March 2022
  */
 public class C8GameState extends GameState {
     /* Instance variables */
@@ -56,7 +56,7 @@ public class C8GameState extends GameState {
         // create a hashtable of player hands
         // given an array of players, iterate through each and make an entry in the hashtable
         this.playerHands = new Hashtable<>();
-        for(String player : players){
+        for (String player : players) {
             this.playerHands.put(player, new Deck());
         }
 
@@ -68,7 +68,7 @@ public class C8GameState extends GameState {
         // create an empty discard pile and add a card to it
         this.discardPile = new Deck();
         Card topCard = this.drawPile.removeTopCard();
-        while(topCard.getValue() == 8){
+        while (topCard.getValue() == 8) {
             this.drawPile.add(topCard);
             this.drawPile.shuffle();
             topCard = this.drawPile.removeTopCard();
@@ -81,14 +81,14 @@ public class C8GameState extends GameState {
 
         // distribute cards to each player
         int perPlayer;
-        if(players.length <= 4){
+        if (players.length <= 4) {
             perPlayer = 7;
-        }else{
+        } else {
             perPlayer = 5;
         }
-        for(String player : players){
-            for(int i = 0; i < perPlayer; i++) {
-                if(this.drawPile != null && this.playerHands.get(player) != null) {
+        for (String player : players) {
+            for (int i = 0; i < perPlayer; i++) {
+                if (this.drawPile != null && this.playerHands.get(player) != null) {
                     this.playerHands.get(player).add(this.drawPile.removeTopCard());
                 }
             }
@@ -100,7 +100,7 @@ public class C8GameState extends GameState {
      *
      * Initializes the instance variables for start of game
      *
-     * @param players - a String array of player names
+     * @param players  - a String array of player names
      * @param randSeed - a seed to change the shuffling pattern of the deck
      */
     public C8GameState(String[] players, int randSeed) {
@@ -118,7 +118,7 @@ public class C8GameState extends GameState {
         // create a hashtable of player hands
         // given an array of players, iterate through each and make an entry in the hashtable
         this.playerHands = new Hashtable<>();
-        for(String player : players){
+        for (String player : players) {
             this.playerHands.put(player, new Deck());
         }
 
@@ -130,7 +130,7 @@ public class C8GameState extends GameState {
         // create an empty discard pile and add a card to it
         this.discardPile = new Deck();
         Card topCard = this.drawPile.removeTopCard();
-        while(topCard.getValue() == 8){
+        while (topCard.getValue() == 8) {
             this.drawPile.add(topCard);
             this.drawPile.shuffleSeed(randSeed);
             topCard = this.drawPile.removeTopCard();
@@ -143,14 +143,14 @@ public class C8GameState extends GameState {
 
         // distribute cards to each player
         int perPlayer = 0;
-        if(players.length <= 4){
+        if (players.length <= 4) {
             perPlayer = 7;
-        }else{
+        } else {
             perPlayer = 5;
         }
-        for(String player : players){
-            for(int i = 0; i < perPlayer; i++) {
-                if(this.drawPile != null) {
+        for (String player : players) {
+            for (int i = 0; i < perPlayer; i++) {
+                if (this.drawPile != null) {
                     this.playerHands.get(player).add(this.drawPile.removeTopCard());
                 }
             }
@@ -163,7 +163,7 @@ public class C8GameState extends GameState {
      * Makes a censored copy for players
      *
      * @param origState - the original CrazyEightsGameState
-     * @param p - the GamePlayer this object will be sent to
+     * @param p         - the GamePlayer this object will be sent to
      */
     public C8GameState(C8GameState origState, GamePlayer p) {
         // take the input array as the playerNames
@@ -189,16 +189,14 @@ public class C8GameState extends GameState {
         this.setSuit(origState.getDiscardPile().peekTopCard().getSuit());
 
         // copies the name of players dependant on the type of player it is
-        if(p instanceof ProxyPlayer) {
+        if (p instanceof ProxyPlayer) {
             ProxyPlayer proxyPlayer = (ProxyPlayer) p;
             // TODO: find a way to get a proxy player's name
             return;
-        }
-        else if(p instanceof GameComputerPlayer) {
+        } else if (p instanceof GameComputerPlayer) {
             C8ComputerPlayer computerPlayer = (C8ComputerPlayer) p;
             playerName = computerPlayer.getName();
-        }
-        else {
+        } else {
             C8HumanPlayer humanPlayer = (C8HumanPlayer) p;
             playerName = humanPlayer.getName();
         }
@@ -210,50 +208,96 @@ public class C8GameState extends GameState {
     /**
      * Setter methods:
      */
-    public void setPlayerTurn(String turn){ this.playerTurn = turn; }
-    public void setPlayerNames(String[] playerNames){ this.playerNames = playerNames; }
-    public void setPlayerIndex(int index){ this.playerIndex = index; }
-    public void setPlayerHands(Hashtable<String,Deck> table){ this.playerHands = table; }
-    public void setDrawPile(Deck deck){ this.drawPile = deck; }
-    public void setDiscardPile(Deck deck){ this.discardPile = deck; }
-    public void setSuit(String suit){ this.currentSuit = suit; }
-    public void setFace(String face){ this.currentFace = face; }
-    public void setHasDeclaredSuit(boolean declared){ this.hasDeclaredSuit = declared; }
+    public void setPlayerTurn(String turn) {
+        this.playerTurn = turn;
+    }
+
+    public void setPlayerNames(String[] playerNames) {
+        this.playerNames = playerNames;
+    }
+
+    public void setPlayerIndex(int index) {
+        this.playerIndex = index;
+    }
+
+    public void setPlayerHands(Hashtable<String, Deck> table) {
+        this.playerHands = table;
+    }
+
+    public void setDrawPile(Deck deck) {
+        this.drawPile = deck;
+    }
+
+    public void setDiscardPile(Deck deck) {
+        this.discardPile = deck;
+    }
+
+    public void setSuit(String suit) {
+        this.currentSuit = suit;
+    }
+
+    public void setFace(String face) {
+        this.currentFace = face;
+    }
+
+    public void setHasDeclaredSuit(boolean declared) {
+        this.hasDeclaredSuit = declared;
+    }
 
     /**
      * Getter methods:
      */
-    public String getPlayerTurn() { return this.playerTurn; }
+    public String getPlayerTurn() {
+        return this.playerTurn;
+    }
+
     public String[] getPlayerNames() {
         String[] ret = new String[this.playerNames.length];
         System.arraycopy(this.playerNames, 0, ret, 0, this.playerNames.length);
         return ret;
     }
-    public int getPlayerIndex() { return this.playerIndex; }
+
+    public int getPlayerIndex() {
+        return this.playerIndex;
+    }
+
     public Hashtable<String, Deck> getPlayerHands() {
         Hashtable<String, Deck> ret = new Hashtable<String, Deck>(this.playerNames.length);
-        for(String player : this.playerNames){
+        for (String player : this.playerNames) {
             ret.put(player, new Deck(this.playerHands.get(player)));
         }
         return ret;
     }
-    public Deck getDrawPile() { return new Deck(this.drawPile); }
-    public Deck getDiscardPile() { return new Deck(this.discardPile); }
-    public String getCurrentFace() { return this.currentFace; }
-    public String getCurrentSuit() { return this.currentSuit; }
-    public boolean getHasDeclaredSuit() { return this.hasDeclaredSuit; }
+
+    public Deck getDrawPile() {
+        return new Deck(this.drawPile);
+    }
+
+    public Deck getDiscardPile() {
+        return new Deck(this.discardPile);
+    }
+
+    public String getCurrentFace() {
+        return this.currentFace;
+    }
+
+    public String getCurrentSuit() {
+        return this.currentSuit;
+    }
+
+    public boolean getHasDeclaredSuit() {
+        return this.hasDeclaredSuit;
+    }
 
     /**
      * movePlay(index, currPlayer)
      *
-     * @param index - the index of the card to play
+     * @param index      - the index of the card to play
      * @param currPlayer - the name of the player making the move
-     *
      * @return boolean - true if valid move
-     *
      */
-    public boolean movePlay(int index, String currPlayer){
-        if(!currPlayer.equals(this.getPlayerTurn())) return false;
+    public boolean movePlay(int index, String currPlayer) {
+        if (!currPlayer.equals(this.getPlayerTurn())) return false;
         this.playCard(index); // play the card
         this.checkToChangeSuit(); // check if the suit needs to be changed
         this.nextPlayer(); // move to next player
@@ -264,18 +308,17 @@ public class C8GameState extends GameState {
      * moveDraw(currPlayer)
      *
      * @param currPlayer - the name of the player making the move
-     *
      * @return boolean - true if valid move
      */
-    public boolean moveDraw(String currPlayer){
-        if(!currPlayer.equals(this.getPlayerTurn())) return false;
+    public boolean moveDraw(String currPlayer) {
+        if (!currPlayer.equals(this.getPlayerTurn())) return false;
         boolean canMove = false; // have a boolean if the player can move
         // while the player can't move and there are cards in the draw pile
-        while(!canMove && this.getDrawPile().size() > 0) {
+        while (!canMove && this.getDrawPile().size() > 0) {
             this.drawCard();
             canMove = this.checkIfValid();
         }
-        if(canMove) {
+        if (canMove) {
             this.playLastCard(); // if the player can move, play the last card, else pass
             this.checkToChangeSuit(); // check if the suit needs to be changed
         }
@@ -290,7 +333,7 @@ public class C8GameState extends GameState {
      * Turns them face-down so data of card is unknown
      */
     public void turnDiscardPileFaceDown() {
-        if(!this.discardPile.isEmpty()) {
+        if (!this.discardPile.isEmpty()) {
             // remove the top card in the deck
             // c will be null if the deck is empty
             Card c = this.discardPile.removeTopCard();
@@ -315,8 +358,8 @@ public class C8GameState extends GameState {
      */
     public void turnHandsOverExcept(String noFlipPlayer) {
         // for each key (player), turn their hands face-down unless it's the player
-        for(String key : this.playerNames){
-            if(!key.equals(noFlipPlayer) && this.playerHands.get(key) != null){
+        for (String key : this.playerNames) {
+            if (!key.equals(noFlipPlayer) && this.playerHands.get(key) != null) {
                 Objects.requireNonNull(this.playerHands.get(key)).turnFaceDown();
             }
         }
@@ -339,7 +382,7 @@ public class C8GameState extends GameState {
 
         // prints hand of all players
         s += "All player hands:\n\n";
-        for(String player : this.playerNames){
+        for (String player : this.playerNames) {
             s += "Player " + player + "'s hand: \n"
                     + this.getPlayerHands().get(player).toString() + "\n";
         }
@@ -370,10 +413,10 @@ public class C8GameState extends GameState {
      */
     public boolean drawCard() {
         // checks if the draw pile is empty
-        if(drawPile.isEmpty()){
+        if (drawPile.isEmpty()) {
             // if it is, return false without doing anything
             return false;
-        }else{
+        } else {
             Objects.requireNonNull(playerHands.get(playerTurn)).add(this.drawPile.removeTopCard());
             return true;
         }
@@ -385,15 +428,15 @@ public class C8GameState extends GameState {
      * Plays a specific, indexed card from the current player's hand
      *
      * @param index - the index of the Card to play based on the current player's hand
-     *
      * @return boolean - true it's a valid call
      */
     public boolean playCard(int index) {
         // check if the player's hand is empty
-        if(playerHands.get(playerTurn) == null) return false;
+        if (playerHands.get(playerTurn) == null) return false;
 
         // check if the index given to the method is valid
-        if(index < 0 || index >= Objects.requireNonNull(playerHands.get(playerTurn)).size()) return false;
+        if (index < 0 || index >= Objects.requireNonNull(playerHands.get(playerTurn)).size())
+            return false;
 
         // remove the specified card in the player's hand and add it to the top of the discard pile
         discardPile.add(Objects.requireNonNull(playerHands.get(playerTurn)).removeSpecific(index));
@@ -416,7 +459,7 @@ public class C8GameState extends GameState {
      */
     public boolean playLastCard() {
         // check if the player's hand is empty
-        if(playerHands.get(playerTurn) == null) return false;
+        if (playerHands.get(playerTurn) == null) return false;
 
         // play the card, calculating index in this method
         playCard(this.getPlayerHands().get(this.playerTurn).size() - 1);
@@ -434,12 +477,11 @@ public class C8GameState extends GameState {
      * Sets the current suit if the card played was an eight
      *
      * @param newSuit - the new suit declared by the player
-     *
      * @return boolean - false if the top card is not an eight
      */
     public boolean setSuitDueToEight(String newSuit) {
         // if the top card is not equal to eight, then do nothing and return false
-        if(!discardPile.peekTopCard().face.equals("Eight")) return false;
+        if (!discardPile.peekTopCard().face.equals("Eight")) return false;
 
         // if the top card is an eight, set the suit to the new suit
         this.setSuit(newSuit);
@@ -457,11 +499,11 @@ public class C8GameState extends GameState {
      * @return boolean - true if new suit needs to be declared
      */
     public boolean checkToChangeSuit() {
-        if(!this.getHasDeclaredSuit()){
+        if (!this.getHasDeclaredSuit()) {
             Deck currHand = this.getPlayerHands().get(this.getPlayerTurn());
             this.setSuitDueToEight(currHand.findMostSuits());
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -473,11 +515,47 @@ public class C8GameState extends GameState {
      *
      * @return boolean - always true
      */
-    public boolean nextPlayer(){
+    public boolean nextPlayer() {
         // increment the player index and set the playerTurn variable to be the next player
-        this.playerIndex = (this.playerIndex + 1)%(this.playerNames.length);
+        this.playerIndex = (this.playerIndex + 1) % (this.playerNames.length);
         this.playerTurn = this.playerNames[this.playerIndex];
         return true;
+    }
+
+    /**
+     * skipTurn()
+     *
+     * skips player's turn if there are no valid moves in their hand
+     *
+     * @return boolean
+     */
+    public boolean skipTurn() {
+        // retrieve the hand of the current player
+        Deck currDeck = this.playerHands.get(this.playerTurn);
+
+        // mock-up the top card of the discard pile (in case last suit was an 8)
+        Card currCard = new Card(this.currentFace, this.currentSuit);
+
+        // counter for the number of valid cards in player's hand
+        int validCards = 0;
+
+        // skip is true if there are no valid cards
+        boolean skip = true;
+
+        // for every card in the current player's hands, check if it is valid.
+        // if the card is valid, increment validCards and set skip to false
+        for (Card c : currDeck.cards) {
+            if (c.isValid(currCard)) {
+                    validCards++;
+                    skip = false;
+            }
+        }
+        // if there are no valid cards, skip player's turn then return skip
+        if (validCards == 0) {
+            //skip turn
+            this.nextPlayer();
+        }
+        return skip;
     }
 
     /**
