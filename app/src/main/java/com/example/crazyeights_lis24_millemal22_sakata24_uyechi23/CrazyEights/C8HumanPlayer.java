@@ -2,16 +2,11 @@ package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import android.app.Activity;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.Deck;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.Game;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Card;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.animation.AnimationSurface;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.animation.Animator;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.IllegalMoveInfo;
@@ -141,4 +136,5 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
 
         //
     }
+
 }

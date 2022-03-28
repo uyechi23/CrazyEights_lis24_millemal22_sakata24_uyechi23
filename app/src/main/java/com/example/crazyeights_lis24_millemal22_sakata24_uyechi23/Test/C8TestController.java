@@ -1,8 +1,11 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Test;
 
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8GameState;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8HumanPlayer;
 
 public class C8TestController implements View.OnClickListener{
 

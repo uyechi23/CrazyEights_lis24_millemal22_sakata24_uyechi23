@@ -1,4 +1,4 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards;
 
 import androidx.annotation.NonNull;
 

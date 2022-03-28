@@ -49,7 +49,7 @@ public class C8LocalGame extends LocalGame {
 
     @Override
     protected String checkIfGameOver() {
-        return null;
+        return this.state.checkGameOver();
     }
 
     @Override

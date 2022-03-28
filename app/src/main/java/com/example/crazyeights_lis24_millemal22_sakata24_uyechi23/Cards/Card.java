@@ -1,4 +1,4 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -158,8 +158,8 @@ public class Card {
     public Card(Card orig) {
         this.face = orig.getFace();
         this.suit = orig.getSuit();
-        this.resIdx = orig.getResIdx();
-        this.cardImages = orig.getCardImages();
+        resIdx = orig.getResIdx();
+        cardImages = orig.getCardImages();
         setValue(this.face);
     }
 
@@ -196,8 +196,8 @@ public class Card {
      * @return - a 2D array containing resource IDs
      */
     public int[][] getResIdx() {
-        if(this.resIdx == null) return null;
-        return this.resIdx.clone();
+        if(resIdx == null) return null;
+        return resIdx.clone();
     }
 
     /**
@@ -206,8 +206,8 @@ public class Card {
      * @return - a 2D array containing Bitmaps
      */
     public Bitmap[][] getCardImages() {
-        if(this.cardImages == null) return null;
-        return this.cardImages.clone();
+        if(cardImages == null) return null;
+        return cardImages.clone();
     }
 
     /**
@@ -352,7 +352,6 @@ public class Card {
 
         // initialize color/type indices
         int color = 4;
-        int type = 0;
 
         // choose index based on color
         switch(toks[0]){
@@ -362,7 +361,7 @@ public class Card {
         }
 
         // choose index based on type
-        type = Integer.parseInt(toks[1]);
+        int type = Integer.parseInt(toks[1]);
         if(type < 0 || type > 4) type = 0;
 
         // create bitmap

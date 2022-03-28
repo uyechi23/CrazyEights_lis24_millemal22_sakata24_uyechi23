@@ -4,11 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.view.SurfaceView;
 
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Card;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Deck;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.animation.AnimationSurface;
 
 /**
@@ -121,13 +121,12 @@ public class GameBoard extends AnimationSurface {
 
 
         // slot paint
-        slotPaint.setColor(Color.GREEN);
+        slotPaint.setColor(Color.BLACK);
 
         // text paint
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(fontSize);
         textPaint.setTextAlign(Paint.Align.CENTER);
-
     }
 
     /**

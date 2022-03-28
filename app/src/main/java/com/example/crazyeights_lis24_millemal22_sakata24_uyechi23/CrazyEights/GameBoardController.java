@@ -5,7 +5,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
 
-public class GameBoardController implements View.OnTouchListener, View.OnClickListener, View.OnDragListener, SeekBar.OnSeekBarChangeListener {
+public class GameBoardController implements View.OnTouchListener,
+        View.OnClickListener, View.OnDragListener, SeekBar.OnSeekBarChangeListener {
+
     @Override
     public void onClick(View view) {
 

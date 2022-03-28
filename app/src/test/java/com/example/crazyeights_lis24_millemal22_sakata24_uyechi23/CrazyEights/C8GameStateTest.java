@@ -2,6 +2,9 @@ package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import static org.junit.Assert.*;
 
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Card;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Deck;
+
 import org.junit.Test;
 
 public class C8GameStateTest {
