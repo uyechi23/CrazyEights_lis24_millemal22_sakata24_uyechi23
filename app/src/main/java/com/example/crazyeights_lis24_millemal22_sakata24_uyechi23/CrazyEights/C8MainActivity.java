@@ -1,6 +1,7 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import android.graphics.Color;
+import android.os.Bundle;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.LocalGame;
@@ -54,6 +55,11 @@ public class C8MainActivity extends GameMainActivity {
 
     @Override
     public LocalGame createLocalGame(GameState gameState) {
+        if(gameState == null){
+            // TODO: create a new game state to send if the input argument is null
+            // TODO: retrieve player names from the config screen to use C8GameState default constructor
+        }
+
         return new C8LocalGame((C8GameState) gameState);
     }
 
