@@ -21,6 +21,11 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
  */
 public class C8ComputerPlayer extends GameComputerPlayer {
     /**
+     * instance variables
+     */
+    private C8GameState state = null;
+
+    /**
      * constructor
      *
      * @param name the player's name (e.g., "John")
@@ -31,35 +36,37 @@ public class C8ComputerPlayer extends GameComputerPlayer {
 
     @Override
     protected void receiveInfo(GameInfo info) {
-        // Makes sure the info message is a Game State before sending an action
-        if(!(info instanceof GameState)) {
+        // Makes sure the info message is a Game State before sending an action or if its null
+        if(!(info instanceof GameState) || info == null) {
             return;
         }
 
-        // typecast state into a C8GameState object
-        C8GameState state = (C8GameState) info;
+        // typecast state into our C8GameState object
+        this.state = (C8GameState) info;
 
-        // retrieve the deck
+        // retrieve my deck
         Deck currDeck = state.getPlayerHands().get(this.playerNum);
+        return;
 
-        // Checks if its the players turn
-        if(state.getPlayerIndex() == this.playerNum){
-            // Check all cards in hand to see if any are playable
-            for(int i = 0; i < currDeck.size(); i++) {
-                // If suit matches play card
-                if(state.getCurrentSuit().equals(currDeck.getCards().get(i).suit)) {
-                    state.movePlay(i, state.getPlayerIndex());
-                    return;
-                }
-                // If number matches play card
-                if(state.getCurrentFace().equals(currDeck.getCards().get(i).face)) {
-                    state.movePlay(i, state.getPlayerIndex());
-                    return;
-                }
-            }
-            // None of your cards are playable keep drawing until you get a playable one
-            state.moveDraw(state.getPlayerIndex());
-        }
+        //TODO: Change this from changing the state to sending actions.
+//        // Checks if its the players turn
+//        if(state.getPlayerIndex() == this.playerNum){
+//            // Check all cards in hand to see if any are playable
+//            for(int i = 0; i < currDeck.size(); i++) {
+//                // If suit matches play card
+//                if(state.getCurrentSuit().equals(currDeck.getCards().get(i).suit)) {
+//                    state.movePlay(i, state.getPlayerIndex());
+//                    return;
+//                }
+//                // If number matches play card
+//                if(state.getCurrentFace().equals(currDeck.getCards().get(i).face)) {
+//                    state.movePlay(i, state.getPlayerIndex());
+//                    return;
+//                }
+//            }
+//            // None of your cards are playable keep drawing until you get a playable one
+//            state.moveDraw(state.getPlayerIndex());
+//        }
 
     }
 

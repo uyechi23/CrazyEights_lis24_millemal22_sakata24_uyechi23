@@ -130,7 +130,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         this.stateUpdated = false;
 
         // redraw the gameboard
-        this.gameBoard.draw(canvas);
+        this.gameBoard.invalidate();
     }
 
     @Override
@@ -142,7 +142,9 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         int x = (int) event.getX();
         int y = (int) event.getY();
 
-        //
+        //TODO: ignore the touch if its not on a valid position
+        //TODO: send game action for drawing
+        //TODO: check coords and find which card clicked on and send play action
     }
 
 }

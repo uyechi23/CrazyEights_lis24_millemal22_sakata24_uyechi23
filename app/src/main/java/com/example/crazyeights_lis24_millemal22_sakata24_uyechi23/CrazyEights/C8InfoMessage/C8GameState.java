@@ -52,8 +52,8 @@ public class C8GameState extends GameState {
         // create a hashtable of player hands
         // given an array of players, iterate through each and make an entry in the hashtable
         this.playerHands = new Hashtable<>();
-        for (int player : playerHands.keySet()) {
-            this.playerHands.put(player, new Deck());
+        for (int i = 0; i < this.numPlayers; i++) {
+            this.playerHands.put(i, new Deck());
         }
 
         // create the draw pile as a new deck, add 52 cards, and shuffle
@@ -190,24 +190,42 @@ public class C8GameState extends GameState {
      */
     public C8GameState(C8GameState origState, int playerPerspective) {
         // copy number of players in this game state
+        // deep not needed
         this.setNumPlayers(origState.getNumPlayers());
 
         // set the hasDeclaredSuit variable
+        // deep not needed
         this.setHasDeclaredSuit(origState.getHasDeclaredSuit());
 
         // copies the name of the current player
+        // deep not needed
         this.setPlayerIndex(origState.getPlayerIndex());
 
         // copies player hands
-        this.setPlayerHands(origState.getPlayerHands());
+        // deep needed
+        Hashtable<Integer, Deck> newHands = new Hashtable<>();
+        // makes a deep copy of each hand and puts it into the new player hand copy
+        for (Integer key : origState.getPlayerHands().keySet()) {
+            Deck newHand = new Deck(origState.getPlayerHands().get(key));
+            newHands.put(key, newHand);
+        }
+        this.setPlayerHands(newHands);
+
         // copies the draw pile and turns it all face down
-        this.setDrawPile(origState.getDrawPile());
+        // deep needed
+        Deck newDraw = new Deck(origState.getDrawPile());
+        newDraw.turnFaceDown();
+        this.setDrawPile(newDraw);
+
         // copies the discard pile
-        this.setDiscardPile(origState.getDiscardPile());
+        // deep neeeded
+        Deck newDiscard = new Deck(origState.getDiscardPile());
+        this.setDiscardPile(newDiscard);
         this.turnDiscardPileFaceDown();
+
         // sets the currentSuit and currentFace to the top card
-        this.setFace(origState.getDiscardPile().peekTopCard().getFace());
-        this.setSuit(origState.getDiscardPile().peekTopCard().getSuit());
+        this.setFace(this.getDiscardPile().peekTopCard().getFace());
+        this.setSuit(this.getDiscardPile().peekTopCard().getSuit());
 
 //        // copies the name of players dependant on the type of player it is
 //        if (p instanceof ProxyPlayer) {
@@ -274,11 +292,12 @@ public class C8GameState extends GameState {
     }
 
     public Hashtable<Integer, Deck> getPlayerHands() {
-        Hashtable<Integer, Deck> ret = new Hashtable<>(this.playerHands.size());
-        for (int player : this.playerHands.keySet()) {
-            ret.put(player, new Deck(this.playerHands.get(player)));
-        }
-        return ret;
+//        Hashtable<Integer, Deck> ret = new Hashtable<>();
+//        for (int player : this.playerHands.keySet()) {
+//            ret.put(player, new Deck(this.playerHands.get(player)));
+//        }
+//        return ret;
+        return this.playerHands;
     }
 
     public Deck getDrawPile() {

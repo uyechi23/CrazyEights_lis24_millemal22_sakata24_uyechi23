@@ -66,12 +66,7 @@ public class Deck implements Serializable {
      * @return - ArrayList of Cards
      */
     public ArrayList<Card> getCards() {
-        ArrayList<Card> ret = new ArrayList<Card>(this.size());
-        for(Card c : this.cards){
-            Card copy = new Card(c);
-            ret.add(copy);
-        }
-        return ret;
+        return this.cards;
     }
 
     /**

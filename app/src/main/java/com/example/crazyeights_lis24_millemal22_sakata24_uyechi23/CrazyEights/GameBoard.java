@@ -99,9 +99,12 @@ public class GameBoard extends AnimationSurface {
                 slot3.bottom - (int) (0.5 * fontSize), textPaint);
         canvas.drawText(this.playerNames[3], slot4.centerX(),
                 slot4.bottom - (int) (0.5 * fontSize), textPaint);
-        //if(state != null) {
-        //    drawPlayerHand(canvas, slot1, state.getPlayerHands().get(state.getPlayerNames()[0]));
-        //}\
+
+        // draw player hands
+        drawPlayerHand(canvas, slot1, state.getPlayerHands().get(0));
+        drawPlayerHand(canvas, slot2, state.getPlayerHands().get(1));
+        drawPlayerHand(canvas, slot3, state.getPlayerHands().get(2));
+        drawPlayerHand(canvas, slot4, state.getPlayerHands().get(3));
 
        //drawCard(canvas, slot1, state.getDiscardPile().peekTopCard()); //this did not work at all
     }
@@ -162,15 +165,20 @@ public class GameBoard extends AnimationSurface {
      * 		the hand of the player to draw
      */
     private void drawPlayerHand(Canvas g, RectF slot, Deck playerDeck) {
-        float cardSize = 140.0f;
-        // loop through from back to front, drawing a card in each location
-        for (int i = playerDeck.size()-1; i >= 0; i--) {
+        // the card bitmap dimensions
+        float cardSizeX = 140.0f;
+        float cardSizeY = 190.0f;
+        // scale factor to fit nicely into the slot (-0.3 for a little smaller than the slot)
+        float scaleFactor = ((slot.bottom-slot.top)/cardSizeY) - 0.3f;
+        //
+        float delta = (float)(cardSizeX/2.0);
+        // loop through from top to back, drawing each card offset a little
+        for (int i = 0; i < playerDeck.size(); i++) {
             // determine the position of this card's top/left corner
-            float left = (float) ((slot.centerX() - playerDeck.size()*(cardSize/2.0)) + (cardSize/2.0));
-            float top = slot.top;
+            float left = (float) (slot.left + (delta*i));
             // draw a card into the appropriate rectangle (other player hand cards should be null)
-            drawCard(g,
-                    new RectF(left, top, left + slot.width(), top + slot.height()),
+            drawCard(g, scaledBy(new RectF(left, slot.top, left + cardSizeX,
+                            slot.top+190.0f), scaleFactor),
                     playerDeck.getCards().get(i));
         }
     }
@@ -197,7 +205,7 @@ public class GameBoard extends AnimationSurface {
     }
 
     /**
-     * scales a rectangle, moving all edges with respect to its center
+     * scales a rectangle, moving all edges with respect to its left corner
      *
      * @param rect
      * 		the original rectangle
@@ -216,11 +224,11 @@ public class GameBoard extends AnimationSurface {
         float top = rect.top-midY;
         float bottom = rect.bottom-midY;
 
-        // scale each side; move back so that center is in original location
-        left = left*factor + midX;
-        right = right*factor + midX;
-        top = top*factor + midY;
-        bottom = bottom*factor + midY;
+        // scale each side; move back so that top left is in original location
+        left = left + midX;
+        right = right*factor*1.5f + midX;
+        top = top + midY;
+        bottom = bottom*factor*1.5f + midY;
 
         // create/return the new rectangle
         return new RectF(left, top, right, bottom);
