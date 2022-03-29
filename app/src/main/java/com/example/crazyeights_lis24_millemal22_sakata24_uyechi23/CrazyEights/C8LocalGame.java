@@ -36,7 +36,7 @@ public class C8LocalGame extends LocalGame {
 
         // make a copy of the game state and nullify any
         // data the player shouldn't have access to
-        C8GameState newState = new C8GameState(state, p);
+        C8GameState newState = new C8GameState(state);
 
         newState.turnDiscardPileFaceDown();
 

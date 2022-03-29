@@ -12,10 +12,10 @@ public class C8GameStateTest {
     @Test
     public void drawCard() {
         String[] players = {"Maliyah", "Tyler", "Selena", "Jake"};
-        C8GameState state = new C8GameState(players, 1);
+        C8GameState state = new C8GameState(players.length, 1);
         Card topOfDrawPile = state.getDrawPile().peekTopCard();
         boolean isValid = state.drawCard();
-        Deck currPlayerHand = state.getPlayerHands().get(state.getPlayerTurn());
+        Deck currPlayerHand = state.getPlayerHands().get(state.getPlayerIndex());
         Card justDrawn = currPlayerHand.peekTopCard();
         assertEquals(topOfDrawPile.getFace(), justDrawn.getFace());
         assertEquals(topOfDrawPile.getSuit(), justDrawn.getSuit());
@@ -25,7 +25,7 @@ public class C8GameStateTest {
     @Test
     public void playCard() {
         String[] players = {"Maliyah", "Tyler", "Selena", "Jake"};
-        C8GameState state = new C8GameState(players, 1);
+        C8GameState state = new C8GameState(players.length, 1);
         Card toBePlayed = new Card("Seven", "Hearts");
         boolean isValid = state.playCard(1); // play the 7 of Hearts
         assertEquals(state.getCurrentFace(), toBePlayed.getFace());
@@ -36,12 +36,12 @@ public class C8GameStateTest {
     @Test
     public void nextPlayer() {
         String[] players = {"Maliyah", "Tyler", "Selena", "Jake"};
-        C8GameState state = new C8GameState(players);
-        String currentPlayer = state.getPlayerTurn();
+        C8GameState state = new C8GameState(players.length);
+        int currentPlayer = state.getPlayerIndex();
         boolean isValid = state.nextPlayer();
-        String nextPlayer = state.getPlayerTurn();
+        int nextPlayer = state.getPlayerIndex();
         int currIndex = 0;
-        for(int i = 0; i < state.getPlayerNames().length; i++){
+        for(int i = 0; i < state.getNumPlayers(); i++){
             if(players[i].equals(currentPlayer)) currIndex = i;
         }
         int nextIndex = (currIndex + 1) % players.length;
