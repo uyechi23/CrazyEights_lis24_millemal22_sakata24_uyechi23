@@ -1,13 +1,10 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8InfoMessage;
 
 import androidx.annotation.NonNull;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Card;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Deck;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameState;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.ProxyPlayer;
 
 import java.util.Hashtable;
 import java.util.Objects;
@@ -27,10 +24,9 @@ import java.util.Random;
  */
 public class C8GameState extends GameState {
     /* Instance variables */
-    private String playerTurn; // name of player whose turn it is
-    private String[] playerNames; // names of the players
+    private int numPlayers; // number of players
     private int playerIndex; // ID number of the player whose turn it is
-    private Hashtable<String, Deck> playerHands; // all players hands
+    private Hashtable<Integer, Deck> playerHands; // all players hands
     private Deck drawPile; // cards to be drawn from
     private Deck discardPile; // cards that were discarded
     private String currentSuit; // top card current suit
@@ -41,25 +37,22 @@ public class C8GameState extends GameState {
      * CrazyEightsGameState constructor
      *
      * Initializes the instance variables for start of game
-     *
-     * @param players - a String array of player names
      */
-    public C8GameState(String[] players) {
-        // take the input array as the playerNames
-        this.playerNames = players;
+    public C8GameState(int numPlayers) {
+        // set number of players
+        this.numPlayers = numPlayers;
 
         // set the hasDeclaredSuit variable
         this.hasDeclaredSuit = true;
 
         // randomly choose a first turn
         Random rand = new Random();
-        this.playerIndex = rand.nextInt(players.length);
-        this.playerTurn = players[this.playerIndex];
+        this.playerIndex = rand.nextInt(this.numPlayers);
 
         // create a hashtable of player hands
         // given an array of players, iterate through each and make an entry in the hashtable
         this.playerHands = new Hashtable<>();
-        for (String player : players) {
+        for (int player : playerHands.keySet()) {
             this.playerHands.put(player, new Deck());
         }
 
@@ -84,12 +77,12 @@ public class C8GameState extends GameState {
 
         // distribute cards to each player
         int perPlayer;
-        if (players.length <= 4) {
+        if (playerHands.size() <= 4) {
             perPlayer = 7;
         } else {
             perPlayer = 5;
         }
-        for (String player : players) {
+        for (int player : playerHands.keySet()) {
             for (int i = 0; i < perPlayer; i++) {
                 if (this.drawPile != null && this.playerHands.get(player) != null) {
                     this.playerHands.get(player).add(this.drawPile.removeTopCard());
@@ -103,26 +96,24 @@ public class C8GameState extends GameState {
      *
      * Initializes the instance variables for start of game
      *
-     * @param players  - a String array of player names
      * @param randSeed - a seed to change the shuffling pattern of the deck
      */
-    public C8GameState(String[] players, int randSeed) {
-        // take the input array as the playerNames
-        this.playerNames = players;
+    public C8GameState(int numPlayers, int randSeed) {
+        // set number of players
+        this.numPlayers = numPlayers;
 
         // set the hasDeclaredSuit variable
         this.hasDeclaredSuit = true;
 
         // randomly choose a first turn based on seed
         Random rand = new Random(randSeed);
-        this.playerIndex = rand.nextInt(players.length);
-        this.playerTurn = players[this.playerIndex];
+        this.playerIndex = rand.nextInt(this.numPlayers);
 
         // create a hashtable of player hands
         // given an array of players, iterate through each and make an entry in the hashtable
         this.playerHands = new Hashtable<>();
-        for (String player : players) {
-            this.playerHands.put(player, new Deck());
+        for (int i = 0; i < this.numPlayers; i++) {
+            this.playerHands.put(i, new Deck());
         }
 
         // create the draw pile as a new deck, add 52 cards, and shuffle
@@ -146,12 +137,12 @@ public class C8GameState extends GameState {
 
         // distribute cards to each player
         int perPlayer = 0;
-        if (players.length <= 4) {
+        if (playerHands.size() <= 4) {
             perPlayer = 7;
         } else {
             perPlayer = 5;
         }
-        for (String player : players) {
+        for (int player : playerHands.keySet()) {
             for (int i = 0; i < perPlayer; i++) {
                 if (this.drawPile != null) {
                     this.playerHands.get(player).add(this.drawPile.removeTopCard());
@@ -163,27 +154,54 @@ public class C8GameState extends GameState {
     /**
      * Copy Constructor
      *
-     * Makes a censored copy for players
+     * Makes an uncensored copy, NOT for players
      *
      * @param origState - the original CrazyEightsGameState
-     * @param p         - the GamePlayer this object will be sent to
      */
-    public C8GameState(C8GameState origState, GamePlayer p) {
-        // take the input array as the playerNames
-        this.setPlayerNames(origState.getPlayerNames());
+    public C8GameState(C8GameState origState) {
+        // copy number of players in this game state
+        this.setNumPlayers(origState.getNumPlayers());
 
         // set the hasDeclaredSuit variable
         this.setHasDeclaredSuit(origState.getHasDeclaredSuit());
 
-        String playerName; // TODO: set playerName to be the player name of the GamePlayer
         // copies the name of the current player
-        this.setPlayerTurn(origState.getPlayerTurn());
+        this.setPlayerIndex(origState.getPlayerIndex());
 
         // copies player hands
         this.setPlayerHands(origState.getPlayerHands());
         // copies the draw pile and turns it all face down
         this.setDrawPile(origState.getDrawPile());
-        this.drawPile.turnFaceDown();
+        // copies the discard pile
+        this.setDiscardPile(origState.getDiscardPile());
+        this.turnDiscardPileFaceDown();
+        // sets the currentSuit and currentFace to the top card
+        this.setFace(origState.getDiscardPile().peekTopCard().getFace());
+        this.setSuit(origState.getDiscardPile().peekTopCard().getSuit());
+    }
+
+    /**
+     * Copy Constructor
+     *
+     * Makes a censored copy for players
+     *
+     * @param origState - the original CrazyEightsGameState
+     * @param playerPerspective - the player for which to censor data
+     */
+    public C8GameState(C8GameState origState, int playerPerspective) {
+        // copy number of players in this game state
+        this.setNumPlayers(origState.getNumPlayers());
+
+        // set the hasDeclaredSuit variable
+        this.setHasDeclaredSuit(origState.getHasDeclaredSuit());
+
+        // copies the name of the current player
+        this.setPlayerIndex(origState.getPlayerIndex());
+
+        // copies player hands
+        this.setPlayerHands(origState.getPlayerHands());
+        // copies the draw pile and turns it all face down
+        this.setDrawPile(origState.getDrawPile());
         // copies the discard pile
         this.setDiscardPile(origState.getDiscardPile());
         this.turnDiscardPileFaceDown();
@@ -191,39 +209,36 @@ public class C8GameState extends GameState {
         this.setFace(origState.getDiscardPile().peekTopCard().getFace());
         this.setSuit(origState.getDiscardPile().peekTopCard().getSuit());
 
-        // copies the name of players dependant on the type of player it is
-        if (p instanceof ProxyPlayer) {
-            ProxyPlayer proxyPlayer = (ProxyPlayer) p;
-            // TODO: find a way to get a proxy player's name
-            return;
-        } else if (p instanceof GameComputerPlayer) {
-            C8ComputerPlayer computerPlayer = (C8ComputerPlayer) p;
-            playerName = computerPlayer.getName();
-        } else {
-            C8HumanPlayer humanPlayer = (C8HumanPlayer) p;
-            playerName = humanPlayer.getName();
-        }
-
+//        // copies the name of players dependant on the type of player it is
+//        if (p instanceof ProxyPlayer) {
+//            ProxyPlayer proxyPlayer = (ProxyPlayer) p;
+//            // TODO: find a way to get a proxy player's name
+//            return;
+//        } else if (p instanceof GameComputerPlayer) {
+//            C8ComputerPlayer computerPlayer = (C8ComputerPlayer) p;
+//            playerName = computerPlayer.getName();
+//        } else {
+//            C8HumanPlayer humanPlayer = (C8HumanPlayer) p;
+//            playerName = humanPlayer.getName();
+//        }
+//
         // censor all but GamePlayer p
-        this.turnHandsOverExcept(playerName);
+        this.turnHandsOverExcept(playerPerspective);
     }
+
 
     /**
      * Setter methods:
      */
-    public void setPlayerTurn(String turn) {
-        this.playerTurn = turn;
-    }
-
-    public void setPlayerNames(String[] playerNames) {
-        this.playerNames = playerNames;
+    public void setNumPlayers(int num){
+        this.numPlayers = num;
     }
 
     public void setPlayerIndex(int index) {
         this.playerIndex = index;
     }
 
-    public void setPlayerHands(Hashtable<String, Deck> table) {
+    public void setPlayerHands(Hashtable<Integer, Deck> table) {
         this.playerHands = table;
     }
 
@@ -250,23 +265,17 @@ public class C8GameState extends GameState {
     /**
      * Getter methods:
      */
-    public String getPlayerTurn() {
-        return this.playerTurn;
-    }
-
-    public String[] getPlayerNames() {
-        String[] ret = new String[this.playerNames.length];
-        System.arraycopy(this.playerNames, 0, ret, 0, this.playerNames.length);
-        return ret;
+    public int getNumPlayers(){
+        return this.numPlayers;
     }
 
     public int getPlayerIndex() {
         return this.playerIndex;
     }
 
-    public Hashtable<String, Deck> getPlayerHands() {
-        Hashtable<String, Deck> ret = new Hashtable<String, Deck>(this.playerNames.length);
-        for (String player : this.playerNames) {
+    public Hashtable<Integer, Deck> getPlayerHands() {
+        Hashtable<Integer, Deck> ret = new Hashtable<>(this.playerHands.size());
+        for (int player : this.playerHands.keySet()) {
             ret.put(player, new Deck(this.playerHands.get(player)));
         }
         return ret;
@@ -296,11 +305,11 @@ public class C8GameState extends GameState {
      * movePlay(index, currPlayer)
      *
      * @param index      - the index of the card to play
-     * @param currPlayer - the name of the player making the move
+     * @param currPlayer - the number of the player making the move
      * @return boolean - true if valid move
      */
-    public boolean movePlay(int index, String currPlayer) {
-        if (!currPlayer.equals(this.getPlayerTurn())) return false;
+    public boolean movePlay(int index, int currPlayer) {
+        if (!(currPlayer == this.getPlayerIndex())) return false;
         this.playCard(index); // play the card
         this.checkToChangeSuit(); // check if the suit needs to be changed
         this.nextPlayer(); // move to next player
@@ -313,8 +322,8 @@ public class C8GameState extends GameState {
      * @param currPlayer - the name of the player making the move
      * @return boolean - true if valid move
      */
-    public boolean moveDraw(String currPlayer) {
-        if (!currPlayer.equals(this.getPlayerTurn())) return false;
+    public boolean moveDraw(int currPlayer) {
+        if (!(currPlayer == this.getPlayerIndex())) return false;
         boolean canMove = false; // have a boolean if the player can move
         // while the player can't move and there are cards in the draw pile
         while (!canMove && this.getDrawPile().size() > 0) {
@@ -359,10 +368,10 @@ public class C8GameState extends GameState {
      *
      * @param noFlipPlayer
      */
-    public void turnHandsOverExcept(String noFlipPlayer) {
+    public void turnHandsOverExcept(int noFlipPlayer) {
         // for each key (player), turn their hands face-down unless it's the player
-        for (String key : this.playerNames) {
-            if (!key.equals(noFlipPlayer) && this.playerHands.get(key) != null) {
+        for (int key : this.playerHands.keySet()) {
+            if (!(key == noFlipPlayer) && this.playerHands.get(key) != null) {
                 Objects.requireNonNull(this.playerHands.get(key)).turnFaceDown();
             }
         }
@@ -381,11 +390,11 @@ public class C8GameState extends GameState {
         String s = "";
 
         // prints who's turn it is
-        s += "It is " + this.playerTurn + "'s turn!\n\n";
+        s += "It is Player " + this.playerIndex + "'s turn!\n\n";
 
         // prints hand of all players
         s += "All player hands:\n\n";
-        for (String player : this.playerNames) {
+        for (int player : this.playerHands.keySet()) {
             s += "Player " + player + "'s hand: \n"
                     + this.getPlayerHands().get(player).toString() + "\n";
         }
@@ -420,7 +429,7 @@ public class C8GameState extends GameState {
             // if it is, return false without doing anything
             return false;
         } else {
-            Objects.requireNonNull(playerHands.get(playerTurn)).add(this.drawPile.removeTopCard());
+            Objects.requireNonNull(playerHands.get(this.playerIndex)).add(this.drawPile.removeTopCard());
             return true;
         }
     }
@@ -435,14 +444,14 @@ public class C8GameState extends GameState {
      */
     public boolean playCard(int index) {
         // check if the player's hand is empty
-        if (playerHands.get(playerTurn) == null) return false;
+        if (playerHands.get(this.playerIndex) == null) return false;
 
         // check if the index given to the method is valid
-        if (index < 0 || index >= Objects.requireNonNull(playerHands.get(playerTurn)).size())
+        if (index < 0 || index >= Objects.requireNonNull(playerHands.get(this.playerIndex)).size())
             return false;
 
         // remove the specified card in the player's hand and add it to the top of the discard pile
-        discardPile.add(Objects.requireNonNull(playerHands.get(playerTurn)).removeSpecific(index));
+        discardPile.add(Objects.requireNonNull(playerHands.get(this.playerIndex)).removeSpecific(index));
         setSuit(this.discardPile.peekTopCard().getSuit());
         setFace(this.discardPile.peekTopCard().getFace());
 
@@ -462,10 +471,10 @@ public class C8GameState extends GameState {
      */
     public boolean playLastCard() {
         // check if the player's hand is empty
-        if (playerHands.get(playerTurn) == null) return false;
+        if (playerHands.get(this.playerIndex) == null) return false;
 
         // play the card, calculating index in this method
-        playCard(this.getPlayerHands().get(this.playerTurn).size() - 1);
+        playCard(this.getPlayerHands().get(this.playerIndex).size() - 1);
 
         // set the hasDeclaredSuit boolean to false if top card is 8
         setHasDeclaredSuit(!(this.getCurrentFace().equals("Eight")));
@@ -503,7 +512,7 @@ public class C8GameState extends GameState {
      */
     public boolean checkToChangeSuit() {
         if (!this.getHasDeclaredSuit()) {
-            Deck currHand = this.getPlayerHands().get(this.getPlayerTurn());
+            Deck currHand = this.getPlayerHands().get(this.getPlayerIndex());
             this.setSuitDueToEight(currHand.findMostSuits());
             return true;
         } else {
@@ -520,8 +529,7 @@ public class C8GameState extends GameState {
      */
     public boolean nextPlayer() {
         // increment the player index and set the playerTurn variable to be the next player
-        this.playerIndex = (this.playerIndex + 1) % (this.playerNames.length);
-        this.playerTurn = this.playerNames[this.playerIndex];
+        this.playerIndex = (this.playerIndex + 1) % (this.playerHands.size());
         return true;
     }
 
@@ -535,7 +543,7 @@ public class C8GameState extends GameState {
      */
     public boolean skipTurn() {
         // retrieve the hand of the current player
-        Deck currDeck = this.playerHands.get(this.playerTurn);
+        Deck currDeck = this.playerHands.get(this.playerIndex);
 
         // mock-up the top card of the discard pile (in case last suit was an 8)
         Card currCard = new Card(this.currentFace, this.currentSuit);
@@ -571,7 +579,7 @@ public class C8GameState extends GameState {
      */
     public boolean checkIfValid(){
         // retrieve the hand of the current player
-        Deck currDeck = this.playerHands.get(this.playerTurn);
+        Deck currDeck = this.playerHands.get(this.playerIndex);
 
         // mock-up the top card of the discard pile (in case last suit was an 8)
         Card currCard = new Card(this.currentFace, this.currentSuit);
@@ -594,9 +602,9 @@ public class C8GameState extends GameState {
      */
     public String checkGameOver(){
         // loop through all players
-        for(String p : this.getPlayerNames()){
+        for(int p : this.getPlayerHands().keySet()){
             // if a player's hand is empty
-            if(this.getPlayerHands().get(p).isEmpty()) return p;
+            if(this.getPlayerHands().get(p).isEmpty()) return "Player " + p;
         }
         return null;
     }

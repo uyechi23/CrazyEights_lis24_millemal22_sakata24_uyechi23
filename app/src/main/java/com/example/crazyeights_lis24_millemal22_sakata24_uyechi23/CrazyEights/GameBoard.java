@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Card;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Deck;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8InfoMessage.C8GameState;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.animation.AnimationSurface;
 
 /**

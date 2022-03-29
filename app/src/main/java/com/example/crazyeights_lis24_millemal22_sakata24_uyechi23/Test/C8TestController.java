@@ -4,8 +4,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8GameState;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8HumanPlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8InfoMessage.C8GameState;
 
 public class C8TestController implements View.OnClickListener{
 
@@ -36,11 +35,8 @@ public class C8TestController implements View.OnClickListener{
         playerNames[1] = "Maliyah";
         playerNames[2] = "Selena";
         playerNames[3] = "Jake";
-        C8HumanPlayer player1 = new C8HumanPlayer(playerNames[0], 0xFF000000);
-        C8GameState firstInstance =
-                new C8GameState(playerNames, 1);
-        C8GameState firstCopy =
-                new C8GameState(firstInstance, player1);
+        C8GameState firstInstance = new C8GameState(playerNames.length, 1);
+        C8GameState firstCopy = new C8GameState(firstInstance, 0);
 
 
         // implementation methods:
@@ -82,41 +78,39 @@ public class C8TestController implements View.OnClickListener{
 
         // SEED 1: Selena starts, plays 7 of Hearts
         info.append("---------------------Turn 1:---------------------\n");
-        info.append(firstInstance.getPlayerTurn() + " played a 7 of Hearts\n");
+        info.append(playerNames[firstInstance.getPlayerIndex()] + " played a 7 of Hearts\n");
         info.append("-------------------------------------------------\n\n");
-        firstInstance.movePlay(1, firstInstance.getPlayerTurn());
+        firstInstance.movePlay(1, firstInstance.getPlayerIndex());
         info.append(firstInstance.toString());
 
         // SEED 1: Jake goes next, draws card(s)
         info.append("---------------------Turn 2:---------------------\n");
-        info.append(firstInstance.getPlayerTurn() + " draws cards.\n");
-        info.append(firstInstance.getPlayerTurn() + " played an Ace of Hearts\n");
+        info.append(playerNames[firstInstance.getPlayerIndex()] + " draws cards.\n");
+        info.append(playerNames[firstInstance.getPlayerIndex()] + " played an Ace of Hearts\n");
         info.append("-------------------------------------------------\n\n");
-        firstInstance.moveDraw(firstInstance.getPlayerTurn());
+        firstInstance.moveDraw(firstInstance.getPlayerIndex());
         info.append(firstInstance.toString());
 
         // SEED 1: Tyler goes next, plays Ace of Spades
         info.append("---------------------Turn 3:---------------------\n");
-        info.append(firstInstance.getPlayerTurn() + " played an Ace of Spades\n");
+        info.append(playerNames[firstInstance.getPlayerIndex()] + " played an Ace of Spades\n");
         info.append("-------------------------------------------------\n\n");
-        firstInstance.movePlay(2, firstInstance.getPlayerTurn());
+        firstInstance.movePlay(2, firstInstance.getPlayerIndex());
         info.append(firstInstance.toString());
 
         // SEED 1: Maliyah goes next, plays 8 of Hearts
         // New Suit: Diamonds
         info.append("---------------------Turn 4:---------------------\n");
-        info.append(firstInstance.getPlayerTurn() + " played an 8 of Hearts\n");
+        info.append(playerNames[firstInstance.getPlayerIndex()] + " played an 8 of Hearts\n");
         info.append("Declared suit: Diamonds\n");
         info.append("-------------------------------------------------\n\n");
-        firstInstance.movePlay(2, firstInstance.getPlayerTurn());
+        firstInstance.movePlay(2, firstInstance.getPlayerIndex());
         info.append(firstInstance.toString());
 
         // making second instance same seed, same names.
-        C8GameState secondInstance =
-                new C8GameState(playerNames, 1);
+        C8GameState secondInstance = new C8GameState(playerNames.length, 1);
         // making a copy. should be same as first copy
-        C8GameState secondCopy =
-                new C8GameState(secondInstance, player1);
+        C8GameState secondCopy = new C8GameState(secondInstance, 0);
 
         // print the two copies
         info.append("-------------------------------------------------\n");

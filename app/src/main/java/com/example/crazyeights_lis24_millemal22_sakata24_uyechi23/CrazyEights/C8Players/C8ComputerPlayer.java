@@ -1,5 +1,7 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8Players;
 
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Deck;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8InfoMessage.C8GameState;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameState;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
@@ -34,25 +36,29 @@ public class C8ComputerPlayer extends GameComputerPlayer {
             return;
         }
 
+        // typecast state into a C8GameState object
         C8GameState state = (C8GameState) info;
 
+        // retrieve the deck
+        Deck currDeck = state.getPlayerHands().get(this.playerNum);
+
         // Checks if its the players turn
-        if(state.getPlayerTurn().equals(this.name)) {
+        if(state.getPlayerIndex() == this.playerNum){
             // Check all cards in hand to see if any are playable
-            for(int i = 0; i < state.getPlayerHands().get(state.getPlayerTurn()).size(); i++) {
+            for(int i = 0; i < currDeck.size(); i++) {
                 // If suit matches play card
-                if(state.getCurrentSuit().equals(state.getPlayerHands().get(state.getPlayerTurn()).getCards().get(i).suit)) {
-                    state.movePlay(i, state.getPlayerTurn());
+                if(state.getCurrentSuit().equals(currDeck.getCards().get(i).suit)) {
+                    state.movePlay(i, state.getPlayerIndex());
                     return;
                 }
                 // If number matches play card
-                if(state.getCurrentFace().equals(state.getPlayerHands().get(state.getPlayerTurn()).getCards().get(i).face)) {
-                    state.movePlay(i, state.getPlayerTurn());
+                if(state.getCurrentFace().equals(currDeck.getCards().get(i).face)) {
+                    state.movePlay(i, state.getPlayerIndex());
                     return;
                 }
             }
             // None of your cards are playable keep drawing until you get a playable one
-            state.moveDraw(state.getPlayerTurn());
+            state.moveDraw(state.getPlayerIndex());
         }
 
     }
