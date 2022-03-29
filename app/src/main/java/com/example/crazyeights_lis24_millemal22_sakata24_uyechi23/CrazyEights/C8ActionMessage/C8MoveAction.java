@@ -3,6 +3,18 @@ package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.GameAction;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 
+/**
+ * C8MoveAction
+ *
+ * Action class for when the player makes an action
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 29 March 2022
+ */
 public abstract class C8MoveAction extends GameAction {
     /**
      * constructor for GameAction

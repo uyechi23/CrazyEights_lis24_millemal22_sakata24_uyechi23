@@ -14,6 +14,18 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
 
 import java.util.ArrayList;
 
+/**
+ * C8MainActivity
+ *
+ * Creates and adds players for Crazy Eights game
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 29 March 2022
+ */
 public class C8MainActivity extends GameMainActivity {
     private static final int PORT_NUMBER = 6969;
 

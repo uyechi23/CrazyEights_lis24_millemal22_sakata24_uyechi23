@@ -2,6 +2,18 @@ package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 
+/**
+ * C8DrawAction
+ *
+ * Action class for drawing a card
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 29 March 2022
+ */
 public class C8DrawAction extends C8MoveAction{
     /**
      * constructor for GameAction

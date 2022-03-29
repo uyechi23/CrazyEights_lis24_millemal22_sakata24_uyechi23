@@ -17,7 +17,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 23 March 2022
+ * @version 29 March 2022
  */
 public class C8ComputerPlayer extends GameComputerPlayer {
     /**

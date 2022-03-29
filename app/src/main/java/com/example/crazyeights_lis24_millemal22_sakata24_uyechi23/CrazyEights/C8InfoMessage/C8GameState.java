@@ -20,7 +20,7 @@ import java.util.Random;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 26 March 2022
+ * @version 29 March 2022
  */
 public class C8GameState extends GameState {
     /* Instance variables */
@@ -537,6 +537,7 @@ public class C8GameState extends GameState {
      * skipTurn()
      *
      * skips player's turn if there are no valid moves in their hand
+     * and if the draw deck is empty
      *
      * @return boolean
      */
@@ -613,8 +614,6 @@ public class C8GameState extends GameState {
      * - startGame
      * - exitGame
      * - restartGame
-     * - undo
-     * - pass
      */
 
 }
