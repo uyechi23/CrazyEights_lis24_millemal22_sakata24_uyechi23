@@ -19,7 +19,7 @@ import java.util.Random;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 15 March 2022
+ * @version 28 March 2022
  */
 public class Deck implements Serializable {
 

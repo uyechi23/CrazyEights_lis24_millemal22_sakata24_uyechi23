@@ -5,6 +5,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
 
+/**
+ * GameBoardController
+ *
+ * Implements listeners and seekbars
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 28 March 2022
+ */
 public class GameBoardController implements View.OnTouchListener,
         View.OnClickListener, View.OnDragListener, SeekBar.OnSeekBarChangeListener {
 

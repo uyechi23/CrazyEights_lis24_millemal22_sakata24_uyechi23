@@ -6,6 +6,18 @@ import android.widget.TextView;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8InfoMessage.C8GameState;
 
+/**
+ * C8TestController
+ *
+ * Tests methods
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 29 March 2022
+ */
 public class C8TestController implements View.OnClickListener{
 
     private final TextView info;

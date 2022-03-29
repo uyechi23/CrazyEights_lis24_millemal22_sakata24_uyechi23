@@ -23,7 +23,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 25 March 2022
+ * @version 29 March 2022
  */
 public class GameBoard extends AnimationSurface {
 
