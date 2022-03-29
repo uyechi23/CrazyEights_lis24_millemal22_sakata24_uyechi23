@@ -1,4 +1,4 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8Players;
 
 import android.app.Activity;
 import android.graphics.Canvas;
@@ -6,6 +6,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Card;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8InfoMessage.C8GameState;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.GameBoard;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.animation.Animator;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;

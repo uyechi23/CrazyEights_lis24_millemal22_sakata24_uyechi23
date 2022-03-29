@@ -4,11 +4,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Deck;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8GameState;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8HumanPlayer;
-
-import java.util.Hashtable;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8InfoMessage.C8GameState;
 
 public class C8TestController implements View.OnClickListener{
 

@@ -1,8 +1,10 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import android.graphics.Color;
-import android.os.Bundle;
 
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8InfoMessage.C8GameState;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8Players.C8ComputerPlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8Players.C8HumanPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.LocalGame;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.gameConfiguration.GameConfig;
