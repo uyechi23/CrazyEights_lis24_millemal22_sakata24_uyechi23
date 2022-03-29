@@ -58,8 +58,8 @@ public class C8MainActivity extends GameMainActivity {
     @Override
     public LocalGame createLocalGame(GameState gameState) {
         if(gameState == null){
-            // TODO: create a new game state to send if the input argument is null
-            // TODO: retrieve player names from the config screen to use C8GameState default constructor
+            // TODO: retrieve the number of players from the config menu to construct GameState
+            gameState = new C8GameState(4);
         }
 
         return new C8LocalGame((C8GameState) gameState);

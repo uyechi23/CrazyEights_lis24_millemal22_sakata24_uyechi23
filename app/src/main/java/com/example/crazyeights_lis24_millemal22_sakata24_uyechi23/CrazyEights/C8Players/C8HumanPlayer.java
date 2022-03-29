@@ -64,6 +64,10 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
             // if it is a GameState object, typecast to a C8GameState object and save it
             this.state = (C8GameState) info;
             this.stateUpdated = true;
+            // update the gamestate using .updateMode()
+            this.gameBoard.updateMode(this.state, this.allPlayerNames);
+            // call the onDraw() method by invalidating the View
+            this.gameBoard.invalidate();
         }
         // any other types of GameInfo objects passed to here do nothing
     }
@@ -85,6 +89,8 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
 
         // update the GUI with the current GameState object
         if(state != null) receiveInfo(state);
+
+
     }
 
     public String getName() {

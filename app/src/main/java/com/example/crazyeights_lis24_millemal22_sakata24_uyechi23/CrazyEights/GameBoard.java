@@ -28,7 +28,10 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
 public class GameBoard extends AnimationSurface {
 
     // Game state info
-    C8GameState state;
+    C8GameState state = null;
+
+    // string array of player names
+    String[] playerNames = null;
 
     //Game board dimensions
     float boardWidth; //Need to get from xml file maybe start the game with a popup window then                                                        4
@@ -71,6 +74,11 @@ public class GameBoard extends AnimationSurface {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        // if state == null, do nothing
+        if(this.state == null) return;
+
+
+
         // initialize instance variables; cannot declare them above
         // since the getWidth() and getHeight() methods do not work
         // until the canvas is initialized
@@ -83,19 +91,31 @@ public class GameBoard extends AnimationSurface {
         canvas.drawRect(slot4, slotPaint);
 
         // draw player names
-        canvas.drawText("Player 1", slot1.centerX(),
+        canvas.drawText(this.playerNames[0], slot1.centerX(),
                 slot1.bottom - (int) (0.5 * fontSize), textPaint);
-        canvas.drawText("Player 2", slot2.centerX(),
+        canvas.drawText(this.playerNames[1], slot2.centerX(),
                 slot2.bottom - (int) (0.5 * fontSize), textPaint);
-        canvas.drawText("Player 3", slot3.centerX(),
+        canvas.drawText(this.playerNames[2], slot3.centerX(),
                 slot3.bottom - (int) (0.5 * fontSize), textPaint);
-        canvas.drawText("Player 4", slot4.centerX(),
+        canvas.drawText(this.playerNames[3], slot4.centerX(),
                 slot4.bottom - (int) (0.5 * fontSize), textPaint);
         //if(state != null) {
         //    drawPlayerHand(canvas, slot1, state.getPlayerHands().get(state.getPlayerNames()[0]));
         //}\
 
        //drawCard(canvas, slot1, state.getDiscardPile().peekTopCard()); //this did not work at all
+    }
+
+    /**
+     * Updates the C8GameState object with a new array of player names
+     * NOTE: state must be updated using this method since GameState constructor doesn't use array
+     *
+     * @param state - the gamestate to update
+     * @param playerNames - the string array of player names
+     */
+    public void updateMode(C8GameState state, String[] playerNames){
+        this.state = state;
+        this.playerNames = playerNames;
     }
 
     public void initBoard(){
