@@ -46,27 +46,27 @@ public class C8ComputerPlayer extends GameComputerPlayer {
 
         // retrieve my deck
         Deck currDeck = state.getPlayerHands().get(this.playerNum);
-        return;
 
-        //TODO: Change this from changing the state to sending actions.
-//        // Checks if its the players turn
-//        if(state.getPlayerIndex() == this.playerNum){
-//            // Check all cards in hand to see if any are playable
-//            for(int i = 0; i < currDeck.size(); i++) {
-//                // If suit matches play card
-//                if(state.getCurrentSuit().equals(currDeck.getCards().get(i).suit)) {
-//                    state.movePlay(i, state.getPlayerIndex());
-//                    return;
-//                }
-//                // If number matches play card
-//                if(state.getCurrentFace().equals(currDeck.getCards().get(i).face)) {
-//                    state.movePlay(i, state.getPlayerIndex());
-//                    return;
-//                }
-//            }
-//            // None of your cards are playable keep drawing until you get a playable one
-//            state.moveDraw(state.getPlayerIndex());
-//        }
+        if (state.getPlayerIndex() == this.playerNum){
+            // Check all cards in hand to see if any are playable
+            for(int i = 0; i < currDeck.size(); i++) {
+                // If suit matches play card
+                if(state.getCurrentSuit().equals(currDeck.getCards().get(i).suit)) {
+                    state.movePlay(i, state.getPlayerIndex());
+                    return;
+                }
+                // If number matches play card
+                if(state.getCurrentFace().equals(currDeck.getCards().get(i).face)) {
+                    state.movePlay(i, state.getPlayerIndex());
+                    return;
+                }
+            }
+            // None of your cards are playable keep drawing until you get a playable one
+            state.moveDraw(state.getPlayerIndex());
+        }
+        else{
+            state.nextPlayer();
+        }
 
     }
 
