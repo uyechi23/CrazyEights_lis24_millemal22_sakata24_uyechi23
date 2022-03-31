@@ -1,10 +1,13 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
+
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8InfoMessage.C8GameState;
 
 /**
  * GameBoardController
@@ -18,13 +21,19 @@ import android.widget.SeekBar;
  *
  * @version 28 March 2022
  */
-public class GameBoardController implements View.OnTouchListener,
-        View.OnClickListener, View.OnDragListener, SeekBar.OnSeekBarChangeListener {
+public class GameBoardController implements View.OnClickListener,
+        View.OnDragListener, SeekBar.OnSeekBarChangeListener {
 
     private int progress;
     private int maxprogress;
     private int displayIndex;
+    private GameBoard board;
+    private C8GameState state;
 
+    public GameBoardController(GameBoard gameBoard, C8GameState gameState){
+        this.board = gameBoard;
+        this.state = gameState;
+    }
 
     @Override
     public void onClick(View view) {
@@ -36,10 +45,6 @@ public class GameBoardController implements View.OnTouchListener,
         return false;
     }
 
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        return false;
-    }
 
     @Override
     public void onProgressChanged( SeekBar seekBar, int i, boolean b) {

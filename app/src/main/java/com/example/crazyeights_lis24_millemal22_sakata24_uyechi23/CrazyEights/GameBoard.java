@@ -75,6 +75,9 @@ public class GameBoard extends AnimationSurface {
         // if state == null, do nothing
         if(this.state == null) return;
 
+//        GameBoardController cont = new GameBoardController(this.gameBoard, this.state);
+//
+//        gameBoard.setOnTouchListener(cont);
 
 
         // initialize instance variables; cannot declare them above
@@ -83,10 +86,10 @@ public class GameBoard extends AnimationSurface {
         initBoard();
 
         // draw slots
-        canvas.drawRect(slot1, slotPaint);
-        canvas.drawRect(slot2, slotPaint);
-        canvas.drawRect(slot3, slotPaint);
-        canvas.drawRect(slot4, slotPaint);
+//        canvas.drawRect(slot1, slotPaint);
+//        canvas.drawRect(slot2, slotPaint);
+//        canvas.drawRect(slot3, slotPaint);
+//        canvas.drawRect(slot4, slotPaint);
 
         // draw player names
         canvas.drawText(this.playerNames[0], slot1.centerX(),
@@ -190,7 +193,7 @@ public class GameBoard extends AnimationSurface {
             // determine the position of this card's top/left corner
             float left = (float) (slot.left + (delta*i));
             // draw a card into the appropriate rectangle (other player hand cards should be null)
-            drawCard(g, scaledBy(new RectF(left, slot.top, left + cardSizeX,
+            drawCard(g, scaledBy(new RectF(left + (delta/2), slot.top, left + cardSizeX + (delta/2),
                             slot.top+190.0f), scaleFactor),
                     playerDeck.getCards().get(i));
         }
@@ -302,4 +305,8 @@ public class GameBoard extends AnimationSurface {
         // create/return the new rectangle
         return new RectF(left, top, right, bottom);
     }
+
+    public RectF getDrawSlot(){ return drawSlot; }
+    public RectF getSlot1(){ return slot1; }
+
 }

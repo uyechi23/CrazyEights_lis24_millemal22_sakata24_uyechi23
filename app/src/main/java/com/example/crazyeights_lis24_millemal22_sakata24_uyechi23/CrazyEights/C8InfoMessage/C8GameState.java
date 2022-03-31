@@ -1,9 +1,13 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8InfoMessage;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Card;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Deck;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.GameBoard;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.GameBoardController;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameState;
 
 import java.util.Hashtable;
@@ -104,6 +108,12 @@ public class C8GameState extends GameState {
 
         // set the hasDeclaredSuit variable
         this.hasDeclaredSuit = true;
+
+        //GameBoard gameBoard = new GameBoard();
+
+        //GameBoardController cont = new GameBoardController(this.gameBoard, this.state);
+
+        //gameBoard.setOnTouchListener(cont);
 
         // randomly choose a first turn based on seed
         Random rand = new Random(randSeed);

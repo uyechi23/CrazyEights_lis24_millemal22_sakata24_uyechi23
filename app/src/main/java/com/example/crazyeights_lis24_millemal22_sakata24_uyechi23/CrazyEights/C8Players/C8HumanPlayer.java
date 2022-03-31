@@ -2,12 +2,16 @@ package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C
 
 import android.app.Activity;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.SeekBar;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Card;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8ActionMessage.C8DrawAction;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.C8InfoMessage.C8GameState;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.GameBoard;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.GameBoardController;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.animation.Animator;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
@@ -56,6 +60,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
 
     @Override
     public void receiveInfo(GameInfo info) {
+
         if((info instanceof IllegalMoveInfo) || (info instanceof NotYourTurnInfo)){
             // if the move received is either an illegal move or it's not the current player' turn,
             // flash the screen red
@@ -135,12 +140,18 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
 
     @Override
     public void onTouch(MotionEvent event) {
-        // ignore everything except down-touch events
-        if (event.getAction() != MotionEvent.ACTION_DOWN) return;
+        float xTap = event.getX();
+        float yTap = event.getY();
 
-        // get the location of the touch on the surface
-        int x = (int) event.getX();
-        int y = (int) event.getY();
+        if (gameBoard.getDrawSlot().contains(xTap, yTap)){
+            if (state.getDrawPile().isEmpty()){
+                Log.d("error", "DrawPile is null");
+            }
+
+            C8DrawAction draw = new C8DrawAction(this);
+            game.sendAction(draw);
+            this.gameBoard.invalidate();
+        }
 
         //TODO: ignore the touch if its not on a valid position
         //TODO: send game action for drawing
