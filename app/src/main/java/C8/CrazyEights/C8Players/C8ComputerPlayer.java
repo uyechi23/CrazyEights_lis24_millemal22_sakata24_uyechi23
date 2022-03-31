@@ -1,6 +1,8 @@
 package C8.CrazyEights.C8Players;
 
 import C8.Cards.Deck;
+import C8.CrazyEights.C8ActionMessage.C8DrawAction;
+import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.GameFramework.infoMessage.GameInfo;
 import C8.GameFramework.infoMessage.GameState;
@@ -46,7 +48,13 @@ public class C8ComputerPlayer extends GameComputerPlayer {
 
         // retrieve my deck
         Deck currDeck = state.getPlayerHands().get(this.playerNum);
-        return;
+        if(this.state.getPlayerIndex() == this.playerNum) {
+            while (true){
+                game.sendAction(new C8DrawAction(this));
+                sleep(1);
+                game.sendAction(new C8PlayAction(this, state.getPlayerHands().get(this.playerNum).size()-1));
+            }
+        }
 
         //TODO: Change this from changing the state to sending actions.
 //        // Checks if its the players turn

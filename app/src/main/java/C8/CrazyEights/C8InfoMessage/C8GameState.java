@@ -342,7 +342,6 @@ public class C8GameState extends GameState {
      * @return boolean - true if valid move
      */
     public boolean moveDraw(int currPlayer) {
-        if (!(currPlayer == this.getPlayerIndex())) return false;
         boolean canMove = false; // have a boolean if the player can move
         // while the player can't move and there are cards in the draw pile
         while (!canMove && this.getDrawPile().size() > 0) {
