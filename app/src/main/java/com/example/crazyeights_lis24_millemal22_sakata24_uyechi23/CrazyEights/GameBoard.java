@@ -243,7 +243,7 @@ public class GameBoard extends AnimationSurface {
         float delta = (float)(cardSizeX/2.0);
         float left = slot.left;
 
-        drawCard(g, scaledBy(new RectF(left, slot.top, left + cardSizeX,
+        drawCard(g, scaledBy(new RectF(left+delta, slot.top, left + cardSizeX + delta,
                 slot.top+190.0f), scaleFactor), null);
     }
 
@@ -268,7 +268,7 @@ public class GameBoard extends AnimationSurface {
         float delta = (float)(cardSizeX/2.0);
         float left = slot.left;
 
-        drawCard(g, scaledBy(new RectF(left, slot.top, left + cardSizeX,
+        drawCard(g, scaledBy(new RectF(left+delta, slot.top, left + cardSizeX + delta,
                         slot.top+190.0f), scaleFactor),
                 pile.peekTopCard());
     }
