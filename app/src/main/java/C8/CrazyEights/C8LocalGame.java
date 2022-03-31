@@ -84,7 +84,7 @@ public class C8LocalGame extends LocalGame {
         // check type of action
         if(action instanceof C8DrawAction) {
             // returns true if a move was made, returns false if draw pile empty
-            return state.moveDraw(state.getPlayerIndex());
+            return state.drawCard();
         }
         else if(action instanceof C8PlayAction) {
             // returns true if valid move was made, false if card was not played

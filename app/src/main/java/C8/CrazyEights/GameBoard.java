@@ -104,6 +104,7 @@ public class GameBoard extends AnimationSurface {
                 drawSlot.bottom-(int)(0.5*fontSize), textPaint);
         canvas.drawText("Discard", discardSlot.centerX(),
                 discardSlot.bottom-(int)(0.5*fontSize), textPaint);
+        canvas.drawText("Player" + this.playerNames[state.getPlayerIndex()], 20, 20, textPaint);
 
         // draw player hands
         drawPlayerHand(canvas, slot1, state.getPlayerHands().get(0), playerHandIndex);

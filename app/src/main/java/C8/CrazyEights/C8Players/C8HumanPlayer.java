@@ -93,7 +93,6 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         // update the GUI with the current GameState object
         if(state != null) receiveInfo(state);
 
-
     }
 
     public String getName() {

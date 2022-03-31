@@ -1,6 +1,8 @@
 package C8.CrazyEights.C8Players;
 
 import C8.Cards.Deck;
+import C8.CrazyEights.C8ActionMessage.C8DrawAction;
+import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.GameFramework.infoMessage.GameInfo;
 import C8.GameFramework.infoMessage.GameState;
@@ -46,27 +48,33 @@ public class C8ComputerPlayer extends GameComputerPlayer {
 
         // retrieve my deck
         Deck currDeck = state.getPlayerHands().get(this.playerNum);
-
-        if (state.getPlayerIndex() == this.playerNum){
-            // Check all cards in hand to see if any are playable
-            for(int i = 0; i < currDeck.size(); i++) {
-                // If suit matches play card
-                if(state.getCurrentSuit().equals(currDeck.getCards().get(i).suit)) {
-                    state.movePlay(i, state.getPlayerIndex());
-                    return;
-                }
-                // If number matches play card
-                if(state.getCurrentFace().equals(currDeck.getCards().get(i).face)) {
-                    state.movePlay(i, state.getPlayerIndex());
-                    return;
-                }
+        if(this.state.getPlayerIndex() == this.playerNum) {
+            while (true){
+                game.sendAction(new C8DrawAction(this));
+                sleep(1);
+                game.sendAction(new C8PlayAction(this, state.getPlayerHands().get(this.playerNum).size()-1));
             }
-            // None of your cards are playable keep drawing until you get a playable one
-            state.moveDraw(state.getPlayerIndex());
         }
-        else{
-            state.nextPlayer();
-        }
+
+        //TODO: Change this from changing the state to sending actions.
+//        // Checks if its the players turn
+//        if(state.getPlayerIndex() == this.playerNum){
+//            // Check all cards in hand to see if any are playable
+//            for(int i = 0; i < currDeck.size(); i++) {
+//                // If suit matches play card
+//                if(state.getCurrentSuit().equals(currDeck.getCards().get(i).suit)) {
+//                    state.movePlay(i, state.getPlayerIndex());
+//                    return;
+//                }
+//                // If number matches play card
+//                if(state.getCurrentFace().equals(currDeck.getCards().get(i).face)) {
+//                    state.movePlay(i, state.getPlayerIndex());
+//                    return;
+//                }
+//            }
+//            // None of your cards are playable keep drawing until you get a playable one
+//            state.moveDraw(state.getPlayerIndex());
+//        }
 
     }
 
