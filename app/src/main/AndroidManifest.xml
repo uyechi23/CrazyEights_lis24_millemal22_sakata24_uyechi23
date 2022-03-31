@@ -19,7 +19,7 @@
         -->
 
         <activity
-            android:name=".CrazyEights.C8MainActivity"
+            android:name="C8.CrazyEights.C8MainActivity"
             android:exported="true"
             android:screenOrientation="fullSensor">
             <intent-filter>

@@ -1,6 +1,6 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Card;
+import C8.Cards.Card;
 
 import junit.framework.TestCase;
 

@@ -52,7 +52,7 @@
 
         </LinearLayout>
 
-        <com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.GameBoard
+        <C8.CrazyEights.GameBoard
             android:id="@+id/gameBoard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
