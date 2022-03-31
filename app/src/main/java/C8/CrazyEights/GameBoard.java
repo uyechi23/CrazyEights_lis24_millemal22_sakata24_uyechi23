@@ -86,10 +86,10 @@ public class GameBoard extends AnimationSurface {
         initBoard();
 
         // draw slots
-        canvas.drawRect(slot1, slotPaint);
-        canvas.drawRect(slot2, slotPaint);
-        canvas.drawRect(slot3, slotPaint);
-        canvas.drawRect(slot4, slotPaint);
+//        canvas.drawRect(slot1, slotPaint);
+//        canvas.drawRect(slot2, slotPaint);
+//        canvas.drawRect(slot3, slotPaint);
+//        canvas.drawRect(slot4, slotPaint);
 
         // draw player names
         canvas.drawText(this.playerNames[0], slot1.centerX(),
@@ -183,8 +183,8 @@ public class GameBoard extends AnimationSurface {
      */
     private void drawPlayerHand(Canvas g, RectF slot, Deck playerDeck, int handIndex) {
         // the card dimensions
-        float cardSizeY = (slot.bottom - slot.top) * 0.9f;
-        float cardSizeX = cardSizeY * 0.74f;
+        float cardSizeY = (slot.bottom - slot.top) * 0.8f;
+        float cardSizeX = cardSizeY * 0.7f;
         // delta locations to draw cards nicely within the slots
         float delta = (slot.right - slot.left - cardSizeX)/(playerDeck.size() - 1.0f);
         float guiDelta = (slot.right - slot.left - cardSizeX) / 2.0f;
@@ -257,8 +257,8 @@ public class GameBoard extends AnimationSurface {
         }
 
         // card dimensions
-        float cardSizeY = (slot.bottom - slot.top) * 0.9f;
-        float cardSizeX = cardSizeY * 0.74f;
+        float cardSizeY = (slot.bottom - slot.top) * 0.85f;
+        float cardSizeX = cardSizeY * 0.7f;
         float left = slot.centerX() - (cardSizeX / 2.0f);
 
         // draw singular card to denote draw pile
@@ -281,8 +281,8 @@ public class GameBoard extends AnimationSurface {
         }
 
         // card dimensions
-        float cardSizeY = (slot.bottom - slot.top) * 0.9f;
-        float cardSizeX = cardSizeY * 0.74f;
+        float cardSizeY = (slot.bottom - slot.top) * 0.85f;
+        float cardSizeX = cardSizeY * 0.7f;
         float left = slot.centerX() - (cardSizeX / 2.0f);
 
         // draw singular top card to denote discard pile
@@ -319,4 +319,8 @@ public class GameBoard extends AnimationSurface {
         // create/return the new rectangle
         return new RectF(left, top, right, bottom);
     }
+
+    public RectF getDrawSlot(){ return drawSlot; }
+    public RectF getSlot1(){ return slot1; }
+
 }

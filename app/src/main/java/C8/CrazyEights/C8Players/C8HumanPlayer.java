@@ -2,11 +2,13 @@ package C8.CrazyEights.C8Players;
 
 import android.app.Activity;
 import android.graphics.Canvas;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
 
 import C8.Cards.Card;
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
+import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.CrazyEights.GameBoard;
 import C8.GameFramework.GameMainActivity;
@@ -141,7 +143,32 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         // get the location of the touch on the surface
         int x = (int) event.getX();
         int y = (int) event.getY();
-        game.sendAction(new C8DrawAction(this));
+
+        /**
+         * do something with coordinates
+         */
+        if(gameBoard.getDrawSlot().contains(x,y)) {
+            game.sendAction(new C8DrawAction(this));
+        }
+        else if(gameBoard.getSlot1().contains(x,y)){
+
+            float card1x = (((gameBoard.getSlot1().left +
+                    gameBoard.getSlot1().right)*4)/9);
+            float card2x = (((gameBoard.getSlot1().left +
+                    gameBoard.getSlot1().right)*5)/9);
+            float card3x = (((gameBoard.getSlot1().left +
+                    gameBoard.getSlot1().right)*6)/9);
+
+            if(x<=card1x) {
+                game.sendAction(new C8PlayAction(this, 0));
+            }
+            else if(x <= card2x){
+                game.sendAction(new C8PlayAction(this, 1));
+            }
+            else{
+                game.sendAction(new C8PlayAction(this, 2));
+            }
+        }
 
         //TODO: ignore the touch if its not on a valid position
         //TODO: send game action for drawing
