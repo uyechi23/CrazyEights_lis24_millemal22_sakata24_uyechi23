@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Card;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Cards.Deck;
@@ -47,10 +48,7 @@ public class GameBoard extends AnimationSurface {
      */
 
     // slot dimensions
-    RectF slot1;
-    RectF slot2;
-    RectF slot3;
-    RectF slot4;
+    RectF slot1, slot2, slot3, slot4, drawSlot, discardSlot;
 
     // text size
     float fontSize = 30.0f;
@@ -99,12 +97,18 @@ public class GameBoard extends AnimationSurface {
                 slot3.bottom - (int) (0.5 * fontSize), textPaint);
         canvas.drawText(this.playerNames[3], slot4.centerX(),
                 slot4.bottom - (int) (0.5 * fontSize), textPaint);
+        canvas.drawText("Draw", drawSlot.centerX(),
+                drawSlot.bottom-(int)(0.5*fontSize), textPaint);
+        canvas.drawText("Discard", discardSlot.centerX(),
+                discardSlot.bottom-(int)(0.5*fontSize), textPaint);
 
         // draw player hands
         drawPlayerHand(canvas, slot1, state.getPlayerHands().get(0));
         drawPlayerHand(canvas, slot2, state.getPlayerHands().get(1));
         drawPlayerHand(canvas, slot3, state.getPlayerHands().get(2));
         drawPlayerHand(canvas, slot4, state.getPlayerHands().get(3));
+        makeDrawPile(canvas, drawSlot, state.getDrawPile());
+        drawDiscardPile(canvas, discardSlot, state.getDiscardPile());
 
        //drawCard(canvas, slot1, state.getDiscardPile().peekTopCard()); //this did not work at all
     }
@@ -136,12 +140,21 @@ public class GameBoard extends AnimationSurface {
          */
         slot1 = new RectF((float) (boardWidth/3), (float) (2 * (boardHeight/3)),
                 (float) ((boardWidth/3) * 2), (float) boardHeight);
+
         slot2 = new RectF(0, (float) (boardHeight/3),
                 (float) (boardWidth/3), (float) (2 * (boardHeight/3)));
+
         slot3 = new RectF((float) (boardWidth/3), 0,
                 (float) ((boardWidth/3) * 2), (float) (boardHeight/3));
+
         slot4 = new RectF((float) ((boardWidth/3) * 2), (float) (boardHeight/3),
                 (float) boardWidth, (float) (2 * (boardHeight/3)));
+
+        discardSlot = new RectF((float) (boardWidth/3), (float) (boardHeight/3),
+                (float) (((boardWidth/2))), (float) (2 * (boardHeight/3)));
+
+        drawSlot = new RectF((float) (boardWidth/2), (float) (boardHeight/3),
+                (float) ((boardWidth/3) * 2), (float) (2 * (boardHeight/3)));
 
 
         // slot paint
@@ -169,7 +182,7 @@ public class GameBoard extends AnimationSurface {
         float cardSizeX = 140.0f;
         float cardSizeY = 190.0f;
         // scale factor to fit nicely into the slot (-0.3 for a little smaller than the slot)
-        float scaleFactor = ((slot.bottom-slot.top)/cardSizeY) - 0.3f;
+        float scaleFactor = ((slot.bottom-slot.top)/cardSizeY) - 0.4f;
         //
         float delta = (float)(cardSizeX/2.0);
         // loop through from top to back, drawing each card offset a little
@@ -202,6 +215,62 @@ public class GameBoard extends AnimationSurface {
             // just draw the card
             c.drawOn(g, rect);
         }
+    }
+
+
+    /**
+     * draws the back of a card, that when tapped will act as a draw pile
+     * won't appear if the draw pile is empty
+     *
+     * @param g
+     *      the canvas object
+     * @param slot
+     *      a rectangle defining the location to draw the card
+     * @param pile
+     *      checks if the deck is empty and if not,
+     *      it draws the back of a card
+     */
+    private static void makeDrawPile(Canvas g, RectF slot, Deck pile){
+        if (pile.isEmpty()){
+            return;
+        }
+
+        float cardSizeX = 140.0f;
+        float cardSizeY = 190.0f;
+        // scale factor to fit nicely into the slot (-0.3 for a little smaller than the slot)
+        float scaleFactor = ((slot.bottom-slot.top)/cardSizeY) - 0.4f;
+        //
+        float delta = (float)(cardSizeX/2.0);
+        float left = slot.left;
+
+        drawCard(g, scaledBy(new RectF(left, slot.top, left + cardSizeX,
+                slot.top+190.0f), scaleFactor), null);
+    }
+
+    /**
+     * draws the top card of the discard pile
+     * puts an error message in the log if the discard
+     * pile is empty which shouldn't happen
+     *
+     * @param g
+     * @param slot
+     * @param pile
+     */
+    private static void drawDiscardPile(Canvas g, RectF slot, Deck pile){
+        if (pile.isEmpty()){
+            Log.d("error", "Discard Pile null");
+        }
+        float cardSizeX = 140.0f;
+        float cardSizeY = 190.0f;
+        // scale factor to fit nicely into the slot (-0.3 for a little smaller than the slot)
+        float scaleFactor = ((slot.bottom-slot.top)/cardSizeY) - 0.4f;
+        //
+        float delta = (float)(cardSizeX/2.0);
+        float left = slot.left;
+
+        drawCard(g, scaledBy(new RectF(left, slot.top, left + cardSizeX,
+                        slot.top+190.0f), scaleFactor),
+                pile.peekTopCard());
     }
 
     /**
