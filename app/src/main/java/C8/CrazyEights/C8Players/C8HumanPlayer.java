@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import C8.Cards.Card;
+import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.CrazyEights.GameBoard;
 import C8.GameFramework.GameMainActivity;
@@ -141,6 +142,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         // get the location of the touch on the surface
         int x = (int) event.getX();
         int y = (int) event.getY();
+        game.sendAction(new C8DrawAction(this));
 
         //TODO: ignore the touch if its not on a valid position
         //TODO: send game action for drawing

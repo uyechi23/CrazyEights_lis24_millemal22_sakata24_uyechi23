@@ -57,6 +57,9 @@ public class GameBoard extends AnimationSurface {
     Paint slotPaint = new Paint();
     Paint textPaint = new Paint();
 
+    // player hand index
+    int playerHandIndex = 0;
+
     public GameBoard(Context context) {
         super(context);
         setWillNotDraw(false);
@@ -103,10 +106,10 @@ public class GameBoard extends AnimationSurface {
                 discardSlot.bottom-(int)(0.5*fontSize), textPaint);
 
         // draw player hands
-        drawPlayerHand(canvas, slot1, state.getPlayerHands().get(0));
-        drawPlayerHand(canvas, slot2, state.getPlayerHands().get(1));
-        drawPlayerHand(canvas, slot3, state.getPlayerHands().get(2));
-        drawPlayerHand(canvas, slot4, state.getPlayerHands().get(3));
+        drawPlayerHand(canvas, slot1, state.getPlayerHands().get(0), playerHandIndex);
+        drawPlayerHand(canvas, slot2, state.getPlayerHands().get(1), 0);
+        drawPlayerHand(canvas, slot3, state.getPlayerHands().get(2), 0);
+        drawPlayerHand(canvas, slot4, state.getPlayerHands().get(3), 0);
         makeDrawPile(canvas, drawSlot, state.getDrawPile());
         drawDiscardPile(canvas, discardSlot, state.getDiscardPile());
 
@@ -151,7 +154,7 @@ public class GameBoard extends AnimationSurface {
                 (float) boardWidth, (float) (2 * (boardHeight/3)));
 
         discardSlot = new RectF((float) (boardWidth/3), (float) (boardHeight/3),
-                (float) (((boardWidth/2))), (float) (2 * (boardHeight/3)));
+                (float) (boardWidth/2), (float) (2 * (boardHeight/3)));
 
         drawSlot = new RectF((float) (boardWidth/2), (float) (boardHeight/3),
                 (float) ((boardWidth/3) * 2), (float) (2 * (boardHeight/3)));
@@ -177,22 +180,39 @@ public class GameBoard extends AnimationSurface {
      * @param playerDeck
      * 		the hand of the player to draw
      */
-    private void drawPlayerHand(Canvas g, RectF slot, Deck playerDeck) {
-        // the card bitmap dimensions
-        float cardSizeX = 140.0f;
-        float cardSizeY = 190.0f;
-        // scale factor to fit nicely into the slot (-0.3 for a little smaller than the slot)
-        float scaleFactor = ((slot.bottom-slot.top)/cardSizeY) - 0.4f;
-        //
-        float delta = (float)(cardSizeX/2.0);
-        // loop through from top to back, drawing each card offset a little
-        for (int i = 0; i < playerDeck.size(); i++) {
-            // determine the position of this card's top/left corner
-            float left = (float) (slot.left + (delta*i));
-            // draw a card into the appropriate rectangle (other player hand cards should be null)
-            drawCard(g, scaledBy(new RectF(left, slot.top, left + cardSizeX,
-                            slot.top+190.0f), scaleFactor),
-                    playerDeck.getCards().get(i));
+    private void drawPlayerHand(Canvas g, RectF slot, Deck playerDeck, int handIndex) {
+        // the card dimensions
+        float cardSizeY = (slot.bottom - slot.top) * 0.9f;
+        float cardSizeX = cardSizeY * 0.74f;
+        // delta locations to draw cards nicely within the slots
+        float delta = (slot.right - slot.left - cardSizeX)/(playerDeck.size() - 1.0f);
+        float guiDelta = (slot.right - slot.left - cardSizeX) / 2.0f;
+        // if non-gui hand
+        if(playerDeck.getCards().get(0) == null) {
+            // loop through from top to back, drawing each card offset a little
+            for (int i = 0; i < playerDeck.size(); i++) {
+                // determine the position of this card's top/left corner
+                float left = (float) (slot.left + (delta*i));
+                // draw a card into the appropriate rectangle (other player hand cards should be null)
+                drawCard(g, new RectF(left, slot.top, left + cardSizeX,
+                                slot.top + cardSizeY),
+                        playerDeck.getCards().get(i));
+            }
+        }
+        // gui hand
+        else {
+            drawCard(g, new RectF(slot.left, slot.top,
+                            slot.left + cardSizeX,
+                            slot.top + cardSizeY),
+                    playerDeck.getCards().get(handIndex));
+            drawCard(g, new RectF(slot.left + guiDelta, slot.top,
+                            slot.left + guiDelta + cardSizeX,
+                            slot.top + cardSizeY),
+                    playerDeck.getCards().get(handIndex+1));
+            drawCard(g, new RectF(slot.left + (guiDelta*2), slot.top,
+                            slot.left + (guiDelta*2) + cardSizeX,
+                            slot.top + cardSizeY),
+                    playerDeck.getCards().get(handIndex+2));
         }
     }
 
@@ -235,16 +255,14 @@ public class GameBoard extends AnimationSurface {
             return;
         }
 
-        float cardSizeX = 140.0f;
-        float cardSizeY = 190.0f;
-        // scale factor to fit nicely into the slot (-0.3 for a little smaller than the slot)
-        float scaleFactor = ((slot.bottom-slot.top)/cardSizeY) - 0.4f;
-        //
-        float delta = (float)(cardSizeX/2.0);
-        float left = slot.left;
+        // card dimensions
+        float cardSizeY = (slot.bottom - slot.top) * 0.9f;
+        float cardSizeX = cardSizeY * 0.74f;
+        float left = slot.centerX() - (cardSizeX / 2.0f);
 
-        drawCard(g, scaledBy(new RectF(left+delta, slot.top, left + cardSizeX + delta,
-                slot.top+190.0f), scaleFactor), null);
+        // draw singular card to denote draw pile
+        drawCard(g, new RectF(left, slot.top, left + cardSizeX,
+                slot.top + cardSizeY), null);
     }
 
     /**
@@ -260,17 +278,15 @@ public class GameBoard extends AnimationSurface {
         if (pile.isEmpty()){
             Log.d("error", "Discard Pile null");
         }
-        float cardSizeX = 140.0f;
-        float cardSizeY = 190.0f;
-        // scale factor to fit nicely into the slot (-0.3 for a little smaller than the slot)
-        float scaleFactor = ((slot.bottom-slot.top)/cardSizeY) - 0.4f;
-        //
-        float delta = (float)(cardSizeX/2.0);
-        float left = slot.left;
 
-        drawCard(g, scaledBy(new RectF(left+delta, slot.top, left + cardSizeX + delta,
-                        slot.top+190.0f), scaleFactor),
-                pile.peekTopCard());
+        // card dimensions
+        float cardSizeY = (slot.bottom - slot.top) * 0.9f;
+        float cardSizeX = cardSizeY * 0.74f;
+        float left = slot.centerX() - (cardSizeX / 2.0f);
+
+        // draw singular top card to denote discard pile
+        drawCard(g, new RectF(left, slot.top, left + cardSizeX,
+                slot.top + cardSizeY), pile.peekTopCard());
     }
 
     /**

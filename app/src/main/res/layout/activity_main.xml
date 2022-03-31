@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:max="10"
-                android:progress="3" />
+                android:progress="0" />
 
             <Space
                 android:layout_width="wrap_content"
