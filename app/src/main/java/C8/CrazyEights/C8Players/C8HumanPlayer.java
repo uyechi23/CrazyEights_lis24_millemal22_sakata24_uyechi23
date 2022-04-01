@@ -89,6 +89,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
                 this.playerHandIndex--;
             }
             this.gameBoard.updateMode(this.state, this.allPlayerNames, this.playerHandIndex);
+            updateSeekBar();
         }
         // any other types of GameInfo objects passed to here do nothing
     }

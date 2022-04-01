@@ -191,32 +191,35 @@ public class GameBoard extends AnimationSurface {
         float delta = (slot.right - slot.left - cardSizeX)/(playerDeck.size() - 1.0f);
         float guiDelta = (slot.right - slot.left - cardSizeX) / 2.0f;
         // if non-gui hand
-        if(playerDeck.getCards().get(0) == null) {
-            // loop through from top to back, drawing each card offset a little
-            for (int i = 0; i < playerDeck.size(); i++) {
-                // determine the position of this card's top/left corner
-                float left = (float) (slot.left + (delta*i));
-                // draw a card into the appropriate rectangle (other player hand cards should be null)
-                drawCard(g, new RectF(left, slot.top, left + cardSizeX,
-                                slot.top + cardSizeY),
-                        playerDeck.getCards().get(i));
-            }
-        }
-        // gui hand
-        else {
-            if(playerDeck.size() >= 3){
-                for(int i = 0; i < 3; i++){
-                    float left = (float) (slot.left + (guiDelta*i));
+        if(playerDeck.size() > 0) {
+            if (playerDeck.getCards().get(0) == null) {
+                // loop through from top to back, drawing each card offset a little
+                for (int i = 0; i < playerDeck.size(); i++) {
+                    // determine the position of this card's top/left corner
+                    float left = (float) (slot.left + (delta * i));
+                    // draw a card into the appropriate rectangle (other player hand cards should be null)
                     drawCard(g, new RectF(left, slot.top, left + cardSizeX,
                                     slot.top + cardSizeY),
-                            playerDeck.getCards().get(handIndex + i));
+                            playerDeck.getCards().get(i));
                 }
-            }else{
-                for(int i = 0; i < playerDeck.size(); i++){
-                    float left = (float) (slot.left + (guiDelta*i));
-                    drawCard(g, new RectF(left, slot.top, left + cardSizeX,
-                                    slot.top + cardSizeY),
-                            playerDeck.getCards().get(handIndex + i));
+            }
+            // gui hand
+            else {
+                if (playerDeck.size() >= 3) {
+                    for (int i = 0; i < 3; i++) {
+                        float left = (float) (slot.left + (guiDelta * i));
+                        drawCard(g, new RectF(left, slot.top, left + cardSizeX,
+                                        slot.top + cardSizeY),
+                                playerDeck.getCards().get(handIndex + i));
+                    }
+                } else if (playerDeck.size() == 2 || playerDeck.size() == 1) {
+                    for (int i = 0; i < playerDeck.size(); i++) {
+                        float left = (float) (slot.left + (guiDelta * i));
+                        Log.d("Error", "" + handIndex + " " + i);
+                        drawCard(g, new RectF(left, slot.top, left + cardSizeX,
+                                        slot.top + cardSizeY),
+                                playerDeck.getCards().get(handIndex + i));
+                    }
                 }
             }
         }

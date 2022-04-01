@@ -61,7 +61,7 @@ public class C8ComputerPlayer extends GameComputerPlayer {
             for(Card c : currDeck.getCards()){
                 if(c.isValid(this.state.getDiscardPile().peekTopCard())){
                     C8PlayAction play = new C8PlayAction(this, i, false);
-                    sleep(2);
+                    sleep(0.5);
                     this.game.sendAction(play);
                     break;
                 }
@@ -70,7 +70,7 @@ public class C8ComputerPlayer extends GameComputerPlayer {
         }else{
             // ...draw a card
             C8DrawAction draw = new C8DrawAction(this);
-            sleep(2);
+            sleep(0.5);
             this.game.sendAction(draw);
         }
 
