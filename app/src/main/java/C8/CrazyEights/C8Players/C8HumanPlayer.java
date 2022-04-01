@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import C8.Cards.Card;
+import C8.Cards.Deck;
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
@@ -69,7 +70,9 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
     @Override
     public void receiveInfo(GameInfo info) {
 
-        if(info instanceof NotYourTurnInfo || info == null){
+        if(info instanceof NotYourTurnInfo
+                || info == null
+                || info instanceof IllegalMoveInfo){
             // if the move received is either an illegal move or it's not the current player' turn,
             // flash the screen red
             gameBoard.flash(0xFFFF0000, 50);
@@ -172,15 +175,25 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
             float card3x = (((gameBoard.getSlot1().left +
                     gameBoard.getSlot1().right)*6)/9);
 
+            // the position of the visible cards that was tapped
+            int positionSelection;
             if(x<=card1x) {
-                game.sendAction(new C8PlayAction(this,
-                        MAX_CARD_DISPLAY * currProgress));
+                positionSelection = 0;
             }else if(x <= card2x){
-                game.sendAction(new C8PlayAction(this,
-                        1 + MAX_CARD_DISPLAY * currProgress));
-            }else if(x <= card3x){
-                game.sendAction(new C8PlayAction(this,
-                        2 + MAX_CARD_DISPLAY * currProgress));
+                positionSelection = 1;
+            }else{
+                positionSelection = 2;
+            }
+
+            // the index of the card in the player's hand that was selected
+            int chosen = positionSelection + MAX_CARD_DISPLAY * currProgress;
+
+            // retrieve the player's hand
+            Deck currHand = this.state.getPlayerHands().get(this.playerNum);
+            if(currHand.getCards().get(chosen).getFace().equals("Eight")) {
+                game.sendAction(new C8PlayAction(this, chosen, true));
+            }else{
+                game.sendAction(new C8PlayAction(this, chosen, false));
             }
         }
 

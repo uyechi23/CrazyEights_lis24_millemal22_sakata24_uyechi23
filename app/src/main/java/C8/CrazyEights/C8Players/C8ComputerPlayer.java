@@ -60,7 +60,7 @@ public class C8ComputerPlayer extends GameComputerPlayer {
             // ...play the first valid card in hand
             for(Card c : currDeck.getCards()){
                 if(c.isValid(this.state.getDiscardPile().peekTopCard())){
-                    C8PlayAction play = new C8PlayAction(this, i);
+                    C8PlayAction play = new C8PlayAction(this, i, false);
                     sleep(2);
                     this.game.sendAction(play);
                     break;

@@ -327,6 +327,8 @@ public class C8GameState extends GameState {
      * @return boolean - true if valid move
      */
     public boolean movePlay(int index) {
+        Card play = this.getPlayerHands().get(this.getPlayerIndex()).getCards().get(index);
+        if(!play.isValid(this.getDiscardPile().peekTopCard())) return false;
         this.playCard(index); // play the card
         this.checkToChangeSuit(); // check if the suit needs to be changed
         this.nextPlayer(); // move to next player
