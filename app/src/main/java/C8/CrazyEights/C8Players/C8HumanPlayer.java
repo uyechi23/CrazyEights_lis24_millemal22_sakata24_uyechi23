@@ -84,10 +84,6 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
             // call the onDraw() method by invalidating the View
             this.gameBoard.invalidate();
             // update the game state using .updateMode()
-            if(this.playerHandIndex >
-                    this.state.getPlayerHands().get(this.playerNum).size() - MAX_CARD_DISPLAY){
-                this.playerHandIndex--;
-            }
             this.gameBoard.updateMode(this.state, this.allPlayerNames, this.playerHandIndex);
             updateSeekBar();
         }
