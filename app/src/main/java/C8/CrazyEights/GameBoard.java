@@ -7,8 +7,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
+import android.widget.SeekBar;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
 
@@ -82,8 +81,6 @@ public class GameBoard extends AnimationSurface {
         // if state == null, do nothing
         if(this.state == null) return;
 
-
-
         // initialize instance variables; cannot declare them above
         // since the getWidth() and getHeight() methods do not work
         // until the canvas is initialized
@@ -108,8 +105,7 @@ public class GameBoard extends AnimationSurface {
                 drawSlot.bottom-(int)(0.5*fontSize), textPaint);
         canvas.drawText("Discard", discardSlot.centerX(),
                 discardSlot.bottom-(int)(0.5*fontSize), textPaint);
-        canvas.drawText("Player" + this.playerNames[state.getPlayerIndex()],
-                20, 20, textPaint);
+        canvas.drawText("Player" + this.playerNames[state.getPlayerIndex()], 20, 20, textPaint);
 
         // draw player hands
         drawPlayerHand(canvas, slot1, state.getPlayerHands().get(0), playerHandIndex);
@@ -119,15 +115,7 @@ public class GameBoard extends AnimationSurface {
         makeDrawPile(canvas, drawSlot, state.getDrawPile());
         drawDiscardPile(canvas, discardSlot, state.getDiscardPile());
 
-        if(this.state.getDrawPile().size() != 0) {
-            canvas.drawText("" + this.state.getDrawPile().size(), drawSlot.centerX(),
-                    drawSlot.centerY() - (int) (0.5 * fontSize), textPaint);
-        }
-
-        if(this.state.checkGameOver() != null){
-            TextView winner = findViewById(R.id.winnerBox);
-            winner.setText(this.state.checkGameOver());
-        }
+       //drawCard(canvas, slot1, state.getDiscardPile().peekTopCard()); //this did not work at all
     }
 
     /**

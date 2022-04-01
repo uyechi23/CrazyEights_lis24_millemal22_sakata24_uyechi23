@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 
 import C8.Cards.Card;
 import C8.Cards.Deck;
-import C8.CrazyEights.C8LocalGame;
-import C8.GameFramework.Game;
 import C8.GameFramework.infoMessage.GameState;
 
 import java.util.Hashtable;
@@ -255,7 +253,7 @@ public class C8GameState extends GameState {
     }
 
     public void setPlayerIndex(int index) {
-        playerIndex = index;
+        this.playerIndex = index;
     }
 
     public void setPlayerHands(Hashtable<Integer, Deck> table) {
@@ -326,11 +324,9 @@ public class C8GameState extends GameState {
      * movePlay(index, currPlayer)
      *
      * @param index      - the index of the card to play
-     * @param currPlayer - the number of the player making the move
      * @return boolean - true if valid move
      */
-    public boolean movePlay(int index, int currPlayer) {
-        if (!(currPlayer == this.getPlayerIndex())) return false;
+    public boolean movePlay(int index) {
         this.playCard(index); // play the card
         this.checkToChangeSuit(); // check if the suit needs to be changed
         this.nextPlayer(); // move to next player
@@ -340,21 +336,23 @@ public class C8GameState extends GameState {
     /**
      * moveDraw(currPlayer)
      *
-     * @param currPlayer - the name of the player making the move
      * @return boolean - true if valid move
      */
-    public boolean moveDraw(int currPlayer) {
+    public boolean moveDraw() {
         boolean canMove = false; // have a boolean if the player can move
         // while the player can't move and there are cards in the draw pile
-        while (!canMove && this.getDrawPile().size() > 0) {
-            this.drawCard();
-            canMove = this.checkIfValid(currPlayer);
+        if (this.getDrawPile().size() > 0) {
+            synchronized (this.getDrawPile()) {
+                this.drawCard();
+            }
+            canMove = checkIfValid(this.playerIndex);
         }
+
         if (canMove) {
             this.playLastCard(); // if the player can move, play the last card, else pass
             this.checkToChangeSuit(); // check if the suit needs to be changed
+            this.nextPlayer(); // move to next player
         }
-        this.nextPlayer(); // move to next player
         return true;
     }
 
@@ -449,8 +447,7 @@ public class C8GameState extends GameState {
             // if it is, return false without doing anything
             return false;
         } else {
-            Objects.requireNonNull(playerHands.get(this.playerIndex)).add(this.drawPile.removeTopCard());
-            //nextPlayer();
+            playerHands.get(this.playerIndex).add(this.drawPile.removeTopCard());
             return true;
         }
     }
@@ -478,8 +475,6 @@ public class C8GameState extends GameState {
 
         // set the hasDeclaredSuit boolean to false if top card is 8
         setHasDeclaredSuit(!(this.getDiscardPile().peekTopCard().getFace().equals("Eight")));
-
-        //nextPlayer();
 
         // return true for valid move
         return true;
@@ -552,7 +547,7 @@ public class C8GameState extends GameState {
      */
     public boolean nextPlayer() {
         // increment the player index and set the playerTurn variable to be the next player
-        setPlayerIndex((this.playerIndex + 1) % (this.playerHands.size()));
+        this.playerIndex = (this.playerIndex + 1) % (this.playerHands.size());
         return true;
     }
 
@@ -627,8 +622,7 @@ public class C8GameState extends GameState {
         // loop through all players
         for(int p : this.getPlayerHands().keySet()){
             // if a player's hand is empty
-            if(this.getPlayerHands().get(p).isEmpty()){
-                return "Player " + p; }
+            if(this.getPlayerHands().get(p).isEmpty()) return "Player " + p;
         }
         return null;
     }

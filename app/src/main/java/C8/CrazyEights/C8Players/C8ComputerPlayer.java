@@ -48,42 +48,31 @@ public class C8ComputerPlayer extends GameComputerPlayer {
         // if it's not the current player's turn, return
         if(this.state.getPlayerIndex() != this.playerNum) return;
 
-        if (this.state.checkGameOver() != null){
-            return;
-        }
-
         // retrieve my deck
         Deck currDeck = state.getPlayerHands().get(this.playerNum);
 
         // find if the player's hand contains valid cards
-        //boolean canMove = this.state.checkIfValid(this.playerNum);
+        boolean canMove = this.state.checkIfValid(this.playerNum);
 
         // if player can move...
         int i = 0;
-        //if(canMove){
+        if(canMove){
             // ...play the first valid card in hand
             for(Card c : currDeck.getCards()){
-                //if(c.isValid(this.state.getDiscardPile().peekTopCard())){
-                    this.sleep(1);
+                if(c.isValid(this.state.getDiscardPile().peekTopCard())){
                     C8PlayAction play = new C8PlayAction(this, i);
+                    sleep(2);
                     this.game.sendAction(play);
                     break;
                 }
                 i++;
-            //}
-            return;
-//        }else{
-//            if (this.state.getDrawPile().isEmpty()){
-//                this.state.skipTurn();
-//                return;
-//            }
-//            // ...draw a card
-//            this.sleep(1);
-//            C8DrawAction draw = new C8DrawAction(this);
-//            this.game.sendAction(draw);
-//            this.state.nextPlayer();
-//            return;
-//        }
+            }
+        }else{
+            // ...draw a card
+            C8DrawAction draw = new C8DrawAction(this);
+            sleep(2);
+            this.game.sendAction(draw);
+        }
 
     }
 
