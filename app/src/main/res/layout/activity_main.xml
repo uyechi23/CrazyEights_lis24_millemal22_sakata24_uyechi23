@@ -50,6 +50,15 @@
                 android:tooltipText="@string/settings_icon_desc"
                 tools:ignore="RedundantDescriptionCheck" />
 
+            <TextView
+                android:id="@+id/winnerBox"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="48sp" />
+
         </LinearLayout>
 
         <C8.CrazyEights.GameBoard

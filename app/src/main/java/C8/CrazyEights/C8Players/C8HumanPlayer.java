@@ -140,6 +140,11 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         // ignore everything except down-touch events
         if (event.getAction() != MotionEvent.ACTION_DOWN) return;
 
+
+        if (this.state.checkGameOver() != null){
+            return;
+        }
+
         // get the location of the touch on the surface
         int x = (int) event.getX();
         int y = (int) event.getY();
@@ -149,6 +154,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
          */
         if(gameBoard.getDrawSlot().contains(x,y)) {
             game.sendAction(new C8DrawAction(this));
+            this.state.nextPlayer();
         }
         else if(gameBoard.getSlot1().contains(x,y)){
 
@@ -161,12 +167,15 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
 
             if(x<=card1x) {
                 game.sendAction(new C8PlayAction(this, 0));
+                this.state.nextPlayer();
             }
             else if(x <= card2x){
                 game.sendAction(new C8PlayAction(this, 1));
+                this.state.nextPlayer();
             }
             else{
                 game.sendAction(new C8PlayAction(this, 2));
+                this.state.nextPlayer();
             }
         }
 

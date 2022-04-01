@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import C8.Cards.Card;
 import C8.Cards.Deck;
+import C8.CrazyEights.C8LocalGame;
+import C8.GameFramework.Game;
 import C8.GameFramework.infoMessage.GameState;
 
 import java.util.Hashtable;
@@ -253,7 +255,7 @@ public class C8GameState extends GameState {
     }
 
     public void setPlayerIndex(int index) {
-        this.playerIndex = index;
+        playerIndex = index;
     }
 
     public void setPlayerHands(Hashtable<Integer, Deck> table) {
@@ -448,6 +450,7 @@ public class C8GameState extends GameState {
             return false;
         } else {
             Objects.requireNonNull(playerHands.get(this.playerIndex)).add(this.drawPile.removeTopCard());
+            //nextPlayer();
             return true;
         }
     }
@@ -475,6 +478,8 @@ public class C8GameState extends GameState {
 
         // set the hasDeclaredSuit boolean to false if top card is 8
         setHasDeclaredSuit(!(this.getDiscardPile().peekTopCard().getFace().equals("Eight")));
+
+        //nextPlayer();
 
         // return true for valid move
         return true;
@@ -547,7 +552,7 @@ public class C8GameState extends GameState {
      */
     public boolean nextPlayer() {
         // increment the player index and set the playerTurn variable to be the next player
-        this.playerIndex = (this.playerIndex + 1) % (this.playerHands.size());
+        setPlayerIndex((this.playerIndex + 1) % (this.playerHands.size()));
         return true;
     }
 
@@ -622,7 +627,8 @@ public class C8GameState extends GameState {
         // loop through all players
         for(int p : this.getPlayerHands().keySet()){
             // if a player's hand is empty
-            if(this.getPlayerHands().get(p).isEmpty()) return "Player " + p;
+            if(this.getPlayerHands().get(p).isEmpty()){
+                return "Player " + p; }
         }
         return null;
     }
