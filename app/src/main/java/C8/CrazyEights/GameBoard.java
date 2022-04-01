@@ -115,7 +115,8 @@ public class GameBoard extends AnimationSurface {
         makeDrawPile(canvas, drawSlot, state.getDrawPile());
         drawDiscardPile(canvas, discardSlot, state.getDiscardPile());
 
-       //drawCard(canvas, slot1, state.getDiscardPile().peekTopCard()); //this did not work at all
+        canvas.drawText("" + this.state.getDrawPile().size(), drawSlot.centerX(),
+                drawSlot.centerY()-(int)(0.5*fontSize), textPaint);
     }
 
     /**
