@@ -115,7 +115,8 @@ public class GameBoard extends AnimationSurface {
         makeDrawPile(canvas, drawSlot, state.getDrawPile());
         drawDiscardPile(canvas, discardSlot, state.getDiscardPile());
 
-       //drawCard(canvas, slot1, state.getDiscardPile().peekTopCard()); //this did not work at all
+        canvas.drawText("" + this.state.getDrawPile().size(), drawSlot.centerX(),
+                drawSlot.centerY()-(int)(0.5*fontSize), textPaint);
     }
 
     /**
@@ -183,14 +184,16 @@ public class GameBoard extends AnimationSurface {
      * 		the hand of the player to draw
      */
     private void drawPlayerHand(Canvas g, RectF slot, Deck playerDeck, int handIndex) {
-        // the card dimensions
-        float cardSizeY = (slot.bottom - slot.top) * 0.8f;
-        float cardSizeX = cardSizeY * 0.7f;
-        // delta locations to draw cards nicely within the slots
-        float delta = (slot.right - slot.left - cardSizeX)/(playerDeck.size() - 1.0f);
-        float guiDelta = (slot.right - slot.left - cardSizeX) / 2.0f;
         // if non-gui hand
         if(playerDeck.getCards().get(0) == null) {
+
+            // the card dimensions
+            float cardSizeY = (slot.bottom - slot.top) * 0.8f;
+            float cardSizeX = cardSizeY * 0.7f;
+            // delta locations to draw cards nicely within the slots
+            float delta = (slot.right - slot.left - cardSizeX)/(playerDeck.size() - 1.0f);
+            float guiDelta = (slot.right - slot.left - cardSizeX) / 2.0f;
+
             // loop through from top to back, drawing each card offset a little
             for (int i = 0; i < playerDeck.size(); i++) {
                 // determine the position of this card's top/left corner
@@ -203,18 +206,21 @@ public class GameBoard extends AnimationSurface {
         }
         // gui hand
         else {
-            drawCard(g, new RectF(slot.left, slot.top,
-                            slot.left + cardSizeX,
-                            slot.top + cardSizeY),
-                    playerDeck.getCards().get(handIndex));
-            drawCard(g, new RectF(slot.left + guiDelta, slot.top,
-                            slot.left + guiDelta + cardSizeX,
-                            slot.top + cardSizeY),
-                    playerDeck.getCards().get(handIndex+1));
-            drawCard(g, new RectF(slot.left + (guiDelta*2), slot.top,
-                            slot.left + (guiDelta*2) + cardSizeX,
-                            slot.top + cardSizeY),
-                    playerDeck.getCards().get(handIndex+2));
+            // the card dimensions
+            float cardSizeY = (slot.bottom - slot.top) * (1-(0.07f*playerDeck.size()));
+            float cardSizeX = cardSizeY * (1-(0.08f*playerDeck.size()));
+            // delta locations to draw cards nicely within the slots
+            float delta = (slot.right - slot.left - cardSizeX)/(playerDeck.size() - (.1f*playerDeck.size()));
+            float guiDelta = (slot.right - slot.left - cardSizeX) / 2.0f;
+
+            for (int i = 0; i < playerDeck.size(); i++) {
+                // determine the position of this card's top/left corner
+                float left = (float) (slot.left + (delta*i));
+                // draw a card into the appropriate rectangle (other player hand cards should be null)
+                drawCard(g, new RectF(left, slot.top, left + cardSizeX,
+                                slot.top + cardSizeY),
+                        playerDeck.getCards().get(i));
+            }
         }
     }
 

@@ -22,6 +22,8 @@ import C8.GameFramework.infoMessage.NotYourTurnInfo;
 import C8.GameFramework.players.GameHumanPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
 
+import java.util.Objects;
+
 /**
  * CrazyEightsHumanPlayer
  *
@@ -69,11 +71,11 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
     @Override
     public void receiveInfo(GameInfo info) {
 
-        if(info instanceof NotYourTurnInfo || info == null){
+        if (info instanceof NotYourTurnInfo || info == null) {
             // if the move received is either an illegal move or it's not the current player' turn,
             // flash the screen red
             gameBoard.flash(0xFFFF0000, 50);
-        }else if(info instanceof C8GameState){
+        } else if (info instanceof C8GameState) {
             // if it is a GameState object, typecast to a C8GameState object and save it
             this.state = (C8GameState) info;
             this.stateUpdated = true;
@@ -106,7 +108,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         Card.initImages(activity);
 
         // update the GUI with the current GameState object
-        if(state != null) receiveInfo(state);
+        if (state != null) receiveInfo(state);
     }
 
     public String getName() {
@@ -138,9 +140,9 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
     @Override
     public void tick(Canvas canvas) {
         // if state was not received yet at start
-        if(state == null) return;
+        if (state == null) return;
         // if state was not updated
-        if(!this.stateUpdated) return;
+        if (!this.stateUpdated) return;
 
         // toggle that we updated the state GUI so we can re-toggle and draw for another state
         this.stateUpdated = false;
@@ -161,51 +163,47 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         // do something with coordinates
         SeekBar handProgress = this.currActivity.findViewById(R.id.seekBar3);
         int currProgress = handProgress.getProgress();
-        if(gameBoard.getDrawSlot().contains(x,y)) {
+        if (gameBoard.getDrawSlot().contains(x, y)) {
             game.sendAction(new C8DrawAction(this));
-        }else if(gameBoard.getSlot1().contains(x,y)){
+        } else if (gameBoard.getSlot1().contains(x, y)) {
 
-            float card1x = (((gameBoard.getSlot1().left +
-                    gameBoard.getSlot1().right)*4)/9);
-            float card2x = (((gameBoard.getSlot1().left +
-                    gameBoard.getSlot1().right)*5)/9);
-            float card3x = (((gameBoard.getSlot1().left +
-                    gameBoard.getSlot1().right)*6)/9);
+            int numCards = this.state.getPlayerHands().get(0).size();
 
-            if(x<=card1x) {
-                game.sendAction(new C8PlayAction(this,
-                        MAX_CARD_DISPLAY * currProgress));
-            }else if(x <= card2x){
-                game.sendAction(new C8PlayAction(this,
-                        1 + MAX_CARD_DISPLAY * currProgress));
-            }else if(x <= card3x){
-                game.sendAction(new C8PlayAction(this,
-                        2 + MAX_CARD_DISPLAY * currProgress));
+            for (int i = 1; i < numCards + 1; i++) {
+
+                float cardEndX = (gameBoard.getSlot1().left +
+                        gameBoard.getSlot1().right) * ((i + numCards) / (3.f * numCards));
+                float cardStartX = (((gameBoard.getSlot1().left +
+                        gameBoard.getSlot1().right) * (((i - 1) + numCards) / (3.f * numCards))));
+
+                if (x <= cardEndX && x >= cardStartX) {
+                    game.sendAction(new C8PlayAction(this, (i-1)));
+                }
             }
+
+            //TODO: ignore the touch if its not on a valid position
+            //TODO: send game action for drawing
+            //TODO: check coords and find which card clicked on and send play action
         }
 
-        //TODO: ignore the touch if its not on a valid position
-        //TODO: send game action for drawing
-        //TODO: check coords and find which card clicked on and send play action
+        /**
+         * Updates the SeekBar to have appropriate progress intervals for the player's hand
+         */
+//    public void updateSeekBar(){
+//        // get the SeekBar
+//        SeekBar sb = currActivity.findViewById(R.id.seekBar3);
+//
+//        // get the number of cards in the player's hand
+//        int numCards = state.getPlayerHands().get(this.playerNum).size();
+//
+//        // max number of cards to display
+//        int maxDisplay = 3;
+//        int extra = 0;
+//        if(numCards%maxDisplay != 0) extra = 1;
+//
+//        // set the max progress
+//        sb.setMax(numCards/maxDisplay + extra);
+//    }
+
     }
-
-    /**
-     * Updates the SeekBar to have appropriate progress intervals for the player's hand
-     */
-    public void updateSeekBar(){
-        // get the SeekBar
-        SeekBar sb = currActivity.findViewById(R.id.seekBar3);
-
-        // get the number of cards in the player's hand
-        int numCards = state.getPlayerHands().get(this.playerNum).size();
-
-        // max number of cards to display
-        int maxDisplay = 3;
-        int extra = 0;
-        if(numCards%maxDisplay != 0) extra = 1;
-
-        // set the max progress
-        sb.setMax(numCards/maxDisplay + extra);
-    }
-
 }

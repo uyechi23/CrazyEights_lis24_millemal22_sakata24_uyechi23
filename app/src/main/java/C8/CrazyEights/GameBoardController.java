@@ -60,8 +60,8 @@ public class GameBoardController implements View.OnTouchListener,
          * should it be centered always, or should it just fill the three slots in order?
          * [][][] , []_[] , _[]_  -OR-  [][][] , [][]_ , ___
          */
-        progress = seekBar.getProgress();
-        this.player.updateSeekBar();
+//        progress = seekBar.getProgress();
+//        this.player.updateSeekBar();
 
     }
 
