@@ -5,6 +5,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
 
+import C8.CrazyEights.C8Players.C8HumanPlayer;
+
 /**
  * GameBoardController
  *
@@ -20,10 +22,19 @@ import android.widget.SeekBar;
 public class GameBoardController implements View.OnTouchListener,
         View.OnClickListener, View.OnDragListener, SeekBar.OnSeekBarChangeListener {
 
-    private int progress;
-    private int maxprogress;
-    private int displayIndex;
 
+
+    // a reference to the player object this controller listens on
+    private C8HumanPlayer player;
+
+    private int progress;
+    private int maxProgress;
+
+    public GameBoardController(C8HumanPlayer hp){
+        this.player = hp;
+        this.progress = 0;
+        this.maxProgress = 2;
+    }
 
     @Override
     public void onClick(View view) {
@@ -42,15 +53,16 @@ public class GameBoardController implements View.OnTouchListener,
 
     @Override
     public void onProgressChanged( SeekBar seekBar, int i, boolean b) {
-        /**
+        /*
          * should change the three cards it's showing to the next
          * five cards in the array, or >5 cards in the array
          *
          * should it be centered always, or should it just fill the three slots in order?
          * [][][] , []_[] , _[]_  -OR-  [][][] , [][]_ , ___
          */
-        //maxprogress = (int) Math.ceil(/*players hand length / 5*/);
         progress = seekBar.getProgress();
+        this.player.updateSeekBar();
+
     }
 
     @Override

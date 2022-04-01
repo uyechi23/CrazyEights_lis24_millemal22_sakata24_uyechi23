@@ -5,12 +5,15 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.SeekBar;
 
 import C8.Cards.Card;
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.CrazyEights.GameBoard;
+import C8.CrazyEights.GameBoardController;
+import C8.GameFramework.Game;
 import C8.GameFramework.GameMainActivity;
 import C8.GameFramework.animation.Animator;
 import C8.GameFramework.infoMessage.GameInfo;
@@ -39,8 +42,14 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
     protected C8GameState state; // player state w/ censored info
     private Activity currActivity; // the activity of the current player
     private GameBoard gameBoard; // animation surface of the player GUI
+    private SeekBar handProgress; // SeekBar representing section of player's hand
     private int backgroundColor; // background color of GUI
     private boolean stateUpdated; // if the state was updated recently
+
+    /**
+     * static instance variables
+     */
+    private static final int MAX_CARD_DISPLAY = 3; // the maximum number of cards displayed
 
     /**
      * constructor
@@ -59,7 +68,8 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
 
     @Override
     public void receiveInfo(GameInfo info) {
-        if((info instanceof IllegalMoveInfo) || (info instanceof NotYourTurnInfo)){
+
+        if(info instanceof NotYourTurnInfo || info == null){
             // if the move received is either an illegal move or it's not the current player' turn,
             // flash the screen red
             gameBoard.flash(0xFFFF0000, 50);
@@ -87,12 +97,16 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         this.gameBoard = (GameBoard) currActivity.findViewById(R.id.gameBoard);
         gameBoard.setAnimator(this);
 
+        // retrieve the hand's SeekBar and make a controller
+        GameBoardController gbc = new GameBoardController(this);
+        this.handProgress = (SeekBar) currActivity.findViewById(R.id.seekBar3);
+        this.handProgress.setOnSeekBarChangeListener(gbc);
+
         // initialize card images
         Card.initImages(activity);
 
         // update the GUI with the current GameState object
         if(state != null) receiveInfo(state);
-
     }
 
     public String getName() {
@@ -144,13 +158,12 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         int x = (int) event.getX();
         int y = (int) event.getY();
 
-        /**
-         * do something with coordinates
-         */
+        // do something with coordinates
+        SeekBar handProgress = this.currActivity.findViewById(R.id.seekBar3);
+        int currProgress = handProgress.getProgress();
         if(gameBoard.getDrawSlot().contains(x,y)) {
             game.sendAction(new C8DrawAction(this));
-        }
-        else if(gameBoard.getSlot1().contains(x,y)){
+        }else if(gameBoard.getSlot1().contains(x,y)){
 
             float card1x = (((gameBoard.getSlot1().left +
                     gameBoard.getSlot1().right)*4)/9);
@@ -160,19 +173,39 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
                     gameBoard.getSlot1().right)*6)/9);
 
             if(x<=card1x) {
-                game.sendAction(new C8PlayAction(this, 0));
-            }
-            else if(x <= card2x){
-                game.sendAction(new C8PlayAction(this, 1));
-            }
-            else{
-                game.sendAction(new C8PlayAction(this, 2));
+                game.sendAction(new C8PlayAction(this,
+                        MAX_CARD_DISPLAY * currProgress));
+            }else if(x <= card2x){
+                game.sendAction(new C8PlayAction(this,
+                        1 + MAX_CARD_DISPLAY * currProgress));
+            }else if(x <= card3x){
+                game.sendAction(new C8PlayAction(this,
+                        2 + MAX_CARD_DISPLAY * currProgress));
             }
         }
 
         //TODO: ignore the touch if its not on a valid position
         //TODO: send game action for drawing
         //TODO: check coords and find which card clicked on and send play action
+    }
+
+    /**
+     * Updates the SeekBar to have appropriate progress intervals for the player's hand
+     */
+    public void updateSeekBar(){
+        // get the SeekBar
+        SeekBar sb = currActivity.findViewById(R.id.seekBar3);
+
+        // get the number of cards in the player's hand
+        int numCards = state.getPlayerHands().get(this.playerNum).size();
+
+        // max number of cards to display
+        int maxDisplay = 3;
+        int extra = 0;
+        if(numCards%maxDisplay != 0) extra = 1;
+
+        // set the max progress
+        sb.setMax(numCards/maxDisplay + extra);
     }
 
 }

@@ -7,6 +7,9 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.widget.SeekBar;
+
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
 
 import C8.Cards.Card;
 import C8.Cards.Deck;
@@ -77,8 +80,6 @@ public class GameBoard extends AnimationSurface {
 
         // if state == null, do nothing
         if(this.state == null) return;
-
-
 
         // initialize instance variables; cannot declare them above
         // since the getWidth() and getHeight() methods do not work
