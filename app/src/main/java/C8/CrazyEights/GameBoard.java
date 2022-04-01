@@ -188,11 +188,17 @@ public class GameBoard extends AnimationSurface {
         float cardSizeY = (slot.bottom - slot.top) * 0.8f;
         float cardSizeX = cardSizeY * 0.7f;
         // delta locations to draw cards nicely within the slots
-        float delta = (slot.right - slot.left - cardSizeX)/(playerDeck.size() - 1.0f);
-        float guiDelta = (slot.right - slot.left - cardSizeX) / 2.0f;
-        // if non-gui hand
+        float delta = (slot.right - slot.left - cardSizeX)/(playerDeck.size() - 1);
+        float guiDelta = (float)((slot.right - slot.left - cardSizeX) / 2);
+        // check the deck is not empty yet
         if(playerDeck.size() > 0) {
+            // non-gui hand
             if (playerDeck.getCards().get(0) == null) {
+                if(playerDeck.size() == 1){
+                    drawCard(g, new RectF(slot.left, slot.top, slot.left + cardSizeX,
+                                    slot.top + cardSizeY),
+                            playerDeck.getCards().get(0));
+                }
                 // loop through from top to back, drawing each card offset a little
                 for (int i = 0; i < playerDeck.size(); i++) {
                     // determine the position of this card's top/left corner
@@ -215,7 +221,6 @@ public class GameBoard extends AnimationSurface {
                 } else if (playerDeck.size() == 2 || playerDeck.size() == 1) {
                     for (int i = 0; i < playerDeck.size(); i++) {
                         float left = (float) (slot.left + (guiDelta * i));
-                        Log.d("Error", "" + handIndex + " " + i);
                         drawCard(g, new RectF(left, slot.top, left + cardSizeX,
                                         slot.top + cardSizeY),
                                 playerDeck.getCards().get(handIndex + i));
