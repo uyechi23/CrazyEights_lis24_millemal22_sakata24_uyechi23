@@ -204,9 +204,16 @@ public class GameBoard extends AnimationSurface {
         }
         // gui hand
         else {
-            for (int i = 0; i < 3; i++) {
-                float left = (float) (slot.left + (guiDelta*i));
-                if (playerDeck.getCards().get(handIndex + i) != null) {
+            if(playerDeck.size() >= 3){
+                for(int i = 0; i < 3; i++){
+                    float left = (float) (slot.left + (guiDelta*i));
+                    drawCard(g, new RectF(left, slot.top, left + cardSizeX,
+                                    slot.top + cardSizeY),
+                            playerDeck.getCards().get(handIndex + i));
+                }
+            }else{
+                for(int i = 0; i < playerDeck.size(); i++){
+                    float left = (float) (slot.left + (guiDelta*i));
                     drawCard(g, new RectF(left, slot.top, left + cardSizeX,
                                     slot.top + cardSizeY),
                             playerDeck.getCards().get(handIndex + i));

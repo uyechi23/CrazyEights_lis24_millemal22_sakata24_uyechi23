@@ -1,5 +1,7 @@
 package C8.CrazyEights;
 
+import android.util.Log;
+
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
@@ -81,6 +83,7 @@ public class C8LocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
+        Log.d("Test", state.toString());
         // check type of action
         if(action instanceof C8DrawAction) {
             // returns true if a move was made, returns false if draw pile empty

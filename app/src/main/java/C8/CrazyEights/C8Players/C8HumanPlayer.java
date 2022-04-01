@@ -81,10 +81,14 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
             // if it is a GameState object, typecast to a C8GameState object and save it
             this.state = (C8GameState) info;
             this.stateUpdated = true;
-            // update the gamestate using .updateMode()
-            this.gameBoard.updateMode(this.state, this.allPlayerNames, this.playerHandIndex);
             // call the onDraw() method by invalidating the View
             this.gameBoard.invalidate();
+            // update the game state using .updateMode()
+            if(this.playerHandIndex >
+                    this.state.getPlayerHands().get(this.playerNum).size() - MAX_CARD_DISPLAY){
+                this.playerHandIndex--;
+            }
+            this.gameBoard.updateMode(this.state, this.allPlayerNames, this.playerHandIndex);
         }
         // any other types of GameInfo objects passed to here do nothing
     }
@@ -187,7 +191,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
             }
 
             // the index of the card in the player's hand that was selected
-            int chosen = positionSelection + MAX_CARD_DISPLAY * currProgress;
+            int chosen = positionSelection + currProgress;
 
             // retrieve the player's hand
             Deck currHand = this.state.getPlayerHands().get(this.playerNum);
@@ -207,17 +211,11 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
      * Updates the SeekBar to have appropriate progress intervals for the player's hand
      */
     public void updateSeekBar(){
-
         // get the number of cards in the player's hand
         int numCards = state.getPlayerHands().get(this.playerNum).size();
 
-        // max number of cards to display
-        int maxDisplay = 3;
-        int extra = 0;
-        if(numCards%maxDisplay != 0) extra = 1;
-
         // set the max progress
-        handProgress.setMax(numCards/maxDisplay + extra);
+        handProgress.setMax(numCards - MAX_CARD_DISPLAY);
     }
 
     public void setPlayerHandIndex(int playerHandIndex) {

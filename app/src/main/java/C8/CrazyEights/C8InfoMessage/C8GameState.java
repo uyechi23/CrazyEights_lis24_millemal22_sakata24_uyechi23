@@ -336,7 +336,7 @@ public class C8GameState extends GameState {
     }
 
     /**
-     * moveDraw(currPlayer)
+     * moveDraw()
      *
      * @return boolean - true if valid move
      */
@@ -348,6 +348,9 @@ public class C8GameState extends GameState {
                 this.drawCard();
             }
             canMove = checkIfValid(this.playerIndex);
+        }else{
+            this.nextPlayer();
+            return true;
         }
 
         if (canMove) {
