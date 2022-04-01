@@ -1,6 +1,9 @@
 package C8.CrazyEights.C8Players;
 
+import C8.Cards.Card;
 import C8.Cards.Deck;
+import C8.CrazyEights.C8ActionMessage.C8DrawAction;
+import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.GameFramework.infoMessage.GameInfo;
 import C8.GameFramework.infoMessage.GameState;
@@ -37,36 +40,38 @@ public class C8ComputerPlayer extends GameComputerPlayer {
     @Override
     protected void receiveInfo(GameInfo info) {
         // Makes sure the info message is a Game State before sending an action or if its null
-        if(!(info instanceof GameState) || info == null) {
-            return;
-        }
+        if(!(info instanceof GameState) || info == null) return;
 
         // typecast state into our C8GameState object
         this.state = (C8GameState) info;
 
+        // if it's not the current player's turn, return
+        if(this.state.getPlayerIndex() != this.playerNum) return;
+
         // retrieve my deck
         Deck currDeck = state.getPlayerHands().get(this.playerNum);
-        return;
 
-        //TODO: Change this from changing the state to sending actions.
-//        // Checks if its the players turn
-//        if(state.getPlayerIndex() == this.playerNum){
-//            // Check all cards in hand to see if any are playable
-//            for(int i = 0; i < currDeck.size(); i++) {
-//                // If suit matches play card
-//                if(state.getCurrentSuit().equals(currDeck.getCards().get(i).suit)) {
-//                    state.movePlay(i, state.getPlayerIndex());
-//                    return;
-//                }
-//                // If number matches play card
-//                if(state.getCurrentFace().equals(currDeck.getCards().get(i).face)) {
-//                    state.movePlay(i, state.getPlayerIndex());
-//                    return;
-//                }
-//            }
-//            // None of your cards are playable keep drawing until you get a playable one
-//            state.moveDraw(state.getPlayerIndex());
-//        }
+        // find if the player's hand contains valid cards
+        boolean canMove = this.state.checkIfValid(this.playerNum);
+
+        // if player can move...
+        int i = 0;
+        if(canMove){
+            // ...play the first valid card in hand
+            for(Card c : currDeck.getCards()){
+                if(c.isValid(this.state.getDiscardPile().peekTopCard())){
+                    C8PlayAction play = new C8PlayAction(this, i);
+                    this.game.sendAction(play);
+                    this.sleep(1);
+                }
+                i++;
+            }
+        }else{
+            // ...draw a card
+            C8DrawAction draw = new C8DrawAction(this);
+            this.game.sendAction(draw);
+            this.sleep(1);
+        }
 
     }
 

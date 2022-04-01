@@ -346,7 +346,7 @@ public class C8GameState extends GameState {
         // while the player can't move and there are cards in the draw pile
         while (!canMove && this.getDrawPile().size() > 0) {
             this.drawCard();
-            canMove = this.checkIfValid();
+            canMove = this.checkIfValid(currPlayer);
         }
         if (canMove) {
             this.playLastCard(); // if the player can move, play the last card, else pass
@@ -595,9 +595,9 @@ public class C8GameState extends GameState {
      *
      * @return boolean - checks if any of the cards in current player's hands are valid
      */
-    public boolean checkIfValid(){
-        // retrieve the hand of the current player
-        Deck currDeck = this.playerHands.get(this.playerIndex);
+    public boolean checkIfValid(int playerNum){
+        // retrieve the hand of the player indexed
+        Deck currDeck = this.playerHands.get(playerNum);
 
         // mock-up the top card of the discard pile (in case last suit was an 8)
         Card currCard = new Card(this.currentFace, this.currentSuit);

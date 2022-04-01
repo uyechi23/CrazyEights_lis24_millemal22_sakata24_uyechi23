@@ -74,7 +74,7 @@ public class C8LocalGame extends LocalGame {
     }
 
     /**
-     * Makes a move for a player. Called when an action is recieved.
+     * Makes a move for a player. Called when an action is received.
      *
      * @param action The move that the player has sent to the game
      * @return if the move was valid
