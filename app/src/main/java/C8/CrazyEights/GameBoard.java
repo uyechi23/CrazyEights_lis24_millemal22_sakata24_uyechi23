@@ -93,13 +93,17 @@ public class GameBoard extends AnimationSurface {
 //        canvas.drawRect(slot4, slotPaint);
 
         // draw player names
-        canvas.drawText(this.playerNames[0], slot1.centerX(),
+        canvas.drawText(this.playerNames[0] + ": Cards Left (" +
+                this.state.getPlayerHands().get(0).size() + ")", slot1.centerX(),
                 slot1.bottom - (int) (0.5 * fontSize), textPaint);
-        canvas.drawText(this.playerNames[1], slot2.centerX(),
+        canvas.drawText(this.playerNames[1] + ": Cards Left (" +
+                        this.state.getPlayerHands().get(1).size() + ")", slot2.centerX(),
                 slot2.bottom - (int) (0.5 * fontSize), textPaint);
-        canvas.drawText(this.playerNames[2], slot3.centerX(),
+        canvas.drawText(this.playerNames[2] + ": Cards Left (" +
+                        this.state.getPlayerHands().get(2).size() + ")", slot3.centerX(),
                 slot3.bottom - (int) (0.5 * fontSize), textPaint);
-        canvas.drawText(this.playerNames[3], slot4.centerX(),
+        canvas.drawText(this.playerNames[3] + ": Cards Left (" +
+                        this.state.getPlayerHands().get(3).size() + ")", slot4.centerX(),
                 slot4.bottom - (int) (0.5 * fontSize), textPaint);
         canvas.drawText("Draw", drawSlot.centerX(),
                 drawSlot.bottom-(int)(0.5*fontSize), textPaint);

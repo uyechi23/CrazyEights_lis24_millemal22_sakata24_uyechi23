@@ -627,7 +627,7 @@ public class C8GameState extends GameState {
         // loop through all players
         for(int p : this.getPlayerHands().keySet()){
             // if a player's hand is empty
-            if(this.getPlayerHands().get(p).isEmpty()) return "Player " + p;
+            if(this.getPlayerHands().get(p).isEmpty()) return "Player " + p + " wins! ";
         }
         return null;
     }
