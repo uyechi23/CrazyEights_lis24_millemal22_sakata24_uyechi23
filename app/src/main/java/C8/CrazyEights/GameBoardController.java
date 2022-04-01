@@ -62,7 +62,7 @@ public class GameBoardController implements View.OnTouchListener,
          */
         progress = seekBar.getProgress();
         this.player.updateSeekBar();
-
+        this.player.setPlayerHandIndex(progress);
     }
 
     @Override

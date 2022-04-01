@@ -37,6 +37,9 @@ public class GameBoard extends AnimationSurface {
     // string array of player names
     String[] playerNames = null;
 
+    // players hand index
+    int handIndex = 0;
+
     //Game board dimensions
     float boardWidth; //Need to get from xml file maybe start the game with a popup window then                                                        4
     float boardHeight; //the surface view can be created, and onDraw can be invalidated then the getters might work
@@ -59,9 +62,6 @@ public class GameBoard extends AnimationSurface {
     // paints
     Paint slotPaint = new Paint();
     Paint textPaint = new Paint();
-
-    // player hand index
-    int playerHandIndex = 0;
 
     public GameBoard(Context context) {
         super(context);
@@ -108,7 +108,7 @@ public class GameBoard extends AnimationSurface {
         canvas.drawText("Player" + this.playerNames[state.getPlayerIndex()], 20, 20, textPaint);
 
         // draw player hands
-        drawPlayerHand(canvas, slot1, state.getPlayerHands().get(0), playerHandIndex);
+        drawPlayerHand(canvas, slot1, state.getPlayerHands().get(0), handIndex);
         drawPlayerHand(canvas, slot2, state.getPlayerHands().get(1), 0);
         drawPlayerHand(canvas, slot3, state.getPlayerHands().get(2), 0);
         drawPlayerHand(canvas, slot4, state.getPlayerHands().get(3), 0);
@@ -125,9 +125,10 @@ public class GameBoard extends AnimationSurface {
      * @param state - the gamestate to update
      * @param playerNames - the string array of player names
      */
-    public void updateMode(C8GameState state, String[] playerNames){
+    public void updateMode(C8GameState state, String[] playerNames, int handIndex){
         this.state = state;
         this.playerNames = playerNames;
+        this.handIndex = handIndex;
     }
 
     public void initBoard(){
@@ -203,18 +204,14 @@ public class GameBoard extends AnimationSurface {
         }
         // gui hand
         else {
-            drawCard(g, new RectF(slot.left, slot.top,
-                            slot.left + cardSizeX,
-                            slot.top + cardSizeY),
-                    playerDeck.getCards().get(handIndex));
-            drawCard(g, new RectF(slot.left + guiDelta, slot.top,
-                            slot.left + guiDelta + cardSizeX,
-                            slot.top + cardSizeY),
-                    playerDeck.getCards().get(handIndex+1));
-            drawCard(g, new RectF(slot.left + (guiDelta*2), slot.top,
-                            slot.left + (guiDelta*2) + cardSizeX,
-                            slot.top + cardSizeY),
-                    playerDeck.getCards().get(handIndex+2));
+            for (int i = 0; i < 3; i++) {
+                float left = (float) (slot.left + (guiDelta*i));
+                if (playerDeck.getCards().get(handIndex + i) != null) {
+                    drawCard(g, new RectF(left, slot.top, left + cardSizeX,
+                                    slot.top + cardSizeY),
+                            playerDeck.getCards().get(handIndex + i));
+                }
+            }
         }
     }
 

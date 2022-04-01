@@ -44,6 +44,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
     private Activity currActivity; // the activity of the current player
     private GameBoard gameBoard; // animation surface of the player GUI
     private SeekBar handProgress; // SeekBar representing section of player's hand
+    private int playerHandIndex; // The first card to be displayed in a player's hand
     private int backgroundColor; // background color of GUI
     private boolean stateUpdated; // if the state was updated recently
 
@@ -81,7 +82,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
             this.state = (C8GameState) info;
             this.stateUpdated = true;
             // update the gamestate using .updateMode()
-            this.gameBoard.updateMode(this.state, this.allPlayerNames);
+            this.gameBoard.updateMode(this.state, this.allPlayerNames, this.playerHandIndex);
             // call the onDraw() method by invalidating the View
             this.gameBoard.invalidate();
         }
@@ -206,8 +207,6 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
      * Updates the SeekBar to have appropriate progress intervals for the player's hand
      */
     public void updateSeekBar(){
-        // get the SeekBar
-        SeekBar sb = currActivity.findViewById(R.id.seekBar3);
 
         // get the number of cards in the player's hand
         int numCards = state.getPlayerHands().get(this.playerNum).size();
@@ -218,7 +217,16 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         if(numCards%maxDisplay != 0) extra = 1;
 
         // set the max progress
-        sb.setMax(numCards/maxDisplay + extra);
+        handProgress.setMax(numCards/maxDisplay + extra);
     }
 
+    public void setPlayerHandIndex(int playerHandIndex) {
+        this.playerHandIndex = playerHandIndex;
+        this.gameBoard.updateMode(this.state, this.allPlayerNames, this.playerHandIndex);
+        this.gameBoard.invalidate();
+    }
+
+    public int getPlayerHandIndex() {
+        return this.playerHandIndex;
+    }
 }
