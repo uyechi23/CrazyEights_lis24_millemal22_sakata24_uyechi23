@@ -35,4 +35,9 @@ public abstract class C8MoveAction extends GameAction {
      * @return whether this move draws a card
      */
     public boolean isDraw() { return false; }
+
+    /**
+     * @return this move represents a select suit move
+     */
+    public boolean isSelectSuit() { return false; }
 }

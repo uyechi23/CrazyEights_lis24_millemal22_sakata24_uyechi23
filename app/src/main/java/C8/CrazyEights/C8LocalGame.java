@@ -90,6 +90,11 @@ public class C8LocalGame extends LocalGame {
             return state.moveDraw();
         }
         else if(action instanceof C8PlayAction) {
+            // if an eight was played and a player tried to play another
+            // card instead of selecting a suit
+            if(!state.getHasDeclaredSuit()) {
+                return false;
+            }
             // returns true if valid move was made, false if card was not played
             return state.movePlay(((C8PlayAction) action).getIndex());
         }

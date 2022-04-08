@@ -53,8 +53,8 @@ public class GameBoard extends AnimationSurface {
      * slot4: right of current player
      */
 
-    // slot dimensions
-    RectF slot1, slot2, slot3, slot4, drawSlot, discardSlot;
+    // slot dimensions (suit select (insert card suit here))
+    RectF slot1, slot2, slot3, slot4, drawSlot, discardSlot, ssS, ssD, ssC, ssH;
 
     // text size
     float fontSize = 30.0f;
@@ -62,6 +62,12 @@ public class GameBoard extends AnimationSurface {
     // paints
     Paint slotPaint = new Paint();
     Paint textPaint = new Paint();
+
+    // cards to draw during select suit
+    public Card spades8 = new Card("S8");
+    public final static Card diamonds8 = new Card("D8");
+    public final static Card clubs8 = new Card("C8");
+    public final static Card hearts8 = new Card("H8");
 
     public GameBoard(Context context) {
         super(context);
@@ -121,6 +127,13 @@ public class GameBoard extends AnimationSurface {
 
         canvas.drawText("" + this.state.getDrawPile().size(), drawSlot.centerX(),
                 drawSlot.centerY()-(int)(0.5*fontSize), textPaint);
+
+        if(!state.getHasDeclaredSuit()) {
+            drawCard(canvas, ssS, spades8);
+            drawCard(canvas, ssD, diamonds8);
+            drawCard(canvas, ssC, clubs8);
+            drawCard(canvas, ssH, hearts8);
+        }
     }
 
     /**
@@ -167,6 +180,17 @@ public class GameBoard extends AnimationSurface {
         drawSlot = new RectF((float) (boardWidth/2), (float) (boardHeight/3),
                 (float) ((boardWidth/3) * 2), (float) (2 * (boardHeight/3)));
 
+        ssS = new RectF((float) 0, (float) (boardHeight/3),
+                (float) (boardWidth/4), (float) (2 * (boardHeight/3)));
+
+        ssD = new RectF((float) (boardWidth/4), (float) (boardHeight/3),
+                (float) (boardWidth/2), (float) (2 * (boardHeight/3)));
+
+        ssC = new RectF((float) (boardWidth/2), (float) (boardHeight/3),
+                (float) ((boardWidth/4) * 3), (float) (2 * (boardHeight/3)));
+
+        ssH = new RectF((float) 3 * (boardWidth/4), (float) (boardHeight/3),
+                (float) (boardWidth), (float) (2 * (boardHeight/3)));
 
         // slot paint
         slotPaint.setColor(Color.BLACK);
