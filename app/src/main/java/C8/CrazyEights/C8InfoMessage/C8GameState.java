@@ -566,7 +566,7 @@ public class C8GameState extends GameState {
      */
     public boolean skipTurn() {
         // retrieve the hand of the current player
-        Deck currDeck = this.playerHands.get(this.playerIndex);
+        Deck currDeck = this.playerHands.get(0);
 
         // mock-up the top card of the discard pile (in case last suit was an 8)
         Card currCard = new Card(this.currentFace, this.currentSuit);

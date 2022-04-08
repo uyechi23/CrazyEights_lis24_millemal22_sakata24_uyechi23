@@ -34,5 +34,13 @@ public abstract class C8MoveAction extends GameAction {
     /**
      * @return whether this move draws a card
      */
-    public boolean isDraw() { return false; }
+    public boolean isDraw() {
+        return false;
+    }
+
+    /**
+     *
+     * @return whether this move skips a turn
+     */
+    public boolean isSkipped() { return false; }
 }

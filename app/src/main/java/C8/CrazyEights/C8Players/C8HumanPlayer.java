@@ -5,17 +5,20 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 
 import C8.Cards.Card;
 import C8.Cards.Deck;
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
+import C8.CrazyEights.C8ActionMessage.C8SkipAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.CrazyEights.GameBoard;
 import C8.CrazyEights.GameBoardController;
 import C8.GameFramework.Game;
 import C8.GameFramework.GameMainActivity;
+import C8.GameFramework.actionMessage.GameAction;
 import C8.GameFramework.animation.Animator;
 import C8.GameFramework.infoMessage.GameInfo;
 import C8.GameFramework.infoMessage.IllegalMoveInfo;
@@ -47,6 +50,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
     private int playerHandIndex; // The first card to be displayed in a player's hand
     private int backgroundColor; // background color of GUI
     private boolean stateUpdated; // if the state was updated recently
+    private Button skipButton; // the skip button in case you couldn't tell
 
     /**
      * static instance variables
@@ -106,6 +110,10 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         GameBoardController gbc = new GameBoardController(this);
         this.handProgress = (SeekBar) currActivity.findViewById(R.id.seekBar3);
         this.handProgress.setOnSeekBarChangeListener(gbc);
+
+        //retrieve the skip button and make a controller
+        this.skipButton = (Button) currActivity.findViewById((R.id.skipButton));
+        this.skipButton.setOnClickListener(gbc);
 
         // initialize card images
         Card.initImages(activity);
@@ -213,6 +221,10 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
 
         // set the max progress
         handProgress.setMax(numCards - MAX_CARD_DISPLAY);
+    }
+
+    public void isClicked(){
+        this.game.sendAction(new C8SkipAction(this));
     }
 
     public void setPlayerHandIndex(int playerHandIndex) {

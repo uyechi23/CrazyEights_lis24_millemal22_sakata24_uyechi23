@@ -28,5 +28,7 @@ public class C8DrawAction extends C8MoveAction{
     /**
      * @return this move represents a draw move
      */
-    public boolean isDraw() { return true; }
+    public boolean isDraw() {
+        return true;
+    }
 }

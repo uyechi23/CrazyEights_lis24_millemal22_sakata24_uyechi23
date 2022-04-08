@@ -5,7 +5,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
 
+import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.CrazyEights.C8Players.C8HumanPlayer;
+import C8.GameFramework.actionMessage.GameAction;
 
 /**
  * GameBoardController
@@ -22,8 +24,6 @@ import C8.CrazyEights.C8Players.C8HumanPlayer;
 public class GameBoardController implements View.OnTouchListener,
         View.OnClickListener, View.OnDragListener, SeekBar.OnSeekBarChangeListener {
 
-
-
     // a reference to the player object this controller listens on
     private C8HumanPlayer player;
 
@@ -38,6 +38,7 @@ public class GameBoardController implements View.OnTouchListener,
 
     @Override
     public void onClick(View view) {
+        this.player.isClicked();
 
     }
 

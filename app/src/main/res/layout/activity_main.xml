@@ -73,14 +73,21 @@
                 style="@style/Widget.AppCompat.SeekBar.Discrete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_weight="2"
                 android:max="10"
-                android:progress="0" />
+                android:progress="0"
+                android:scaleX="1.1"
+                android:scaleY="1.5" />
 
-            <Space
+            <Button
+                android:id="@+id/skipButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight=".5"
+                android:scaleX=".75"
+                android:scaleY=".8"
+                android:text="Skip Turn" />
 
         </LinearLayout>
 
