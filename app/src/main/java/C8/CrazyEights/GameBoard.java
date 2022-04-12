@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
 
@@ -27,7 +28,7 @@ import C8.GameFramework.animation.AnimationSurface;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 29 March 2022
+ * @version 11 April 2022
  */
 public class GameBoard extends AnimationSurface {
 
@@ -62,12 +63,14 @@ public class GameBoard extends AnimationSurface {
     // paints
     Paint slotPaint = new Paint();
     Paint textPaint = new Paint();
+    Paint playerPaint = new Paint();
 
     // cards to draw during select suit
     public Card spades8 = new Card("S8");
     public final static Card diamonds8 = new Card("D8");
     public final static Card clubs8 = new Card("C8");
     public final static Card hearts8 = new Card("H8");
+    private TextView playerTextView;
 
     public GameBoard(Context context) {
         super(context);
@@ -115,7 +118,9 @@ public class GameBoard extends AnimationSurface {
                 drawSlot.bottom-(int)(0.5*fontSize), textPaint);
         canvas.drawText("Discard", discardSlot.centerX(),
                 discardSlot.bottom-(int)(0.5*fontSize), textPaint);
-        canvas.drawText("Player" + this.playerNames[state.getPlayerIndex()], 20, 20, textPaint);
+        canvas.drawText("Player " + this.playerNames[state.getPlayerIndex()] + "'s turn", 10, 30, playerPaint);
+
+
 
         // draw player hands
         drawPlayerHand(canvas, slot1, state.getPlayerHands().get(0), handIndex);
@@ -199,6 +204,11 @@ public class GameBoard extends AnimationSurface {
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(fontSize);
         textPaint.setTextAlign(Paint.Align.CENTER);
+
+        // player paint
+        playerPaint.setColor((Color.WHITE));
+        playerPaint.setTextSize(35);
+        playerPaint.setTextAlign(Paint.Align.LEFT);
     }
 
     /**
@@ -364,5 +374,10 @@ public class GameBoard extends AnimationSurface {
 
     public RectF getDrawSlot(){ return drawSlot; }
     public RectF getSlot1(){ return slot1; }
+
+    public void setPlayerTextView(TextView text) {
+        this.playerTextView = text;
+    }
+
 
 }

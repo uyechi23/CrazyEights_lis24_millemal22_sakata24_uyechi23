@@ -199,6 +199,10 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
                 game.sendAction(new C8PlayAction(this, chosen, false));
             }
         }
+        // if draw deck is empty skip turn
+        if(state.getDrawPile().isEmpty()) {
+            state.skipTurn();
+        }
 
         //TODO: ignore the touch if its not on a valid position
         //TODO: send game action for drawing
