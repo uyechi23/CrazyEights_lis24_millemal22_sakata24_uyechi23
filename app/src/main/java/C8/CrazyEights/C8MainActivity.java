@@ -37,12 +37,12 @@ public class C8MainActivity extends GameMainActivity {
 
         playerTypes.add(new GamePlayerType("human player (green)") {
             public GamePlayer createPlayer(String name) {
-                return new C8HumanPlayer(name, Color.GREEN);
+                return new C8HumanPlayer(name, 0xFF98FB98);
             }
         });
         playerTypes.add(new GamePlayerType("human player (yellow)") {
             public GamePlayer createPlayer(String name) {
-                return new C8HumanPlayer(name, Color.YELLOW);
+                return new C8HumanPlayer(name, 0xFFFFFFA7);
             }
         });
         playerTypes.add(new GamePlayerType("computer player (normal)") {

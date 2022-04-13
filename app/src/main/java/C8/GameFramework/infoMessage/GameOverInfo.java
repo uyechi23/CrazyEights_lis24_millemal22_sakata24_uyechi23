@@ -22,7 +22,7 @@ public class GameOverInfo extends GameInfo {
      * @param msg a message that tells the result of the game
      */
     public GameOverInfo(String msg, String score) {
-        this.message = msg + "\n" + score + "\n";
+        this.message = msg + "\n \n" + score + "\n \n";
     }
 
     /**

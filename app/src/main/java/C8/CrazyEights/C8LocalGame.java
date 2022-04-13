@@ -2,10 +2,8 @@ package C8.CrazyEights;
 
 import android.util.Log;
 
-import C8.Cards.Card;
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
-import C8.CrazyEights.C8ActionMessage.C8SkipAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.GameFramework.LocalGame;
 import C8.GameFramework.actionMessage.GameAction;
@@ -77,6 +75,11 @@ public class C8LocalGame extends LocalGame {
         return this.state.checkGameOver();
     }
 
+    @Override
+    protected int[] getScores() {
+        return this.state.sendScore();
+    }
+
     /**
      * Makes a move for a player. Called when an action is received.
      *
@@ -88,25 +91,12 @@ public class C8LocalGame extends LocalGame {
         Log.d("Test", state.toString());
         // check type of action
         if(action instanceof C8DrawAction) {
-            // returns true if a move was made,
-            // returns false if draw pile empty
+            // returns true if a move was made, returns false if draw pile empty
             return state.moveDraw();
         }
         else if(action instanceof C8PlayAction) {
-            // returns true if valid move was made,
-            // false if card was not played
+            // returns true if valid move was made, false if card was not played
             return state.movePlay(((C8PlayAction) action).getIndex());
-        }
-        else if (action instanceof C8SkipAction) {
-            // returns true if valid move was made,
-            // false if turn can not be skipped
-            for (Card c : this.state.getPlayerHands().get(0).cards) {
-                if (c.isValid(new Card(this.state.getCurrentFace(), this.state.getCurrentSuit()))) {
-                    return false;
-                }
-            }
-            return state.skipTurn();
-
         }
         // action was not valid
         return false;
