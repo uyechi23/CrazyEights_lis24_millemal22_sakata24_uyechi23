@@ -223,7 +223,6 @@ public class C8GameState extends GameState {
         // deep neeeded
         Deck newDiscard = new Deck(origState.getDiscardPile());
         this.setDiscardPile(newDiscard);
-        this.turnDiscardPileFaceDown();
 
         // sets the currentSuit and currentFace to the top card
         this.setFace(this.getDiscardPile().peekTopCard().getFace());
