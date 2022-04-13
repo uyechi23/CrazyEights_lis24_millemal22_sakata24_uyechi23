@@ -315,9 +315,68 @@ public abstract class LocalGame implements Game, Tickable {
 
         // determine whether there is a winner; if so, finish up the game
         String overMsg = checkIfGameOver();
+        int[] scores = getScores();
+        String scoreMsg = orderScores(scores);
         if (overMsg != null) {
-            finishUpGame(overMsg);
+            finishUpGame(overMsg, scoreMsg);
         }
+    }
+
+    protected String orderScores(int[] scores){
+        String ordered;
+        int hiScore = 0;
+        int index1 = -1;
+        int index2 = -1;
+        int index3 = -1;
+        int index4 = -1;
+
+        for (int i=0; i<scores.length; i++){
+            if (scores[i] > hiScore){
+                hiScore = scores[i];
+                index1 = i;
+            }
+        }
+        ordered = "Scores:" + "\n " + this.playerNames[index1] + ": " + hiScore;
+        hiScore = 0;
+
+        for (int j=0; j<scores.length; j++){
+            if (j == index1){ }
+            else{
+                if (scores[j] > hiScore){
+                    hiScore = scores[j];
+                    index2 = j;
+                }
+            }
+        }
+        ordered += "\n " + this.playerNames[index2] + ": " + hiScore;
+        hiScore = 0;
+
+        for (int k=0; k<scores.length; k++){
+            if (k == index1 || k == index2){ }
+            else{
+                if (scores[k] > hiScore){
+                    hiScore = scores[k];
+                    index3 = k;
+                }
+            }
+        }
+
+        ordered += "\n " + this.playerNames[index3] + ": " + hiScore;
+        hiScore = 0;
+
+        for (int l=0; l<scores.length; l++){
+            if (l == index1 || l == index2 || l == index3){ }
+            else{
+                if (scores[l] > hiScore){
+                    hiScore = scores[l];
+                    index4 = l;
+                }
+            }
+        }
+
+        ordered += "\n " + this.playerNames[index4] + ": " + hiScore;
+
+        return ordered;
     }
 
     /**
@@ -339,11 +398,17 @@ public abstract class LocalGame implements Game, Tickable {
     protected abstract String checkIfGameOver();
 
     /**
+     * if the game is over, calculate each player's score \
+     * @return an array of scores
+     */
+    protected abstract int[] getScores();
+
+    /**
      * Finishes up the game
      *
      * @param msg The message that tells who, if anyone, won the game
      */
-    private final void finishUpGame(String msg) {
+    private final void finishUpGame(String msg, String scores) {
 
         // set the game-stage to "over"
         gameStage = GameStage.GAME_OVER;
@@ -355,7 +420,7 @@ public abstract class LocalGame implements Game, Tickable {
 
         // send all players a "game over" message
         for (GamePlayer p : players) {
-            p.sendInfo(new GameOverInfo(msg));
+            p.sendInfo(new GameOverInfo(msg, scores));
         }
     }
 

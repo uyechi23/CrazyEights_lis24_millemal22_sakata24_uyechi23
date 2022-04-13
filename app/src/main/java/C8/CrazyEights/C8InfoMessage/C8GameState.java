@@ -1,5 +1,7 @@
 package C8.CrazyEights.C8InfoMessage;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import C8.Cards.Card;
@@ -627,9 +629,72 @@ public class C8GameState extends GameState {
         // loop through all players
         for(int p : this.getPlayerHands().keySet()){
             // if a player's hand is empty
-            if(this.getPlayerHands().get(p).isEmpty()) return "Player " + p + " wins! ";
+            if(this.getPlayerHands().get(p).isEmpty()) {
+                return "Player " + p + " wins! ";
+            }
         }
         return null;
+    }
+
+    public int[] sendScore(){
+        int potScore = 0;
+        int[] playerScores = new int[this.getNumPlayers()];
+        int handValue = 0;
+        int winner = 12;
+
+        // finds which player won
+        for(int p : this.getPlayerHands().keySet()) {
+            // if a player's hand is empty
+            if (this.getPlayerHands().get(p).isEmpty()) {
+                winner = p;
+            }
+        }
+
+            // Finds the total value of all cards left in play
+        for (int i = 0; i < this.numPlayers; i++) {
+
+            // loops through each player's hand
+            for (Card c : this.getPlayerHands().get(i).cards) {
+
+                if (c == null) break;
+
+                if (c.getFace() == "King" || c.getFace() == "Queen" ||
+                        c.getFace() == "Jack" || c.getFace() == "Ace") {
+                        potScore += 10;
+                }
+                else if (c.getFace() == "Eight") potScore += 50;
+                else {
+                    potScore += c.getValue();
+                }
+            }
+        }
+
+        //calculates an individual player's score and prints it
+        for (int j = 0; j < this.numPlayers; j++) {
+            handValue = 0;
+            if (j == winner) {
+                playerScores[j] = potScore;
+            }
+            else {
+                for (Card card : this.getPlayerHands().get(j).cards) {
+
+                    if (card == null) break;
+
+                    if (card.getFace() == "King" || card.getFace() == "Queen" ||
+                            card.getFace() == "Jack" || card.getFace() == "Ace") {
+                        handValue += 10;
+                    }
+                    else if (card.getFace() == "Eight") handValue += 50;
+                    else {
+                        handValue += card.getValue();
+                    }
+                }
+                playerScores[j] = potScore - handValue;
+            }
+
+
+        }
+        return playerScores;
     }
 
     /*

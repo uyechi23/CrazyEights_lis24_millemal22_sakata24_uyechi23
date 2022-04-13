@@ -87,6 +87,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
             this.stateUpdated = true;
             // call the onDraw() method by invalidating the View
             this.gameBoard.invalidate();
+
             // update the game state using .updateMode()
             this.gameBoard.updateMode(this.state, this.allPlayerNames, this.playerHandIndex);
             updateSeekBar();
@@ -205,6 +206,10 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
             }else{
                 game.sendAction(new C8PlayAction(this, chosen, false));
             }
+        }
+        // if draw deck is empty skip turn
+        if(state.getDrawPile().isEmpty()) {
+            state.skipTurn();
         }
 
         //TODO: ignore the touch if its not on a valid position
