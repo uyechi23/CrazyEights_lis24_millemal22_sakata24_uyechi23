@@ -1,5 +1,7 @@
 package C8.CrazyEights.C8Players;
 
+import android.util.Log;
+
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -8,6 +10,7 @@ import C8.Cards.Card;
 import C8.Cards.Deck;
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
+import C8.CrazyEights.C8ActionMessage.C8SelectSuitAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.GameFramework.infoMessage.GameInfo;
 import C8.GameFramework.infoMessage.GameState;
@@ -63,8 +66,11 @@ public class C8SmartComputerPlayer extends GameComputerPlayer {
         // find if the player's hand contains valid cards
         boolean canMove = this.state.checkIfValid(this.playerNum);
 
-        // if player can move...
-        if(canMove){
+        // if the player has just played an eight
+        if(!this.state.getHasDeclaredSuit()) {
+            this.game.sendAction(new C8SelectSuitAction(this, currDeck.findMostSuits()));
+        }else if(canMove) {
+            // if player can move...
             // get the data of the played faces (and corresponding frequency)
             Hashtable<String, Integer> faceData = getPlayedFaces(playedCards);
             Hashtable<String, Integer> suitData = getPlayedSuits(playedCards);
@@ -76,25 +82,90 @@ public class C8SmartComputerPlayer extends GameComputerPlayer {
             boolean faceMatch = false;
             boolean suitMatch = false;
             boolean hasEight = false;
-            for(Card c : currDeck.getCards()){
-                if(top.matchSuit(c)) suitMatch = true;
-                if(top.matchFace(c)) faceMatch = true;
-                if(c.getFace().equals("Eight")) hasEight = true;
+            for (Card c : currDeck.getCards()) {
+                if (top.matchSuit(c)) suitMatch = true;
+                if (top.matchFace(c)) faceMatch = true;
+                if (c.getFace().equals("Eight")) hasEight = true;
             }
 
-            // make logical plays based on the information gathered
             if(suitMatch){
                 // if there is a suit match, keep the suit the same
                 // play the face card that has the highest frequency in the discard pile
-
+                int max = 0;
+                String toPlay = "";
+                for(String face : faceData.keySet()){
+                    if(faceData.get(face) > max){
+                        max = faceData.get(face);
+                        toPlay = face;
+                    }
+                }
+                if(toPlay.equals("")){
+                    // in case there's no faces (should rarely happen), just play first valid card
+                    // might happen on the first turn or if there's no matching cards
+                    for(int i = 0; i < currDeck.size(); i++){
+                        Card c = currDeck.getCards().get(i);
+                        if(this.state.getCurrentSuit().equals(c.getSuit())
+                            || this.state.getCurrentFace().equals(c.getFace())) {
+                            C8PlayAction play = new C8PlayAction(this, i);
+                            sleep(1.5);
+                            Log.d("Found", "Played card");
+                            this.game.sendAction(play);
+                            break;
+                        }
+                    }
+                }else{
+                    // normal case; play the "toPlay" card
+                    for(int i = 0; i < currDeck.size(); i++){
+                        Card c = currDeck.getCards().get(i);
+                        if(this.state.getCurrentSuit().equals(c.getSuit())
+                                || currDeck.getCards().get(i).equals(toPlay)) {
+                            C8PlayAction play = new C8PlayAction(this, i);
+                            sleep(1.5);
+                            Log.d("Found", "Played card");
+                            this.game.sendAction(play);
+                            break;
+                        }
+                    }
+                }
             }else if(faceMatch){
                 // if there is no suit match, but there is a face match
                 // play the suit that has the highest frequency in the discard pile
-
-            }else if(hasEight){
-                // if there is not face or suit match, but there is an eight
-                // play the eight and declare the suit with the most suits in hand
-
+                int max = 0;
+                String toPlay = "";
+                for(String suit : suitData.keySet()){
+                    if(suitData.get(suit) > max){
+                        max = suitData.get(suit);
+                        toPlay = suit;
+                    }
+                }
+                if(toPlay.equals("")){
+                    // in case there's no suits (should rarely happen), just play first valid card
+                    // might happen on the first turn or if there's no matching cards
+                    for(int i = 0; i < currDeck.size(); i++){
+                        Card c = currDeck.getCards().get(i);
+                        if(this.state.getCurrentSuit().equals(c.getSuit())
+                                || this.state.getCurrentFace().equals(c.getFace())) {
+                            C8PlayAction play = new C8PlayAction(this, i);
+                            sleep(1.5);
+                            Log.d("Found", "Played card");
+                            this.game.sendAction(play);
+                            break;
+                        }
+                    }
+                }else{
+                    // normal case; play the "toPlay" card
+                    for(int i = 0; i < currDeck.size(); i++){
+                        Card c = currDeck.getCards().get(i);
+                        if(this.state.getCurrentFace().equals(c.getFace())
+                                || currDeck.getCards().get(i).equals(toPlay)) {
+                            C8PlayAction play = new C8PlayAction(this, i);
+                            sleep(1.5);
+                            Log.d("Found", "Played card");
+                            this.game.sendAction(play);
+                            break;
+                        }
+                    }
+                }
             }
         }else{
             // ...draw a card
@@ -102,7 +173,6 @@ public class C8SmartComputerPlayer extends GameComputerPlayer {
             sleep(0.5);
             this.game.sendAction(draw);
         }
-
     }
 
     public String getName() {
@@ -123,9 +193,11 @@ public class C8SmartComputerPlayer extends GameComputerPlayer {
 
         // loop through all the cards in the played pile
         for(Card c : cards.getCards()){
-            int count = 0;
-            if(played.contains(c.getFace())) count = played.get(c.getFace());
-            played.put(c.getFace(), count + 1);
+            if(played.containsKey(c.getFace())){
+                played.put(c.getFace(), played.get(c.getFace()) + 1);
+            }else{
+                played.put(c.getFace(), 1);
+            }
         }
 
         // return
