@@ -271,7 +271,7 @@ public class Card {
         // if card is an 8, only check if suit matches
         // if card is anything else, check if either suit or face matches
         if(compare.getFace().equals("Eight")){
-            return matchSuit(compare);
+            return true;
         }else{
             return matchSuit(compare) || matchFace(compare);
         }

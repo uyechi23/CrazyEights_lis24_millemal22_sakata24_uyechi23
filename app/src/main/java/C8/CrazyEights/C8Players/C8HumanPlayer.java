@@ -12,6 +12,7 @@ import C8.Cards.Card;
 import C8.Cards.Deck;
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
+import C8.CrazyEights.C8ActionMessage.C8SelectSuitAction;
 import C8.CrazyEights.C8ActionMessage.C8SkipAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.CrazyEights.GameBoard;
@@ -175,8 +176,29 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         // do something with coordinates
         SeekBar handProgress = this.currActivity.findViewById(R.id.seekBar3);
         int currProgress = handProgress.getProgress();
-        if(gameBoard.getDrawSlot().contains(x,y)) {
+        // check if suit must be selected
+        if(!this.state.getHasDeclaredSuit()) {
+            String declaredSuit;
+            if(gameBoard.getSsS().contains(x, y)) {
+                declaredSuit = "Spades";
+            }
+            else if(gameBoard.getSsD().contains(x, y)) {
+                declaredSuit = "Diamonds";
+            }
+            else if(gameBoard.getSsC().contains(x, y)) {
+                declaredSuit = "Clubs";
+            }
+            else if(gameBoard.getSsH().contains(x, y)) {
+                declaredSuit = "Hearts";
+            } else {
+                return;
+            }
+            game.sendAction(new C8SelectSuitAction(this, declaredSuit));
+        }
+        // check for draw pile taps
+        else if(gameBoard.getDrawSlot().contains(x,y)) {
             game.sendAction(new C8DrawAction(this));
+        // check for card play taps
         }else if(gameBoard.getSlot1().contains(x,y)){
 
             float card1x = (((gameBoard.getSlot1().left +
@@ -186,35 +208,34 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
             float card3x = (((gameBoard.getSlot1().left +
                     gameBoard.getSlot1().right)*6)/9);
 
+            // retrieve the player's hand
+            Deck currHand = this.state.getPlayerHands().get(this.playerNum);
+
             // the position of the visible cards that was tapped
-            int positionSelection;
+            int positionSelection = -99;
             if(x<=card1x) {
                 positionSelection = 0;
-            }else if(x <= card2x){
+            }else if(x <= card2x && currHand.getCards().size() > 1){
                 positionSelection = 1;
-            }else{
+            }else if(currHand.getCards().size() > 2){
                 positionSelection = 2;
+            }else{
+                // ignore if invalid tap (redundant)
+                return;
             }
 
             // the index of the card in the player's hand that was selected
             int chosen = positionSelection + currProgress;
-
-            // retrieve the player's hand
-            Deck currHand = this.state.getPlayerHands().get(this.playerNum);
             if(currHand.getCards().get(chosen).getFace().equals("Eight")) {
-                game.sendAction(new C8PlayAction(this, chosen, true));
+                game.sendAction(new C8PlayAction(this, chosen));
             }else{
-                game.sendAction(new C8PlayAction(this, chosen, false));
+                game.sendAction(new C8PlayAction(this, chosen));
             }
         }
         // if draw deck is empty skip turn
         if(state.getDrawPile().isEmpty()) {
             state.skipTurn();
         }
-
-        //TODO: ignore the touch if its not on a valid position
-        //TODO: send game action for drawing
-        //TODO: check coords and find which card clicked on and send play action
     }
 
     /**

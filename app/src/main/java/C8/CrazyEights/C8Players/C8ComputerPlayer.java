@@ -1,9 +1,12 @@
 package C8.CrazyEights.C8Players;
 
+import android.util.Log;
+
 import C8.Cards.Card;
 import C8.Cards.Deck;
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
+import C8.CrazyEights.C8ActionMessage.C8SelectSuitAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.GameFramework.infoMessage.GameInfo;
 import C8.GameFramework.infoMessage.GameState;
@@ -54,14 +57,21 @@ public class C8ComputerPlayer extends GameComputerPlayer {
         // find if the player's hand contains valid cards
         boolean canMove = this.state.checkIfValid(this.playerNum);
 
+        // if the player has just played an eight
+        if(!this.state.getHasDeclaredSuit()) {
+            this.game.sendAction(new C8SelectSuitAction
+                    (this, this.state.getDiscardPile().peekTopCard().getSuit()));
+        }
         // if player can move...
-        int i = 0;
-        if(canMove){
+        else if(canMove){
+            int i = 0;
             // ...play the first valid card in hand
             for(Card c : currDeck.getCards()){
-                if(c.isValid(this.state.getDiscardPile().peekTopCard())){
-                    C8PlayAction play = new C8PlayAction(this, i, false);
-                    sleep(0.5);
+                if(this.state.getCurrentSuit().equals(c.getSuit())
+                        || this.state.getCurrentFace().equals(c.getFace())) {
+                    C8PlayAction play = new C8PlayAction(this, i);
+                    sleep(1.5);
+                    Log.d("Found", "Played card");
                     this.game.sendAction(play);
                     break;
                 }

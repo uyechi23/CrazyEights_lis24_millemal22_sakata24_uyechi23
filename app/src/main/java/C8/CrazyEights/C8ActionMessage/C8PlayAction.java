@@ -17,7 +17,6 @@ import C8.GameFramework.players.GamePlayer;
 public class C8PlayAction extends C8MoveAction{
 
     private int index;
-    private boolean isEight;
 
     /**
      * constructor for GameAction
@@ -26,11 +25,10 @@ public class C8PlayAction extends C8MoveAction{
      * @param index - the index of card
      */
 
-    public C8PlayAction(GamePlayer player, int index, boolean isEight){
+    public C8PlayAction(GamePlayer player, int index){
         // initialize with the super class constructor
         super(player);
         this.index = index;
-        this.isEight = isEight;
     }
 
     /**

@@ -63,7 +63,9 @@ public class GameBoard extends AnimationSurface {
     // paints
     Paint slotPaint = new Paint();
     Paint textPaint = new Paint();
+    Paint largeTextPaint = new Paint();
     Paint playerPaint = new Paint();
+    Paint dimmerPaint = new Paint();
 
     // cards to draw during select suit
     public Card spades8 = new Card("S8");
@@ -133,7 +135,9 @@ public class GameBoard extends AnimationSurface {
         canvas.drawText("" + this.state.getDrawPile().size(), drawSlot.centerX(),
                 drawSlot.centerY()-(int)(0.5*fontSize), textPaint);
 
-        if(!state.getHasDeclaredSuit()) {
+        if(!state.getHasDeclaredSuit() && this.state.getPlayerIndex() == 0) {
+            canvas.drawRect(this.getLeft(), 0, this.getRight(), this.getBottom(), dimmerPaint);
+            canvas.drawText("Select a suit!", boardWidth/2, boardHeight/4, largeTextPaint);
             drawCard(canvas, ssS, spades8);
             drawCard(canvas, ssD, diamonds8);
             drawCard(canvas, ssC, clubs8);
@@ -185,17 +189,17 @@ public class GameBoard extends AnimationSurface {
         drawSlot = new RectF((float) (boardWidth/2), (float) (boardHeight/3),
                 (float) ((boardWidth/3) * 2), (float) (2 * (boardHeight/3)));
 
-        ssS = new RectF((float) 0, (float) (boardHeight/3),
-                (float) (boardWidth/4), (float) (2 * (boardHeight/3)));
+        ssS = new RectF((float) boardWidth/9, (float) (boardHeight/3),
+                (float) 2 * (boardWidth/9), (float) (2 * (boardHeight/3)));
 
-        ssD = new RectF((float) (boardWidth/4), (float) (boardHeight/3),
-                (float) (boardWidth/2), (float) (2 * (boardHeight/3)));
+        ssD = new RectF((float) (boardWidth/3), (float) (boardHeight/3),
+                (float) 4 * (boardWidth/9), (float) (2 * (boardHeight/3)));
 
-        ssC = new RectF((float) (boardWidth/2), (float) (boardHeight/3),
-                (float) ((boardWidth/4) * 3), (float) (2 * (boardHeight/3)));
+        ssC = new RectF((float) 5 * (boardWidth/9), (float) (boardHeight/3),
+                (float) 2 * (boardWidth/3), (float) (2 * (boardHeight/3)));
 
-        ssH = new RectF((float) 3 * (boardWidth/4), (float) (boardHeight/3),
-                (float) (boardWidth), (float) (2 * (boardHeight/3)));
+        ssH = new RectF((float) 7 * (boardWidth/9), (float) (boardHeight/3),
+                (float) 8 * (boardWidth/9), (float) (2 * (boardHeight/3)));
 
         // slot paint
         slotPaint.setColor(Color.BLACK);
@@ -205,10 +209,18 @@ public class GameBoard extends AnimationSurface {
         textPaint.setTextSize(fontSize);
         textPaint.setTextAlign(Paint.Align.CENTER);
 
+        // large text paint
+        largeTextPaint.setColor(Color.WHITE);
+        largeTextPaint.setTextSize(fontSize * 3);
+        largeTextPaint.setTextAlign(Paint.Align.CENTER);
+
         // player paint
         playerPaint.setColor((Color.WHITE));
         playerPaint.setTextSize(35);
         playerPaint.setTextAlign(Paint.Align.LEFT);
+
+        // dimmer paint
+        dimmerPaint.setARGB(160, 0, 0, 0);
     }
 
     /**
@@ -374,6 +386,18 @@ public class GameBoard extends AnimationSurface {
 
     public RectF getDrawSlot(){ return drawSlot; }
     public RectF getSlot1(){ return slot1; }
+    public RectF getSsS() {
+        return ssS;
+    }
+    public RectF getSsD() {
+        return ssD;
+    }
+    public RectF getSsC() {
+        return ssC;
+    }
+    public RectF getSsH() {
+        return ssH;
+    }
 
     public void setPlayerTextView(TextView text) {
         this.playerTextView = text;

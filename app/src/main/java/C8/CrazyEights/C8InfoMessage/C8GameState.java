@@ -246,52 +246,6 @@ public class C8GameState extends GameState {
     }
 
 
-    /**
-     * Setter methods:
-     */
-    public void setNumPlayers(int num){
-        this.numPlayers = num;
-    }
-
-    public void setPlayerIndex(int index) {
-        this.playerIndex = index;
-    }
-
-    public void setPlayerHands(Hashtable<Integer, Deck> table) {
-        this.playerHands = table;
-    }
-
-    public void setDrawPile(Deck deck) {
-        this.drawPile = deck;
-    }
-
-    public void setDiscardPile(Deck deck) {
-        this.discardPile = deck;
-    }
-
-    public void setSuit(String suit) {
-        this.currentSuit = suit;
-    }
-
-    public void setFace(String face) {
-        this.currentFace = face;
-    }
-
-    public void setHasDeclaredSuit(boolean declared) {
-        this.hasDeclaredSuit = declared;
-    }
-
-    /**
-     * Getter methods:
-     */
-    public int getNumPlayers(){
-        return this.numPlayers;
-    }
-
-    public int getPlayerIndex() {
-        return this.playerIndex;
-    }
-
     public Hashtable<Integer, Deck> getPlayerHands() {
 //        Hashtable<Integer, Deck> ret = new Hashtable<>();
 //        for (int player : this.playerHands.keySet()) {
@@ -301,43 +255,43 @@ public class C8GameState extends GameState {
         return this.playerHands;
     }
 
-    public Deck getDrawPile() {
-        return new Deck(this.drawPile);
-    }
-
-    public Deck getDiscardPile() {
-        return new Deck(this.discardPile);
-    }
-
-    public String getCurrentFace() {
-        return this.currentFace;
-    }
-
-    public String getCurrentSuit() {
-        return this.currentSuit;
-    }
-
-    public boolean getHasDeclaredSuit() {
-        return this.hasDeclaredSuit;
-    }
-
     /**
      * movePlay(index, currPlayer)
      *
      * @param index      - the index of the card to play
-     * @return boolean - true if valid move
+     * @return boolean - true if move made
      */
     public boolean movePlay(int index) {
+        // get the card played
         Card play = this.getPlayerHands().get(this.getPlayerIndex()).getCards().get(index);
-        if(!play.isValid(this.getDiscardPile().peekTopCard())) return false;
+        // check for valid card
+        if(!checkValid(play)) return false;
         this.playCard(index); // play the card
-        this.checkToChangeSuit(); // check if the suit needs to be changed
+        if(this.checkToChangeSuit()) { // check if the suit needs to be changed
+            return true; // return here because we dont want to move to next player
+        }
         this.nextPlayer(); // move to next player
         return true;
     }
 
     /**
-     * moveDraw()
+     * checkValid(index, currPlayer)
+     *
+     * @param check      - the card to check if valid play
+     * @return boolean - true if valid move
+     */
+    public boolean checkValid(Card check) {
+        if(this.getCurrentSuit().equals(check.getSuit())
+                || this.getCurrentFace().equals(check.getFace())
+                || check.getFace().equals("Eight")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * moveDraw() NOT USED
      *
      * @return boolean - true if valid move
      */
@@ -487,7 +441,7 @@ public class C8GameState extends GameState {
     }
 
     /**
-     * playLastCard()
+     * playLastCard() NOT USED
      *
      * Plays the most recently obtained card
      *
@@ -524,6 +478,9 @@ public class C8GameState extends GameState {
 
         // set hasDeclaredSuit boolean to true
         this.setHasDeclaredSuit(true);
+
+        // next player
+        this.nextPlayer();
         return true;
     }
 
@@ -535,9 +492,8 @@ public class C8GameState extends GameState {
      * @return boolean - true if new suit needs to be declared
      */
     public boolean checkToChangeSuit() {
-        if (!this.getHasDeclaredSuit()) {
-            Deck currHand = this.getPlayerHands().get(this.getPlayerIndex());
-            this.setSuitDueToEight(currHand.findMostSuits());
+        if (this.getDiscardPile().peekTopCard().getFace().equals("Eight")) {
+            this.setHasDeclaredSuit(false);
             return true;
         } else {
             return false;
@@ -612,7 +568,7 @@ public class C8GameState extends GameState {
         // if the card is valid, return true
         // if no cards are valid, return false
         for (Card c : currDeck.cards) {
-            if(c.isValid(currCard)){
+            if(c.getFace().equals(this.currentFace) || c.getSuit().equals(this.currentSuit)){
                 return true;
             }
         }
@@ -694,6 +650,72 @@ public class C8GameState extends GameState {
 
         }
         return playerScores;
+    }
+
+    /**
+     * Setter methods:
+     */
+    public void setNumPlayers(int num){
+        this.numPlayers = num;
+    }
+
+    public void setPlayerIndex(int index) {
+        this.playerIndex = index;
+    }
+
+    public void setPlayerHands(Hashtable<Integer, Deck> table) {
+        this.playerHands = table;
+    }
+
+    public void setDrawPile(Deck deck) {
+        this.drawPile = deck;
+    }
+
+    public void setDiscardPile(Deck deck) {
+        this.discardPile = deck;
+    }
+
+    public void setSuit(String suit) {
+        this.currentSuit = suit;
+    }
+
+    public void setFace(String face) {
+        this.currentFace = face;
+    }
+
+    public void setHasDeclaredSuit(boolean declared) {
+        this.hasDeclaredSuit = declared;
+    }
+
+    /**
+     * Getter methods:
+     */
+    public int getNumPlayers(){
+        return this.numPlayers;
+    }
+
+    public int getPlayerIndex() {
+        return this.playerIndex;
+    }
+
+    public Deck getDrawPile() {
+        return new Deck(this.drawPile);
+    }
+
+    public Deck getDiscardPile() {
+        return new Deck(this.discardPile);
+    }
+
+    public String getCurrentFace() {
+        return this.currentFace;
+    }
+
+    public String getCurrentSuit() {
+        return this.currentSuit;
+    }
+
+    public boolean getHasDeclaredSuit() {
+        return this.hasDeclaredSuit;
     }
 
     /*

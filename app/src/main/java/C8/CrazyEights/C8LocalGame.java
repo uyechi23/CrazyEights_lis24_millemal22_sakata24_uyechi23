@@ -4,6 +4,7 @@ import android.util.Log;
 
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
+import C8.CrazyEights.C8ActionMessage.C8SelectSuitAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.GameFramework.LocalGame;
 import C8.GameFramework.actionMessage.GameAction;
@@ -92,11 +93,14 @@ public class C8LocalGame extends LocalGame {
         // check type of action
         if(action instanceof C8DrawAction) {
             // returns true if a move was made, returns false if draw pile empty
-            return state.moveDraw();
+            return state.drawCard();
         }
         else if(action instanceof C8PlayAction) {
             // returns true if valid move was made, false if card was not played
             return state.movePlay(((C8PlayAction) action).getIndex());
+        }
+        else if(action instanceof C8SelectSuitAction) {
+            return state.setSuitDueToEight(((C8SelectSuitAction) action).getSuitSelected());
         }
         // action was not valid
         return false;
