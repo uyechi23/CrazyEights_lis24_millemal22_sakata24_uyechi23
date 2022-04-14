@@ -220,13 +220,13 @@ public class C8GameState extends GameState {
         this.setDrawPile(newDraw);
 
         // copies the discard pile
-        // deep neeeded
+        // deep needed
         Deck newDiscard = new Deck(origState.getDiscardPile());
         this.setDiscardPile(newDiscard);
 
-        // sets the currentSuit and currentFace to the top card
-        this.setFace(this.getDiscardPile().peekTopCard().getFace());
-        this.setSuit(this.getDiscardPile().peekTopCard().getSuit());
+        // sets the currentSuit and currentFace to the original
+        this.setFace(origState.getCurrentFace());
+        this.setSuit(origState.getCurrentSuit());
 
 //        // copies the name of players dependant on the type of player it is
 //        if (p instanceof ProxyPlayer) {
@@ -243,16 +243,6 @@ public class C8GameState extends GameState {
 //
         // censor all but GamePlayer p
         this.turnHandsOverExcept(playerPerspective);
-    }
-
-
-    public Hashtable<Integer, Deck> getPlayerHands() {
-//        Hashtable<Integer, Deck> ret = new Hashtable<>();
-//        for (int player : this.playerHands.keySet()) {
-//            ret.put(player, new Deck(this.playerHands.get(player)));
-//        }
-//        return ret;
-        return this.playerHands;
     }
 
     /**
@@ -288,32 +278,6 @@ public class C8GameState extends GameState {
         } else {
             return false;
         }
-    }
-
-    /**
-     * moveDraw() NOT USED
-     *
-     * @return boolean - true if valid move
-     */
-    public boolean moveDraw() {
-        boolean canMove = false; // have a boolean if the player can move
-        // while the player can't move and there are cards in the draw pile
-        if (this.getDrawPile().size() > 0) {
-            synchronized (this.getDrawPile()) {
-                this.drawCard();
-            }
-            canMove = checkIfValid(this.playerIndex);
-        }else{
-            this.nextPlayer();
-            return true;
-        }
-
-        if (canMove) {
-            this.playLastCard(); // if the player can move, play the last card, else pass
-            this.checkToChangeSuit(); // check if the suit needs to be changed
-            this.nextPlayer(); // move to next player
-        }
-        return true;
     }
 
     /**
@@ -380,6 +344,8 @@ public class C8GameState extends GameState {
         // prints played card (now is top of the deck)
         s += "Top Card of Discard Pile: " + this.getDiscardPile().peekTopCard().toString() + "\n\n";
 
+        s += "Actual suit (if declared 8): " + this.getCurrentSuit() + "\n\n";
+
         // prints the cards in the draw pile
         s += "Cards in Draw Pile: \n" + getDrawPile().toString() + "\n";
 
@@ -433,31 +399,7 @@ public class C8GameState extends GameState {
         setSuit(this.discardPile.peekTopCard().getSuit());
         setFace(this.discardPile.peekTopCard().getFace());
 
-        // set the hasDeclaredSuit boolean to false if top card is 8
-        setHasDeclaredSuit(!(this.getDiscardPile().peekTopCard().getFace().equals("Eight")));
-
         // return true for valid move
-        return true;
-    }
-
-    /**
-     * playLastCard() NOT USED
-     *
-     * Plays the most recently obtained card
-     *
-     * @return boolean - true if it's a valid call
-     */
-    public boolean playLastCard() {
-        // check if the player's hand is empty
-        if (playerHands.get(this.playerIndex) == null) return false;
-
-        // play the card, calculating index in this method
-        playCard(this.getPlayerHands().get(this.playerIndex).size() - 1);
-
-        // set the hasDeclaredSuit boolean to false if top card is 8
-        setHasDeclaredSuit(!(this.getCurrentFace().equals("Eight")));
-
-        // return true - valid action
         return true;
     }
 
@@ -560,9 +502,6 @@ public class C8GameState extends GameState {
     public boolean checkIfValid(int playerNum){
         // retrieve the hand of the player indexed
         Deck currDeck = this.playerHands.get(playerNum);
-
-        // mock-up the top card of the discard pile (in case last suit was an 8)
-        Card currCard = new Card(this.currentFace, this.currentSuit);
 
         // for every card in the current player's hands, check if it's an 8.
         // if the card is valid, return true
@@ -712,6 +651,10 @@ public class C8GameState extends GameState {
 
     public String getCurrentSuit() {
         return this.currentSuit;
+    }
+
+    public Hashtable<Integer, Deck> getPlayerHands() {
+        return this.playerHands;
     }
 
     public boolean getHasDeclaredSuit() {

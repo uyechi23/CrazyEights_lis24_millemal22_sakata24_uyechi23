@@ -69,10 +69,9 @@ public class C8ComputerPlayer extends GameComputerPlayer {
             for(Card c : currDeck.getCards()){
                 if(this.state.getCurrentSuit().equals(c.getSuit())
                         || this.state.getCurrentFace().equals(c.getFace())) {
-                    C8PlayAction play = new C8PlayAction(this, i);
                     sleep(1.5);
-                    Log.d("Found", "Played card");
-                    this.game.sendAction(play);
+                    Log.d("Found", "Played card" + c.getFace() +" of " + c.getSuit());
+                    this.game.sendAction(new C8PlayAction(this, i));
                     break;
                 }
                 i++;
