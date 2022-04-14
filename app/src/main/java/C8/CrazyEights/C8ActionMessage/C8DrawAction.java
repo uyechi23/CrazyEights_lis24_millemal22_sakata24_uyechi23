@@ -12,7 +12,7 @@ import C8.GameFramework.players.GamePlayer;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 29 March 2022
+ * @version 8 April 2022
  */
 public class C8DrawAction extends C8MoveAction{
     /**

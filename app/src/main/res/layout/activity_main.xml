@@ -26,29 +26,29 @@
                 Solution:   Changed Button to ImageButton to use the android:src property
                             Generated icon resource files using Android Studio's asset generator
             -->
-            <ImageButton
-                android:id="@+id/menu_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:contentDescription="@string/menu_icon_desc"
-                android:paddingHorizontal="10sp"
-                android:paddingVertical="10sp"
-                android:src="@mipmap/menu_button_round"
-                android:tooltipText="@string/menu_icon_desc" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/menu_button"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@color/transparent"-->
+<!--                android:contentDescription="@string/menu_icon_desc"-->
+<!--                android:paddingHorizontal="10sp"-->
+<!--                android:paddingVertical="10sp"-->
+<!--                android:src="@mipmap/menu_button_round"-->
+<!--                android:tooltipText="@string/menu_icon_desc" />-->
 
-            <ImageButton
-                android:id="@+id/settings_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="@color/transparent"
-                android:contentDescription="@string/settings_icon_desc"
-                android:paddingHorizontal="10sp"
-                android:paddingVertical="10sp"
-                android:src="@mipmap/settings_option_round"
-                android:tooltipText="@string/settings_icon_desc"
-                tools:ignore="RedundantDescriptionCheck" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/settings_button"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="end"-->
+<!--                android:background="@color/transparent"-->
+<!--                android:contentDescription="@string/settings_icon_desc"-->
+<!--                android:paddingHorizontal="10sp"-->
+<!--                android:paddingVertical="10sp"-->
+<!--                android:src="@mipmap/settings_option_round"-->
+<!--                android:tooltipText="@string/settings_icon_desc"-->
+<!--                tools:ignore="RedundantDescriptionCheck" />-->
 
         </LinearLayout>
 

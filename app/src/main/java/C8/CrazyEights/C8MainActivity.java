@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 29 March 2022
+ * @version 12 April 2022
  */
 public class C8MainActivity extends GameMainActivity {
     private static final int PORT_NUMBER = 6969;
