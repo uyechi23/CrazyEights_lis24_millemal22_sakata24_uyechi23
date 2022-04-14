@@ -5,6 +5,7 @@ import android.graphics.Color;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.CrazyEights.C8Players.C8ComputerPlayer;
 import C8.CrazyEights.C8Players.C8HumanPlayer;
+import C8.CrazyEights.C8Players.C8SmartComputerPlayer;
 import C8.GameFramework.GameMainActivity;
 import C8.GameFramework.LocalGame;
 import C8.GameFramework.gameConfiguration.GameConfig;
@@ -50,8 +51,13 @@ public class C8MainActivity extends GameMainActivity {
                 return new C8ComputerPlayer(name);
             }
         });
+        playerTypes.add(new GamePlayerType("computer player (smart)"){
+            public GamePlayer createPlayer(String name) {
+                return new C8SmartComputerPlayer(name);
+            }
+        });
 
-        // Create a game configuration class for SlapJack
+        // Create a game configuration class for C8
         GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Crazy Eights", PORT_NUMBER);
 
         // Add the default players

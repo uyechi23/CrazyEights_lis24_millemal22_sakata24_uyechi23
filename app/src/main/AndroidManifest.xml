@@ -20,8 +20,9 @@
 
         <activity
             android:name="C8.CrazyEights.C8MainActivity"
+            android:configChanges="orientation"
             android:exported="true"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
