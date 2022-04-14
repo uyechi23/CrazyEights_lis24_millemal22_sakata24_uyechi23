@@ -2,6 +2,18 @@ package C8.CrazyEights.C8ActionMessage;
 
 import C8.GameFramework.players.GamePlayer;
 
+/**
+ * C8SelectSuitAction
+ *
+ * Action class for selecting a suit after an 8 is played
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 14 April 2022
+ */
 public class C8SelectSuitAction extends C8MoveAction{
     /* instance var */
     String suitSelected;

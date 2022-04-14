@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.crazyeights_lis24_millemal22_sakata24_uyechi23">
 
     <application
@@ -8,20 +9,23 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:screenOrientation="sensorLandscape"
+        tools:ignore="LockedOrientationActivity"
         android:theme="@style/Theme.CrazyEights_lis24_millemal22_sakata24_uyechi23">
 
         <!--
             External Citation
-                Date:       28 January 2022
-                Problem:    Could not set default screen orientation to landscape
-                Resource:   https://stackoverflow.com/questions/3723823/i-want-my-android-application-to-be-only-run-in-portrait-mode#:~:text=android%3AscreenOrientation%3D%22portrait%22%20you,set%20the%20default%20orientation%20mode.
+                Date:       14 April 2022
+                Problem:    Could not set default screen orientation to lock as landscape
+                Resource:   https://stackoverflow.com/questions/15718869/how-to-lock-android-apps-orientation-to-portrait-in-phones-and-landscape-in-tab
                 Solution:   Modified the AndroidManifest.xml file as shown in the example from this post
         -->
 
         <activity
             android:name="C8.CrazyEights.C8MainActivity"
             android:exported="true"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="userLandscape"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
