@@ -27,8 +27,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import C8.CrazyEights.C8InfoMessage.C8GameState;
-import C8.CrazyEights.GameBoard;
 import C8.GameFramework.gameConfiguration.GameConfig;
 import C8.GameFramework.gameConfiguration.GamePlayerType;
 import C8.GameFramework.infoMessage.GameState;
