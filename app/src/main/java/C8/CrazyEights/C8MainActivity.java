@@ -25,6 +25,16 @@ import java.util.ArrayList;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
+ * @Caveat skipTurn should check if players hand and draw pile is empty. If both are empty it should skip the players turn. However, it does not work
+ *         for computer players but it works for human players.
+ *
+ *         We were able to implement network play, but due to time constraints and conflicting schedules we weren't able to test it.
+ *
+ *         We were not able to implement the grouping of cards because we were not able to figure out the organization of the UI since the
+ *         cards would be changing depending on the number of cards selected.
+ *
+ *         If the draw pile is empty and nobody has any valid moves, the game should automatically end, but the game fails to check this.
+ *
  * @version 12 April 2022
  */
 public class C8MainActivity extends GameMainActivity {
