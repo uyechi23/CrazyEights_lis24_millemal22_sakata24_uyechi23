@@ -465,7 +465,7 @@ public class C8GameState extends GameState {
      */
     public boolean skipTurn() {
         // retrieve the hand of the current player
-        Deck currDeck = this.playerHands.get(0);
+        Deck currDeck = this.playerHands.get(this.getPlayerIndex());
 
         // mock-up the top card of the discard pile (in case last suit was an 8)
         Card currCard = new Card(this.currentFace, this.currentSuit);
@@ -478,10 +478,19 @@ public class C8GameState extends GameState {
 
         // for every card in the current player's hands, check if it is valid.
         // if the card is valid, increment validCards and set skip to false
-        for (Card c : currDeck.cards) {
-            if (c.isValid(currCard)) {
+        if(currCard.getFace().equals("Eight")){
+            for(Card c : currDeck.getCards()){
+                if(c.matchSuit(currCard)){
                     validCards++;
                     skip = false;
+                }
+            }
+        }else{
+            for(Card c : currDeck.getCards()) {
+                if(c.isValid(currCard)) {
+                    validCards++;
+                    skip = false;
+                }
             }
         }
         // if there are no valid cards, skip player's turn then return skip

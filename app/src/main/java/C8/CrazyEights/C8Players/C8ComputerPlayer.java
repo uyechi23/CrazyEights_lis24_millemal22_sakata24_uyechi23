@@ -69,7 +69,8 @@ public class C8ComputerPlayer extends GameComputerPlayer {
             // ...play the first valid card in hand
             for(Card c : currDeck.getCards()){
                 if(this.state.getCurrentSuit().equals(c.getSuit())
-                        || this.state.getCurrentFace().equals(c.getFace())) {
+                        || this.state.getCurrentFace().equals(c.getFace())
+                        || c.getFace().equals("Eight")) {
                     sleep(1.5);
                     Log.d("Found", "Played card" + c.getFace() +" of " + c.getSuit());
                     this.game.sendAction(new C8PlayAction(this, i));

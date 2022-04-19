@@ -66,6 +66,7 @@ public class GameBoard extends AnimationSurface {
     Paint largeTextPaint = new Paint();
     Paint playerPaint = new Paint();
     Paint dimmerPaint = new Paint();
+    Paint currPlayerPaint = new Paint();
 
     // cards to draw during select suit
     public final static Card spades8 = new Card("S8");
@@ -102,6 +103,15 @@ public class GameBoard extends AnimationSurface {
 //        canvas.drawRect(slot2, slotPaint);
 //        canvas.drawRect(slot3, slotPaint);
 //        canvas.drawRect(slot4, slotPaint);
+        if(this.state.getPlayerIndex() == 0){
+            canvas.drawRect(slot1, currPlayerPaint);
+        }else if(this.state.getPlayerIndex() == 1){
+            canvas.drawRect(slot2, currPlayerPaint);
+        }else if(this.state.getPlayerIndex() == 2){
+            canvas.drawRect(slot3, currPlayerPaint);
+        }else if(this.state.getPlayerIndex() == 3){
+            canvas.drawRect(slot4, currPlayerPaint);
+        }
 
         // draw player names
         canvas.drawText(this.playerNames[0] + ": Cards Left (" +
@@ -234,9 +244,12 @@ public class GameBoard extends AnimationSurface {
         largeTextPaint.setTextAlign(Paint.Align.CENTER);
 
         // player paint
-        playerPaint.setColor((Color.BLACK));
+        playerPaint.setColor(Color.BLACK);
         playerPaint.setTextSize(35);
         playerPaint.setTextAlign(Paint.Align.LEFT);
+
+        // current player slot paint
+        currPlayerPaint.setColor(Color.YELLOW);
 
         // dimmer paint
         dimmerPaint.setARGB(160, 0, 0, 0);

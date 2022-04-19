@@ -104,7 +104,7 @@ public class C8LocalGame extends LocalGame {
             return state.setSuitDueToEight(((C8SelectSuitAction) action).getSuitSelected());
         }
         else if(action instanceof C8SkipAction){
-            return state.nextPlayer();
+            return state.skipTurn();
         }
         // action was not valid
         return false;
