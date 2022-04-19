@@ -7,6 +7,7 @@ import C8.Cards.Deck;
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8ActionMessage.C8SelectSuitAction;
+import C8.CrazyEights.C8ActionMessage.C8SkipAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.GameFramework.infoMessage.GameInfo;
 import C8.GameFramework.infoMessage.GameState;
@@ -77,10 +78,16 @@ public class C8ComputerPlayer extends GameComputerPlayer {
                 i++;
             }
         }else{
-            // ...draw a card
-            C8DrawAction draw = new C8DrawAction(this);
-            sleep(0.5);
-            this.game.sendAction(draw);
+            if(!this.state.getDrawPile().isEmpty()) {
+                // ...draw a card
+                C8DrawAction draw = new C8DrawAction(this);
+                sleep(0.5);
+                this.game.sendAction(draw);
+            }else{
+                C8SkipAction skip = new C8SkipAction(this);
+                sleep(0.5);
+                this.game.sendAction(skip);
+            }
         }
 
     }

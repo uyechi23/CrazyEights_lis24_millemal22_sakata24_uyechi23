@@ -11,6 +11,7 @@ import C8.Cards.Deck;
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8ActionMessage.C8SelectSuitAction;
+import C8.CrazyEights.C8ActionMessage.C8SkipAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.GameFramework.infoMessage.GameInfo;
 import C8.GameFramework.infoMessage.GameState;
@@ -69,14 +70,14 @@ public class C8SmartComputerPlayer extends GameComputerPlayer {
         // if the player has just played an eight
         if(!this.state.getHasDeclaredSuit()) {
             this.game.sendAction(new C8SelectSuitAction(this, currDeck.findMostSuits()));
-        }else if(canMove) {
+        }else if(canMove){
             // if player can move...
             // get the data of the played faces (and corresponding frequency)
             Hashtable<String, Integer> faceData = getPlayedFaces(playedCards);
             Hashtable<String, Integer> suitData = getPlayedSuits(playedCards);
 
             // get the top card of the discard pile
-            Card top = this.state.getDiscardPile().peekTopCard();
+            Card top = new Card(this.state.getCurrentFace(), this.state.getCurrentSuit());
 
             // check if there's any matching suits
             boolean faceMatch = false;
@@ -168,10 +169,16 @@ public class C8SmartComputerPlayer extends GameComputerPlayer {
                 }
             }
         }else{
-            // ...draw a card
-            C8DrawAction draw = new C8DrawAction(this);
-            sleep(0.5);
-            this.game.sendAction(draw);
+            if(!this.state.getDrawPile().isEmpty()) {
+                // ...draw a card
+                C8DrawAction draw = new C8DrawAction(this);
+                sleep(0.5);
+                this.game.sendAction(draw);
+            }else{
+                C8SkipAction skip = new C8SkipAction(this);
+                sleep(0.5);
+                this.game.sendAction(skip);
+            }
         }
     }
 

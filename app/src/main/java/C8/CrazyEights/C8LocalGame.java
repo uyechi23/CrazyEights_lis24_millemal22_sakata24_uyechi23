@@ -5,6 +5,7 @@ import android.util.Log;
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8ActionMessage.C8SelectSuitAction;
+import C8.CrazyEights.C8ActionMessage.C8SkipAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.GameFramework.LocalGame;
 import C8.GameFramework.actionMessage.GameAction;
@@ -101,6 +102,9 @@ public class C8LocalGame extends LocalGame {
         }
         else if(action instanceof C8SelectSuitAction) {
             return state.setSuitDueToEight(((C8SelectSuitAction) action).getSuitSelected());
+        }
+        else if(action instanceof C8SkipAction){
+            return state.nextPlayer();
         }
         // action was not valid
         return false;

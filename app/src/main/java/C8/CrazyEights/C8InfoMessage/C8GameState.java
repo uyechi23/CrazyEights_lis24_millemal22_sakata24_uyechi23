@@ -507,6 +507,9 @@ public class C8GameState extends GameState {
         // if the card is valid, return true
         // if no cards are valid, return false
         for (Card c : currDeck.cards) {
+            if(c.getFace().equals("Eight")){
+                return true;
+            }
             if(c.getFace().equals(this.currentFace) || c.getSuit().equals(this.currentSuit)){
                 return true;
             }

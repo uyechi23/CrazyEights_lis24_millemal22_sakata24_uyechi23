@@ -68,7 +68,7 @@ public class GameBoard extends AnimationSurface {
     Paint dimmerPaint = new Paint();
 
     // cards to draw during select suit
-    public Card spades8 = new Card("S8");
+    public final static Card spades8 = new Card("S8");
     public final static Card diamonds8 = new Card("D8");
     public final static Card clubs8 = new Card("C8");
     public final static Card hearts8 = new Card("H8");
@@ -143,6 +143,25 @@ public class GameBoard extends AnimationSurface {
             drawCard(canvas, ssC, clubs8);
             drawCard(canvas, ssH, hearts8);
         }
+
+        if(!this.state.getDiscardPile().peekTopCard().getSuit().equals(this.state.getCurrentSuit())){
+            Deck temp = new Deck();
+            switch (this.state.getCurrentSuit()) {
+                case "Spades":
+                    temp.add(spades8);
+                    break;
+                case "Diamonds":
+                    temp.add(diamonds8);
+                    break;
+                case "Clubs":
+                    temp.add(clubs8);
+                    break;
+                case "Hearts":
+                    temp.add(hearts8);
+                    break;
+            }
+            drawDiscardPile(canvas, discardSlot, temp);
+        }
     }
 
     /**
@@ -205,7 +224,7 @@ public class GameBoard extends AnimationSurface {
         slotPaint.setColor(Color.BLACK);
 
         // text paint
-        textPaint.setColor(Color.WHITE);
+        textPaint.setColor(Color.BLACK);
         textPaint.setTextSize(fontSize);
         textPaint.setTextAlign(Paint.Align.CENTER);
 
@@ -215,7 +234,7 @@ public class GameBoard extends AnimationSurface {
         largeTextPaint.setTextAlign(Paint.Align.CENTER);
 
         // player paint
-        playerPaint.setColor((Color.WHITE));
+        playerPaint.setColor((Color.BLACK));
         playerPaint.setTextSize(35);
         playerPaint.setTextAlign(Paint.Align.LEFT);
 
