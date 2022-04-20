@@ -1,6 +1,9 @@
 package C8.CrazyEights;
 
 import android.graphics.Color;
+import android.media.MediaPlayer;
+
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
 
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.CrazyEights.C8Players.C8ComputerPlayer;
@@ -14,6 +17,7 @@ import C8.GameFramework.infoMessage.GameState;
 import C8.GameFramework.players.GamePlayer;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * C8MainActivity
@@ -89,6 +93,32 @@ public class C8MainActivity extends GameMainActivity {
             // TODO: retrieve the number of players from the config menu to construct GameState
             gameState = new C8GameState(4);
         }
+
+        /*
+        External Citation
+        Date:       19 April 2022
+        Problem:    Needed to figure out how to add sound
+        Resource:   https://www.geeksforgeeks.org/how-to-add-audio-files-to-android-app-in-android-studio/
+        Solution:   Used the procedure in the link above to add a card shuffle sound on game start
+         */
+
+        // roll 1d20 for initiative
+        Random rand = new Random();
+        int troll = 1 + rand.nextInt(20);
+        MediaPlayer music;
+
+        // decide starting sound based on roll
+        if(troll == 1){
+            // critical miss (1)
+            music = MediaPlayer.create(this, R.raw.deepfryrickroll);
+        }else if(troll < 7){
+            // rolled a miss (2-6)
+            music = MediaPlayer.create(this, R.raw.rickroll);
+        }else{
+            // rolled a hit (>6)
+            music = MediaPlayer.create(this, R.raw.card_shuffle);
+        } // nothing for critical hit sorry
+        music.start();
 
         return new C8LocalGame((C8GameState) gameState);
     }
