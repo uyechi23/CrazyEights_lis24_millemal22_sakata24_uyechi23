@@ -545,7 +545,7 @@ public class C8GameState extends GameState implements Serializable {
 
     public int[] sendScore(){
         int potScore = 0;
-        int[] playerScores = new int[this.getNumPlayers()];
+        int[] playerScores = new int[this.numPlayers];
         int handValue = 0;
         int winner = 12;
 
