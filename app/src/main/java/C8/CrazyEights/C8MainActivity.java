@@ -12,6 +12,7 @@ import C8.GameFramework.gameConfiguration.GameConfig;
 import C8.GameFramework.gameConfiguration.GamePlayerType;
 import C8.GameFramework.infoMessage.GameState;
 import C8.GameFramework.players.GamePlayer;
+import C8.GameFramework.players.ProxyPlayer;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ import java.util.ArrayList;
  * @version 12 April 2022
  */
 public class C8MainActivity extends GameMainActivity {
-    private static final int PORT_NUMBER = 6969;
+    private static final int PORT_NUMBER = 67828;
 
     @Override
     public GameConfig createDefaultConfig() {
@@ -66,18 +67,18 @@ public class C8MainActivity extends GameMainActivity {
                 return new C8SmartComputerPlayer(name);
             }
         });
+        playerTypes.add(new GamePlayerType("proxy player (human)"){
+            public GamePlayer createPlayer(String name) {
+                return new ProxyPlayer(PORT_NUMBER);
+            }
+        });
 
         // Create a game configuration class for C8
-        GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Crazy Eights", PORT_NUMBER);
+        GameConfig defaultConfig = new GameConfig(playerTypes, 2, 4, "Crazy Eights", PORT_NUMBER);
 
         // Add the default players
         defaultConfig.addPlayer("Human", 0);
         defaultConfig.addPlayer("Computer1", 2);
-        defaultConfig.addPlayer("Computer2", 2);
-        defaultConfig.addPlayer("Computer3", 2);
-
-        // Set the initial information for the remote player
-        defaultConfig.setRemoteData("Guest", "", 1);
 
         //done!
         return defaultConfig;
@@ -87,7 +88,7 @@ public class C8MainActivity extends GameMainActivity {
     public LocalGame createLocalGame(GameState gameState) {
         if(gameState == null){
             // TODO: retrieve the number of players from the config menu to construct GameState
-            gameState = new C8GameState(4);
+            gameState = new C8GameState(this.getConfig().getNumPlayers());
         }
 
         return new C8LocalGame((C8GameState) gameState);
