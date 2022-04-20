@@ -22,7 +22,7 @@ import C8.GameFramework.players.GamePlayer;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 14 April 2022
+ * @version 20 April 2022
  */
 public class C8LocalGame extends LocalGame {
 
