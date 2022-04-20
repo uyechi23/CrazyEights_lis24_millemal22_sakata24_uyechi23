@@ -30,7 +30,7 @@ import C8.GameFramework.players.GameComputerPlayer;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 14 April 2022
+ * @version 19 April 2022
  */
 public class C8SmartComputerPlayer extends GameComputerPlayer {
     /**

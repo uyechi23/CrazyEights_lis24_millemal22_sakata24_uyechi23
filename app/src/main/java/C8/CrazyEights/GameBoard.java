@@ -28,7 +28,7 @@ import C8.GameFramework.animation.AnimationSurface;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 14 April 2022
+ * @version 20 April 2022
  */
 public class GameBoard extends AnimationSurface {
 
@@ -98,52 +98,45 @@ public class GameBoard extends AnimationSurface {
         // until the canvas is initialized
         initBoard();
 
-        // draw slots
-//        canvas.drawRect(slot1, slotPaint);
-//        canvas.drawRect(slot2, slotPaint);
-//        canvas.drawRect(slot3, slotPaint);
-//        canvas.drawRect(slot4, slotPaint);
-        if(this.state.getPlayerIndex() == 0){
-            canvas.drawRect(slot1, currPlayerPaint);
-        }else if(this.state.getPlayerIndex() == 1){
-            canvas.drawRect(slot2, currPlayerPaint);
-        }else if(this.state.getPlayerIndex() == 2){
-            canvas.drawRect(slot3, currPlayerPaint);
-        }else if(this.state.getPlayerIndex() == 3){
-            canvas.drawRect(slot4, currPlayerPaint);
+        // draw player names and hands
+        if(this.playerNames.length >= 2) {
+            canvas.drawText(this.playerNames[0] + ": Cards Left (" +
+                            this.state.getPlayerHands().get(0).size() + ")", slot1.centerX(),
+                    slot1.bottom - (int) (0.5 * fontSize), textPaint);
+            canvas.drawText(this.playerNames[1] + ": Cards Left (" +
+                            this.state.getPlayerHands().get(1).size() + ")", slot2.centerX(),
+                    slot2.bottom - (int) (0.5 * fontSize), textPaint);
+            drawPlayerHand(canvas, slot1, state.getPlayerHands().get(0), handIndex);
+            drawPlayerHand(canvas, slot2, state.getPlayerHands().get(1), 0);
+
+            if(this.playerNames.length >= 3) {
+                canvas.drawText(this.playerNames[2] + ": Cards Left (" +
+                                this.state.getPlayerHands().get(2).size() + ")", slot3.centerX(),
+                        slot3.bottom - (int) (0.5 * fontSize), textPaint);
+                drawPlayerHand(canvas, slot3, state.getPlayerHands().get(2), 0);
+
+                if(this.playerNames.length == 4) {
+                    canvas.drawText(this.playerNames[3] + ": Cards Left (" +
+                                    this.state.getPlayerHands().get(3).size() + ")", slot4.centerX(),
+                            slot4.bottom - (int) (0.5 * fontSize), textPaint);
+                    drawPlayerHand(canvas, slot4, state.getPlayerHands().get(3), 0);
+                }
+            }
         }
 
-        // draw player names
-        canvas.drawText(this.playerNames[0] + ": Cards Left (" +
-                this.state.getPlayerHands().get(0).size() + ")", slot1.centerX(),
-                slot1.bottom - (int) (0.5 * fontSize), textPaint);
-        canvas.drawText(this.playerNames[1] + ": Cards Left (" +
-                        this.state.getPlayerHands().get(1).size() + ")", slot2.centerX(),
-                slot2.bottom - (int) (0.5 * fontSize), textPaint);
-        canvas.drawText(this.playerNames[2] + ": Cards Left (" +
-                        this.state.getPlayerHands().get(2).size() + ")", slot3.centerX(),
-                slot3.bottom - (int) (0.5 * fontSize), textPaint);
-        canvas.drawText(this.playerNames[3] + ": Cards Left (" +
-                        this.state.getPlayerHands().get(3).size() + ")", slot4.centerX(),
-                slot4.bottom - (int) (0.5 * fontSize), textPaint);
-        canvas.drawText("Draw", drawSlot.centerX(),
-                drawSlot.bottom-(int)(0.5*fontSize), textPaint);
-        canvas.drawText("Discard", discardSlot.centerX(),
-                discardSlot.bottom-(int)(0.5*fontSize), textPaint);
-        canvas.drawText("Player " + this.playerNames[state.getPlayerIndex()] + "'s turn", 10, 30, playerPaint);
-
-
-
-        // draw player hands
-        drawPlayerHand(canvas, slot1, state.getPlayerHands().get(0), handIndex);
-        drawPlayerHand(canvas, slot2, state.getPlayerHands().get(1), 0);
-        drawPlayerHand(canvas, slot3, state.getPlayerHands().get(2), 0);
-        drawPlayerHand(canvas, slot4, state.getPlayerHands().get(3), 0);
+        // draw center piles
         makeDrawPile(canvas, drawSlot, state.getDrawPile());
         drawDiscardPile(canvas, discardSlot, state.getDiscardPile());
 
+        // draw center slot titles
+        canvas.drawText("Draw", drawSlot.centerX(),
+                drawSlot.bottom-(int)(0.5*fontSize), textPaint);
         canvas.drawText("" + this.state.getDrawPile().size(), drawSlot.centerX(),
                 drawSlot.centerY()-(int)(0.5*fontSize), textPaint);
+        canvas.drawText("Discard", discardSlot.centerX(),
+                discardSlot.bottom-(int)(0.5*fontSize), textPaint);
+        canvas.drawText("Player " + this.playerNames[state.getPlayerIndex()] + "'s turn",
+                10, 30, playerPaint);
 
         if(!state.getHasDeclaredSuit() && this.state.getPlayerIndex() == 0) {
             canvas.drawRect(this.getLeft(), 0, this.getRight(), this.getBottom(), dimmerPaint);

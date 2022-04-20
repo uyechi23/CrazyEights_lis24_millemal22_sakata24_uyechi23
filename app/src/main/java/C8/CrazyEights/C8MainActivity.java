@@ -15,6 +15,7 @@ import C8.GameFramework.gameConfiguration.GameConfig;
 import C8.GameFramework.gameConfiguration.GamePlayerType;
 import C8.GameFramework.infoMessage.GameState;
 import C8.GameFramework.players.GamePlayer;
+import C8.GameFramework.players.ProxyPlayer;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,20 +30,13 @@ import java.util.Random;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @Caveat skipTurn should check if players hand and draw pile is empty. If both are empty it should skip the players turn. However, it does not work
- *         for computer players but it works for human players.
+ * @extraEnhancements Various sounds are implemented throughout the game
+ *                    Current player's turn is displayed with highlighted boxes and in top left corner
  *
- *         We were able to implement network play, but due to time constraints and conflicting schedules we weren't able to test it.
- *
- *         We were not able to implement the grouping of cards because we were not able to figure out the organization of the UI since the
- *         cards would be changing depending on the number of cards selected.
- *
- *         If the draw pile is empty and nobody has any valid moves, the game should automatically end, but the game fails to check this.
- *
- * @version 12 April 2022
+ * @version 20 April 2022
  */
 public class C8MainActivity extends GameMainActivity {
-    private static final int PORT_NUMBER = 6969;
+    private static final int PORT_NUMBER = 67828;
 
     @Override
     public GameConfig createDefaultConfig() {
@@ -70,18 +64,18 @@ public class C8MainActivity extends GameMainActivity {
                 return new C8SmartComputerPlayer(name);
             }
         });
+        playerTypes.add(new GamePlayerType("proxy player (human)"){
+            public GamePlayer createPlayer(String name) {
+                return new ProxyPlayer(PORT_NUMBER);
+            }
+        });
 
         // Create a game configuration class for C8
-        GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Crazy Eights", PORT_NUMBER);
+        GameConfig defaultConfig = new GameConfig(playerTypes, 2, 4, "Crazy Eights", PORT_NUMBER);
 
         // Add the default players
         defaultConfig.addPlayer("Human", 0);
         defaultConfig.addPlayer("Computer1", 2);
-        defaultConfig.addPlayer("Computer2", 2);
-        defaultConfig.addPlayer("Computer3", 2);
-
-        // Set the initial information for the remote player
-        defaultConfig.setRemoteData("Guest", "", 1);
 
         //done!
         return defaultConfig;
@@ -91,7 +85,7 @@ public class C8MainActivity extends GameMainActivity {
     public LocalGame createLocalGame(GameState gameState) {
         if(gameState == null){
             // TODO: retrieve the number of players from the config menu to construct GameState
-            gameState = new C8GameState(4);
+            gameState = new C8GameState(this.getConfig().getNumPlayers());
         }
 
         /*

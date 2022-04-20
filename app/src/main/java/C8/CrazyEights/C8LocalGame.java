@@ -2,6 +2,10 @@ package C8.CrazyEights;
 
 import android.util.Log;
 
+import java.io.*;
+import java.net.*;
+import java.net.Socket;
+
 import C8.CrazyEights.C8ActionMessage.C8DrawAction;
 import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8ActionMessage.C8SelectSuitAction;
@@ -9,7 +13,9 @@ import C8.CrazyEights.C8ActionMessage.C8SkipAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.GameFramework.LocalGame;
 import C8.GameFramework.actionMessage.GameAction;
+import C8.GameFramework.infoMessage.GameOverInfo;
 import C8.GameFramework.players.GamePlayer;
+import C8.GameFramework.players.ProxyPlayer;
 
 /**
  * CrazyEightsLocalGame
@@ -22,7 +28,7 @@ import C8.GameFramework.players.GamePlayer;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 14 April 2022
+ * @version 20 April 2022
  */
 public class C8LocalGame extends LocalGame {
 

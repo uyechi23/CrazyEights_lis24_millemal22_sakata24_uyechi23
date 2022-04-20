@@ -321,62 +321,32 @@ public abstract class LocalGame implements Game, Tickable {
             finishUpGame(overMsg, scoreMsg);
         }
     }
-
+    /**
+     * Selection sort for the scores.
+     *
+     * @param scores the array of player scores
+     * @return string of the scores in order.
+     */
     protected String orderScores(int[] scores){
-        String ordered;
-        int hiScore = 0;
-        int index1 = -1;
-        int index2 = -1;
-        int index3 = -1;
-        int index4 = -1;
-
-        for (int i=0; i<scores.length; i++){
-            if (scores[i] > hiScore){
-                hiScore = scores[i];
-                index1 = i;
-            }
-        }
-        ordered = "Scores:" + "\n " + this.playerNames[index1] + ": " + hiScore;
-        hiScore = 0;
-
-        for (int j=0; j<scores.length; j++){
-            if (j == index1){ }
-            else{
-                if (scores[j] > hiScore){
-                    hiScore = scores[j];
-                    index2 = j;
+        String sortedScores = "Scores: \n";
+        int largestIndex;
+        // loop through all scores
+        for(int i = 0; i < scores.length; i++) {
+            largestIndex = i;
+            // loop through from i to end and find the largest
+            for(int j = i; j < scores.length; j++) {
+                if(scores[largestIndex] < scores[j]) {
+                    largestIndex = j;
                 }
             }
+            // swap the largest with scores[i]
+            int dummy = scores[i];
+            scores[i] = scores[largestIndex];
+            scores[largestIndex] = dummy;
+            // add the score to the string
+            sortedScores += "\n " + this.playerNames[largestIndex] + ": " + scores[i];
         }
-        ordered += "\n " + this.playerNames[index2] + ": " + hiScore;
-        hiScore = 0;
-
-        for (int k=0; k<scores.length; k++){
-            if (k == index1 || k == index2){ }
-            else{
-                if (scores[k] > hiScore){
-                    hiScore = scores[k];
-                    index3 = k;
-                }
-            }
-        }
-
-        ordered += "\n " + this.playerNames[index3] + ": " + hiScore;
-        hiScore = 0;
-
-        for (int l=0; l<scores.length; l++){
-            if (l == index1 || l == index2 || l == index3){ }
-            else{
-                if (scores[l] > hiScore){
-                    hiScore = scores[l];
-                    index4 = l;
-                }
-            }
-        }
-
-        ordered += "\n " + this.playerNames[index4] + ": " + hiScore;
-
-        return ordered;
+        return sortedScores;
     }
 
     /**

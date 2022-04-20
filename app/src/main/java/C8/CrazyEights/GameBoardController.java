@@ -19,7 +19,7 @@ import C8.GameFramework.actionMessage.GameAction;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 8 April 2022
+ * @version 14 April 2022
  */
 public class GameBoardController implements View.OnTouchListener,
         View.OnClickListener, View.OnDragListener, SeekBar.OnSeekBarChangeListener {

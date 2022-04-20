@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
 
+import java.io.Serializable;
+
 /**
  * Card
  *
@@ -27,7 +29,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
  *
  * @version 14 April 2022
  */
-public class Card {
+public class Card implements Serializable {
 
     // instance variables of card
     // suit - the suit of the card

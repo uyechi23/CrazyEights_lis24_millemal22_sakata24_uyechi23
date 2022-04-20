@@ -38,6 +38,7 @@ public class ProxyGame implements Game {
     // the network-connection object
     private NetworkObjectPasser networkPasser;
 
+
     /**
      * Static method used instead of a constructor, so that null can be returned if
      * the creation was unsuccessful.

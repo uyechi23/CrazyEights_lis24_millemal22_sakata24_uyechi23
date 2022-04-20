@@ -8,6 +8,7 @@ import C8.Cards.Card;
 import C8.Cards.Deck;
 import C8.GameFramework.infoMessage.GameState;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Objects;
 import java.util.Random;
@@ -22,9 +23,9 @@ import java.util.Random;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 14 April 2022
+ * @version 20 April 2022
  */
-public class C8GameState extends GameState {
+public class C8GameState extends GameState implements Serializable {
     /* Instance variables */
     private int numPlayers; // number of players
     private int playerIndex; // ID number of the player whose turn it is
@@ -544,7 +545,7 @@ public class C8GameState extends GameState {
 
     public int[] sendScore(){
         int potScore = 0;
-        int[] playerScores = new int[this.getNumPlayers()];
+        int[] playerScores = new int[this.numPlayers];
         int handValue = 0;
         int winner = 12;
 
