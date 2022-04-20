@@ -2,6 +2,7 @@ package C8.CrazyEights;
 
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.provider.MediaStore;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
 
@@ -37,6 +38,9 @@ import java.util.Random;
  */
 public class C8MainActivity extends GameMainActivity {
     private static final int PORT_NUMBER = 67828;
+
+    private MediaPlayer card_shuffle, DF_rick_roll, rick_roll,
+            play_card, please_dont, whoosh, suit_change;
 
     @Override
     public GameConfig createDefaultConfig() {
@@ -83,6 +87,8 @@ public class C8MainActivity extends GameMainActivity {
 
     @Override
     public LocalGame createLocalGame(GameState gameState) {
+        initMusic();
+
         if(gameState == null){
             // TODO: retrieve the number of players from the config menu to construct GameState
             gameState = new C8GameState(this.getConfig().getNumPlayers());
@@ -99,22 +105,41 @@ public class C8MainActivity extends GameMainActivity {
         // roll 1d20 for initiative
         Random rand = new Random();
         int troll = 1 + rand.nextInt(20);
-        MediaPlayer music;
+
 
         // decide starting sound based on roll
         if(troll == 1){
             // critical miss (1)
-            music = MediaPlayer.create(this, R.raw.deepfryrickroll);
+            this.DF_rick_roll.start();
         }else if(troll < 7){
             // rolled a miss (2-6)
-            music = MediaPlayer.create(this, R.raw.rickroll);
+            this.rick_roll.start();
         }else{
             // rolled a hit (>6)
-            music = MediaPlayer.create(this, R.raw.card_shuffle);
+            this.card_shuffle.start();
         } // nothing for critical hit sorry
-        music.start();
 
-        return new C8LocalGame((C8GameState) gameState);
+        // return the new game state
+        return new C8LocalGame((C8GameState) gameState, this);
     }
+
+    public void initMusic(){
+        // initialize music players
+        this.card_shuffle = MediaPlayer.create(this, R.raw.card_shuffle);
+        this.DF_rick_roll = MediaPlayer.create(this, R.raw.deepfryrickroll);
+        this.rick_roll = MediaPlayer.create(this, R.raw.rickroll);
+        this.play_card = MediaPlayer.create(this, R.raw.playcard);
+        this.please_dont = MediaPlayer.create(this, R.raw.pleasedont);
+        this.whoosh = MediaPlayer.create(this, R.raw.whoosh);
+        this.suit_change = MediaPlayer.create(this, R.raw.suitchange);
+    }
+
+    public void playShuffle() { this.card_shuffle.start(); }
+    public void playDFRR() { this.DF_rick_roll.start(); }
+    public void playRR() { this.rick_roll.start(); }
+    public void playCard() { this.play_card.start(); }
+    public void playDont() { this.please_dont.start(); }
+    public void playWhoosh() { this.whoosh.start(); }
+    public void playChange() { this.suit_change.start(); }
 
 }

@@ -35,8 +35,16 @@ public class C8LocalGame extends LocalGame {
     // game state
     C8GameState state;
 
+    // main activity
+    C8MainActivity ma;
+
     public C8LocalGame(C8GameState initState) {
-        this.state = initState;
+        this.state = new C8GameState(initState);
+    }
+
+    public C8LocalGame(C8GameState initState, C8MainActivity ma){
+        this.state = new C8GameState(initState);
+        this.ma = ma;
     }
 
     /**
@@ -59,7 +67,7 @@ public class C8LocalGame extends LocalGame {
     }
 
     /**
-     * Checks if a current player can move. Called when an action is recieved.
+     * Checks if a current player can move. Called when an action is received.
      *
      * @param playerIdx the player's player-number (ID)
      * @return if the player can move
@@ -99,17 +107,23 @@ public class C8LocalGame extends LocalGame {
         Log.d("Test", state.toString());
         // check type of action
         if(action instanceof C8DrawAction) {
+            ma.playCard();
             // returns true if a move was made, returns false if draw pile empty
             return state.drawCard();
         }
         else if(action instanceof C8PlayAction) {
+            ma.playCard();
             // returns true if valid move was made, false if card was not played
             return state.movePlay(((C8PlayAction) action).getIndex());
         }
         else if(action instanceof C8SelectSuitAction) {
+            ma.playChange();
+            // change suit
             return state.setSuitDueToEight(((C8SelectSuitAction) action).getSuitSelected());
         }
         else if(action instanceof C8SkipAction){
+            ma.playWhoosh();
+            // skip turn
             return state.skipTurn();
         }
         // action was not valid

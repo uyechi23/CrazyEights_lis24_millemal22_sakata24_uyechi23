@@ -15,6 +15,7 @@ import C8.CrazyEights.C8ActionMessage.C8PlayAction;
 import C8.CrazyEights.C8ActionMessage.C8SelectSuitAction;
 import C8.CrazyEights.C8ActionMessage.C8SkipAction;
 import C8.CrazyEights.C8InfoMessage.C8GameState;
+import C8.CrazyEights.C8MainActivity;
 import C8.CrazyEights.GameBoard;
 import C8.CrazyEights.GameBoardController;
 import C8.GameFramework.Game;
@@ -86,11 +87,10 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
             // if it is a GameState object, typecast to a C8GameState object and save it
             this.state = (C8GameState) info;
             this.stateUpdated = true;
-            // call the onDraw() method by invalidating the View
-            this.gameBoard.invalidate();
-
             // update the game state using .updateMode()
             this.gameBoard.updateMode(this.state, this.allPlayerNames, this.playerHandIndex);
+            // call the onDraw() method by invalidating the View
+            this.gameBoard.invalidate();
             updateSeekBar();
         }
         // any other types of GameInfo objects passed to here do nothing
