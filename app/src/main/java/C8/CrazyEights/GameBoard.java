@@ -217,17 +217,20 @@ public class GameBoard extends AnimationSurface {
         drawSlot = new RectF((float) (boardWidth/2), (float) (boardHeight/3),
                 (float) ((boardWidth/3) * 2), (float) (2 * (boardHeight/3)));
 
-        ssS = new RectF((float) boardWidth/9, (float) (boardHeight/3),
-                (float) 2 * (boardWidth/9), (float) (2 * (boardHeight/3)));
+        // just to help cards not look stretched
+        float cardHeight = 0.7f * (boardWidth/9);
 
-        ssD = new RectF((float) (boardWidth/3), (float) (boardHeight/3),
-                (float) 4 * (boardWidth/9), (float) (2 * (boardHeight/3)));
+        ssS = new RectF((float) boardWidth/9, (float) (boardHeight/2) - cardHeight,
+                (float) 2 * (boardWidth/9), (float) (boardHeight/2) + cardHeight);
 
-        ssC = new RectF((float) 5 * (boardWidth/9), (float) (boardHeight/3),
-                (float) 2 * (boardWidth/3), (float) (2 * (boardHeight/3)));
+        ssD = new RectF((float) (boardWidth/3), (float) (boardHeight/2) - cardHeight,
+                (float) 4 * (boardWidth/9), (float) (boardHeight/2) + cardHeight);
 
-        ssH = new RectF((float) 7 * (boardWidth/9), (float) (boardHeight/3),
-                (float) 8 * (boardWidth/9), (float) (2 * (boardHeight/3)));
+        ssC = new RectF((float) 5 * (boardWidth/9), (float) (boardHeight/2) - cardHeight,
+                (float) 2 * (boardWidth/3), (float) (boardHeight/2) + cardHeight);
+
+        ssH = new RectF((float) 7 * (boardWidth/9), (float) (boardHeight/2) - cardHeight,
+                (float) 8 * (boardWidth/9), (float) (boardHeight/2) + cardHeight);
 
         // slot paint
         slotPaint.setColor(Color.BLACK);
@@ -293,19 +296,29 @@ public class GameBoard extends AnimationSurface {
             }
             // gui hand
             else {
+                // check for hand drawable size
+                int amtDrawable = 0;
                 if (playerDeck.size() >= 3) {
-                    for (int i = 0; i < 3; i++) {
-                        float left = (float) (slot.left + (guiDelta * i));
-                        drawCard(g, new RectF(left, slot.top, left + cardSizeX,
-                                        slot.top + cardSizeY),
-                                playerDeck.getCards().get(handIndex + i));
-                    }
+                    amtDrawable = 3;
                 } else if (playerDeck.size() == 2 || playerDeck.size() == 1) {
-                    for (int i = 0; i < playerDeck.size(); i++) {
-                        float left = (float) (slot.left + (guiDelta * i));
-                        drawCard(g, new RectF(left, slot.top, left + cardSizeX,
-                                        slot.top + cardSizeY),
-                                playerDeck.getCards().get(handIndex + i));
+                    amtDrawable = playerDeck.size();
+                }
+                // dummy variables
+                Card toDraw;
+                RectF cardRect;
+                // draw the cards
+                for (int i = 0; i < amtDrawable; i++) {
+                    float left = (float) (slot.left + (guiDelta * i));
+                    toDraw = new Card(playerDeck.getCards().get(handIndex + i));
+                    cardRect = new RectF(left, slot.top, left + cardSizeX,
+                            slot.top + cardSizeY);
+                    // draw the card
+                    drawCard(g, cardRect, toDraw);
+                    // if the card is not valid, grey out
+                    if(!toDraw.getFace().equals(this.state.getCurrentFace())
+                            && !toDraw.getSuit().equals(this.state.getCurrentSuit())
+                            && !toDraw.getFace().equals("Eight")) {
+                        g.drawRect(cardRect, dimmerPaint);
                     }
                 }
             }

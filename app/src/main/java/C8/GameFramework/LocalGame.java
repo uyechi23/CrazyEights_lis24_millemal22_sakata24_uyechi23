@@ -328,6 +328,8 @@ public abstract class LocalGame implements Game, Tickable {
      * @return string of the scores in order.
      */
     protected String orderScores(int[] scores){
+        // create a mock player name list to do swapping
+        String[] mockNames = this.playerNames;
         String sortedScores = "Scores: \n";
         int largestIndex;
         // loop through all scores
@@ -343,8 +345,12 @@ public abstract class LocalGame implements Game, Tickable {
             int dummy = scores[i];
             scores[i] = scores[largestIndex];
             scores[largestIndex] = dummy;
+            // also swap the names
+            String dummyString = mockNames[i];
+            mockNames[i] = mockNames[largestIndex];
+            mockNames[largestIndex] = dummyString;
             // add the score to the string
-            sortedScores += "\n " + this.playerNames[largestIndex] + ": " + scores[i];
+            sortedScores += "\n " + mockNames[i] + ": " + scores[i];
         }
         return sortedScores;
     }
