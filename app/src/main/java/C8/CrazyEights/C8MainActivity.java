@@ -41,8 +41,9 @@ import java.util.Random;
  */
 public class C8MainActivity extends GameMainActivity {
     private static final int PORT_NUMBER = 67828;
+    private static boolean soundEnabled = true;
 
-    private MediaPlayer card_shuffle, DF_rick_roll, rick_roll,
+    public static MediaPlayer card_shuffle, DF_rick_roll, rick_roll,
             play_card, please_dont, whoosh, suit_change;
 
     @Override
@@ -83,17 +84,23 @@ public class C8MainActivity extends GameMainActivity {
         // Add the default players
         defaultConfig.addPlayer("Human", 0);
         defaultConfig.addPlayer("Computer1", 2);
+        defaultConfig.addPlayer("Computer2", 2);
+        defaultConfig.addPlayer("Computer3", 2);
 
         //done!
         return defaultConfig;
     }
 
+    /**
+     * Starts the game.
+     *
+     * @param gameState the game state to initialize the game with
+     */
     @Override
     public LocalGame createLocalGame(GameState gameState) {
         initMusic();
 
         if(gameState == null){
-            // TODO: retrieve the number of players from the config menu to construct GameState
             gameState = new C8GameState(this.getConfig().getNumPlayers());
         }
 
@@ -113,10 +120,10 @@ public class C8MainActivity extends GameMainActivity {
         // decide starting sound based on roll
         if(troll == 1){
             // critical miss (1)
-            this.DF_rick_roll.start();
+            this.playDFRR();
         }else if(troll < 7){
             // rolled a miss (2-6)
-            this.rick_roll.start();
+            this.playRR();
         }else{
             // rolled a hit (>6)
             this.card_shuffle.start();
@@ -126,23 +133,26 @@ public class C8MainActivity extends GameMainActivity {
         return new C8LocalGame((C8GameState) gameState, this);
     }
 
+    /**
+     * Initializes the music player for SFX and rick rolling.
+     */
     public void initMusic(){
         // initialize music players
-        this.card_shuffle = MediaPlayer.create(this, R.raw.card_shuffle);
-        this.DF_rick_roll = MediaPlayer.create(this, R.raw.deepfryrickroll);
-        this.rick_roll = MediaPlayer.create(this, R.raw.rickroll);
-        this.play_card = MediaPlayer.create(this, R.raw.playcard);
-        this.please_dont = MediaPlayer.create(this, R.raw.pleasedont);
-        this.whoosh = MediaPlayer.create(this, R.raw.whoosh);
-        this.suit_change = MediaPlayer.create(this, R.raw.suitchange);
+        card_shuffle = MediaPlayer.create(this, R.raw.card_shuffle);
+        DF_rick_roll = MediaPlayer.create(this, R.raw.deepfryrickroll);
+        rick_roll = MediaPlayer.create(this, R.raw.rickroll);
+        play_card = MediaPlayer.create(this, R.raw.playcard);
+        please_dont = MediaPlayer.create(this, R.raw.pleasedont);
+        whoosh = MediaPlayer.create(this, R.raw.whoosh);
+        suit_change = MediaPlayer.create(this, R.raw.suitchange);
     }
 
-    public void playShuffle() { this.card_shuffle.start(); }
-    public void playDFRR() { this.DF_rick_roll.start(); }
-    public void playRR() { this.rick_roll.start(); }
-    public void playCard() { this.play_card.start(); }
-    public void playDont() { this.please_dont.start(); }
-    public void playWhoosh() { this.whoosh.start(); }
-    public void playChange() { this.suit_change.start(); }
-
+    public void toggleSoundEnabled() { soundEnabled = !soundEnabled; }
+    public static void playShuffle() { if(soundEnabled) C8MainActivity.card_shuffle.start(); }
+    public static void playDFRR() { if(soundEnabled) C8MainActivity.DF_rick_roll.start(); }
+    public static void playRR() { if(soundEnabled) C8MainActivity.rick_roll.start(); }
+    public static void playCard() { if(soundEnabled) C8MainActivity.play_card.start(); }
+    public static void playDont() { if(soundEnabled) C8MainActivity.please_dont.start(); }
+    public static void playWhoosh() { if(soundEnabled) C8MainActivity.whoosh.start(); }
+    public static void playChange() { if(soundEnabled) C8MainActivity.suit_change.start(); }
 }

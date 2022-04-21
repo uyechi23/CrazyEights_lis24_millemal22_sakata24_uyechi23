@@ -1,13 +1,20 @@
 package C8.CrazyEights;
 
+import android.app.Activity;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
+
 import C8.CrazyEights.C8InfoMessage.C8GameState;
 import C8.CrazyEights.C8Players.C8HumanPlayer;
 import C8.GameFramework.actionMessage.GameAction;
+import C8.GameFramework.utilities.MessageBox;
 
 /**
  * GameBoardController
@@ -36,10 +43,22 @@ public class GameBoardController implements View.OnTouchListener,
         this.maxProgress = 2;
     }
 
+    /**
+     * performs an action with the button/view that was clicked
+     *
+     * @param view the view that was clicked
+     */
     @Override
     public void onClick(View view) {
-        this.player.isClicked();
-
+        // check which button was clicked
+        // menu button was clicked
+        if(view == player.getActivity().findViewById(R.id.menu_button)){
+            C8MenuDialog.displayMenu((C8MainActivity) player.getActivity());
+        }
+        // skip is clicked
+        else if(view == player.getActivity().findViewById(R.id.skipButton)) {
+            this.player.isClicked();
+        }
     }
 
     @Override
@@ -52,17 +71,20 @@ public class GameBoardController implements View.OnTouchListener,
         return false;
     }
 
+    /**
+     * Changes the seekbar based on where it is touched. Also tells the board to display cards
+     * accordingly
+     *
+     * @param seekBar the seekbar that was touched
+     * @param i the progress of the seekbar
+     * @param b if the change was a player or not
+     */
     @Override
-    public void onProgressChanged( SeekBar seekBar, int i, boolean b) {
-        /*
-         * should change the three cards it's showing to the next
-         * five cards in the array, or >5 cards in the array
-         *
-         * should it be centered always, or should it just fill the three slots in order?
-         * [][][] , []_[] , _[]_  -OR-  [][][] , [][]_ , ___
-         */
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        // set the seekbar accordingly
         progress = seekBar.getProgress();
         this.player.updateSeekBar();
+        // display the players hand accordingly
         this.player.setPlayerHandIndex(progress);
     }
 
@@ -75,4 +97,5 @@ public class GameBoardController implements View.OnTouchListener,
     public void onStopTrackingTouch(SeekBar seekBar) {
         //more unnecessary than these comments
     }
+
 }

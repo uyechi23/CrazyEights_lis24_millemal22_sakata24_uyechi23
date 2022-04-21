@@ -18,7 +18,7 @@ import C8.GameFramework.players.GamePlayer;
 import C8.GameFramework.players.ProxyPlayer;
 
 /**
- * CrazyEightsLocalGame
+ * C8LocalGame
  *
  * The Game class that handles the game operations. It sends GameStates to players with properly
  * censored information. It handles the main GameState and takes actions from players to do so.
@@ -107,22 +107,22 @@ public class C8LocalGame extends LocalGame {
         Log.d("Test", state.toString());
         // check type of action
         if(action instanceof C8DrawAction) {
-            ma.playCard();
+            C8MainActivity.playCard();
             // returns true if a move was made, returns false if draw pile empty
             return state.drawCard();
         }
         else if(action instanceof C8PlayAction) {
-            ma.playCard();
+            C8MainActivity.playCard();
             // returns true if valid move was made, false if card was not played
             return state.movePlay(((C8PlayAction) action).getIndex());
         }
         else if(action instanceof C8SelectSuitAction) {
-            ma.playChange();
+            C8MainActivity.playDont();
             // change suit
             return state.setSuitDueToEight(((C8SelectSuitAction) action).getSuitSelected());
         }
         else if(action instanceof C8SkipAction){
-            ma.playWhoosh();
+            C8MainActivity.playWhoosh();
             // skip turn
             return state.skipTurn();
         }

@@ -53,7 +53,6 @@ public class GameBoard extends AnimationSurface {
      * slot3: above current player
      * slot4: right of current player
      */
-
     // slot dimensions (suit select (insert card suit here))
     RectF slot1, slot2, slot3, slot4, drawSlot, discardSlot, ssS, ssD, ssC, ssH;
 
@@ -85,7 +84,12 @@ public class GameBoard extends AnimationSurface {
         setWillNotDraw(false);
     }
 
-
+    /**
+     * Is called every time a new state is recieved. Certain objects are drawn on the gui based
+     * on the gameState.
+     *
+     * @param canvas the canvas to draw on
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -138,6 +142,7 @@ public class GameBoard extends AnimationSurface {
         canvas.drawText("Player " + this.playerNames[state.getPlayerIndex()] + "'s turn",
                 10, 30, playerPaint);
 
+        // draws the disp 8's screen
         if(!state.getHasDeclaredSuit() && this.state.getPlayerIndex() == 0) {
             canvas.drawRect(this.getLeft(), 0, this.getRight(), this.getBottom(), dimmerPaint);
             canvas.drawText("Select a suit!", boardWidth/2, boardHeight/4, largeTextPaint);
@@ -147,6 +152,7 @@ public class GameBoard extends AnimationSurface {
             drawCard(canvas, ssH, hearts8);
         }
 
+        // makes a mock card on the top of the pile to make it look like the suit changed
         if(!this.state.getDiscardPile().peekTopCard().getSuit().equals(this.state.getCurrentSuit())){
             Deck temp = new Deck();
             switch (this.state.getCurrentSuit()) {
@@ -409,6 +415,9 @@ public class GameBoard extends AnimationSurface {
         return new RectF(left, top, right, bottom);
     }
 
+    /**
+     * Getter methods
+     */
     public RectF getDrawSlot(){ return drawSlot; }
     public RectF getSlot1(){ return slot1; }
     public RectF getSsS() {
@@ -423,10 +432,8 @@ public class GameBoard extends AnimationSurface {
     public RectF getSsH() {
         return ssH;
     }
-
     public void setPlayerTextView(TextView text) {
         this.playerTextView = text;
     }
-
 
 }
