@@ -40,7 +40,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 19 April 2022
+ * @version 21 April 2022
  */
 public class C8HumanPlayer extends GameHumanPlayer implements Animator {
     /**

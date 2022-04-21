@@ -26,7 +26,7 @@ import C8.GameFramework.utilities.MessageBox;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 14 April 2022
+ * @version 21 April 2022
  */
 public class GameBoardController implements View.OnTouchListener,
         View.OnClickListener, View.OnDragListener, SeekBar.OnSeekBarChangeListener {

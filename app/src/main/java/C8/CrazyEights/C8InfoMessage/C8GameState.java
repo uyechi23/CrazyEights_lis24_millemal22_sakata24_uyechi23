@@ -23,7 +23,7 @@ import java.util.Random;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 20 April 2022
+ * @version 21 April 2022
  */
 public class C8GameState extends GameState implements Serializable {
     /* Instance variables */
