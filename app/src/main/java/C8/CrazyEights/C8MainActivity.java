@@ -31,10 +31,13 @@ import java.util.Random;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @extraEnhancements Various sounds are implemented throughout the game
- *                    Current player's turn is displayed with highlighted boxes and in top left corner
+ * @CAVEAT Before playing with different numbers of players, you must make the new config default then rerun the game
  *
- * @version 20 April 2022
+ * @extraEnhancements Various sounds are implemented to play throughout the game
+ *                    Current player's turn is displayed with highlighted boxes and in top left corner
+ *                    Menu popup that allows the user to toggle sound and exit out of the game
+ *
+ * @version 21 April 2022
  */
 public class C8MainActivity extends GameMainActivity {
     private static final int PORT_NUMBER = 67828;

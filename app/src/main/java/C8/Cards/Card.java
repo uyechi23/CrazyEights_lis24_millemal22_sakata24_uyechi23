@@ -27,7 +27,7 @@ import java.io.Serializable;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 14 April 2022
+ * @version 21 April 2022
  */
 public class Card implements Serializable {
 

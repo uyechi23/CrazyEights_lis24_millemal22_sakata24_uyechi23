@@ -28,7 +28,7 @@ import C8.GameFramework.players.ProxyPlayer;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 20 April 2022
+ * @version 21 April 2022
  */
 public class C8LocalGame extends LocalGame {
 
