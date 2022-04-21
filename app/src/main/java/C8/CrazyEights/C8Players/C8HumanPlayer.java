@@ -6,6 +6,7 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 
 import C8.Cards.Card;
@@ -49,6 +50,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
     private Activity currActivity; // the activity of the current player
     private GameBoard gameBoard; // animation surface of the player GUI
     private SeekBar handProgress; // SeekBar representing section of player's hand
+    private ImageButton menuButton; // button to open the settings menu
     private int playerHandIndex; // The first card to be displayed in a player's hand
     private int backgroundColor; // background color of GUI
     private boolean stateUpdated; // if the state was updated recently
@@ -74,6 +76,12 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         return currActivity.findViewById(R.id.top_gui);
     }
 
+    /**
+     * Receives the updated gameState and tells the gameBoard to fix itself according to the
+     * updated gameState
+     *
+     * @param info the updated gameState
+     */
     @Override
     public void receiveInfo(GameInfo info) {
 
@@ -96,6 +104,11 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         // any other types of GameInfo objects passed to here do nothing
     }
 
+    /**
+     * Sets the activity to be the gui to be played on.
+     *
+     * @param activity the mainActivity on which we play the game
+     */
     @Override
     public void setAsGui(GameMainActivity activity) {
         // save the current activity
@@ -113,6 +126,10 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         this.handProgress = (SeekBar) currActivity.findViewById(R.id.seekBar3);
         this.handProgress.setOnSeekBarChangeListener(gbc);
 
+        // make the controller listen to the menu button
+        this.menuButton = (ImageButton) currActivity.findViewById(R.id.menu_button);
+        this.menuButton.setOnClickListener(gbc);
+
         //retrieve the skip button and make a controller
         this.skipButton = (Button) currActivity.findViewById((R.id.skipButton));
         this.skipButton.setOnClickListener(gbc);
@@ -124,16 +141,22 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         if(state != null) receiveInfo(state);
     }
 
-    public String getName() {
-        return this.name;
-    }
-
+    /**
+     * Returns 50 for timing purposes
+     *
+     * @returns 50, 1/20th of a sec
+     */
     @Override
     public int interval() {
         // 1/20 of a second; 50 ms
         return 50;
     }
 
+    /**
+     * Returns the background color of this player
+     *
+     * @returns the background color
+     */
     @Override
     public int backgroundColor() {
         // return background color
@@ -150,6 +173,11 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         return false;
     }
 
+    /**
+     * For animation purposes. Ticks and redraws every tick.
+     *
+     * @param canvas the canvas to draw on.
+     */
     @Override
     public void tick(Canvas canvas) {
         // if state was not received yet at start
@@ -164,6 +192,12 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         this.gameBoard.invalidate();
     }
 
+    /**
+     * Touch handler determines where the screen is pressed. Each press gets processed and
+     * actions are sent based on what the user clicked on.
+     *
+     * @param event the touch event
+     */
     @Override
     public void onTouch(MotionEvent event) {
         // ignore everything except down-touch events
@@ -176,6 +210,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         // do something with coordinates
         SeekBar handProgress = this.currActivity.findViewById(R.id.seekBar3);
         int currProgress = handProgress.getProgress();
+
         // check if suit must be selected
         if(!this.state.getHasDeclaredSuit()) {
             String declaredSuit;
@@ -249,6 +284,9 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         handProgress.setMax(numCards - MAX_CARD_DISPLAY);
     }
 
+    /**
+     * Sends a skip action if the skip button was clicked
+     */
     public void isClicked(){
         this.game.sendAction(new C8SkipAction(this));
     }
@@ -261,5 +299,9 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
 
     public int getPlayerHandIndex() {
         return this.playerHandIndex;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

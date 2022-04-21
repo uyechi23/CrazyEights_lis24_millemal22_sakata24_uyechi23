@@ -344,6 +344,13 @@ public class Card implements Serializable {
         g.drawBitmap(bitmap, r, where, p);
     }
 
+    /**
+     * Draws the backs of cards in a given rectangle
+     *
+     * @param g the canvas to draw on
+     * @param where the rect to draw the card in
+     * @param chars string representation of what color card to draw
+     */
     public static void drawBack(Canvas g, RectF where, String chars){
         // create new paint
         Paint p = new Paint();

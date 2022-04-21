@@ -540,6 +540,11 @@ public class C8GameState extends GameState implements Serializable {
         return null;
     }
 
+    /**
+     * calculates the scores of the players
+     *
+     * @return array of scores
+     */
     public int[] sendScore(){
         int potScore = 0;
         int[] playerScores = new int[this.numPlayers];

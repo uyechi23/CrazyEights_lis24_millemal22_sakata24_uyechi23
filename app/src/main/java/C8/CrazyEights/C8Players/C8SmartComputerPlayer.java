@@ -47,6 +47,12 @@ public class C8SmartComputerPlayer extends GameComputerPlayer {
         super(name);
     }
 
+    /**
+     * Receives info from the game and processes it, sending actions to the game as the AI
+     * decides fit.
+     *
+     * @param info the updated game state
+     */
     @Override
     protected void receiveInfo(GameInfo info) {
         // Makes sure the info message is a Game State before sending an action or if its null

@@ -25,6 +25,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 import C8.GameFramework.gameConfiguration.GameConfig;
@@ -49,7 +51,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
  * @author Eric Imperio
  * @date Version 2020
  */
-public abstract class GameMainActivity extends Activity implements
+public abstract class GameMainActivity extends AppCompatActivity implements
         View.OnClickListener {
     //Tag for Logging
     private static final String TAG = "GameMainActivity";
