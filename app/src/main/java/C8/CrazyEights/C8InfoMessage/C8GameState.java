@@ -474,23 +474,18 @@ public class C8GameState extends GameState implements Serializable {
         // counter for the number of valid cards in player's hand
         int validCards = 0;
 
-        // skip is true if there are no valid cards
-        boolean skip = true;
-
         // for every card in the current player's hands, check if it is valid.
         // if the card is valid, increment validCards and set skip to false
         if(currCard.getFace().equals("Eight")){
             for(Card c : currDeck.getCards()){
-                if(c.matchSuit(currCard)){
+                if(c.matchSuit(currCard) || c.getFace().equals("Eight")){
                     validCards++;
-                    skip = false;
                 }
             }
         }else{
             for(Card c : currDeck.getCards()) {
                 if(c.isValid(currCard)) {
                     validCards++;
-                    skip = false;
                 }
             }
         }
@@ -498,8 +493,10 @@ public class C8GameState extends GameState implements Serializable {
         if (validCards == 0) {
             //skip turn
             this.nextPlayer();
+            return true;
+        }else{
+            return false;
         }
-        return skip;
     }
 
     /**
@@ -520,7 +517,7 @@ public class C8GameState extends GameState implements Serializable {
             if(c.getFace().equals("Eight")){
                 return true;
             }
-            if(c.getFace().equals(this.currentFace) || c.getSuit().equals(this.currentSuit)){
+            if(c.getFace().equals(this.getCurrentFace()) || c.getSuit().equals(this.getCurrentSuit())){
                 return true;
             }
         }
