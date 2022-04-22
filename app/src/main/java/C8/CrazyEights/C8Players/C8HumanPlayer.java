@@ -283,8 +283,7 @@ public class C8HumanPlayer extends GameHumanPlayer implements Animator {
         // set the max progress
         handProgress.setMax(numCards - MAX_CARD_DISPLAY);
 
-        // quality of life. if user is at the end it automatically scrolls for them
-        if(handProgress.getProgress() == handProgress.getMax()-1) {
+        if(handProgress.getProgress() == handProgress.getMax()) {
             handProgress.setProgress(handProgress.getMax());
         }
     }

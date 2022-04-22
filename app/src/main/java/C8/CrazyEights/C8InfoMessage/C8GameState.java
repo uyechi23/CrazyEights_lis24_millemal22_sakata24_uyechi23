@@ -530,13 +530,29 @@ public class C8GameState extends GameState implements Serializable {
      * @return String - name of the winner, null if no winner
      */
     public String checkGameOver(){
+
+        int noValidCards = 0;
+
         // loop through all players
-        for(int p : this.getPlayerHands().keySet()){
+        for(int p : this.getPlayerHands().keySet()) {
             // if a player's hand is empty
-            if(this.getPlayerHands().get(p).isEmpty()) {
+            if (this.getPlayerHands().get(p).isEmpty()) {
                 return "Player " + p + " wins! ";
             }
+            // if draw pile is empty
+            if(getDrawPile().isEmpty()) {
+                // if there are no valid cards, increment counter and check other player's hands
+                if(checkIfValid(p) == false) {
+                    noValidCards++;
+                }
+            }
         }
+
+        // if no players have any valid cards remaining, end game
+        if (noValidCards == numPlayers) {
+            return "Game ended in a tie!";
+        }
+
         return null;
     }
 
@@ -675,12 +691,5 @@ public class C8GameState extends GameState implements Serializable {
     public boolean getHasDeclaredSuit() {
         return this.hasDeclaredSuit;
     }
-
-    /*
-     * TODO: Other methods to implement (possibly):
-     * - startGame
-     * - exitGame
-     * - restartGame
-     */
 
 }

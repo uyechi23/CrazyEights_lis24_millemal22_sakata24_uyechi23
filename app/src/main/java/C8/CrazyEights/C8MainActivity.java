@@ -31,11 +31,12 @@ import java.util.Random;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @CAVEAT Before playing with different numbers of players, you must make the new config default then rerun the game
+ * @CAVEAT Before playing with different numbers of players, you must make the new config default then rerun the game.
  *
- * @extraEnhancements Various sounds are implemented to play throughout the game
- *                    Current player's turn is displayed with highlighted boxes and in top left corner
- *                    Menu popup that allows the user to toggle sound and exit out of the game
+ * @extraEnhancements Various sounds are implemented to play throughout the game.
+ *                    Current player's turn is displayed with highlighted boxes and in top left corner.
+ *                    Menu popup in top left corner that allows the user to toggle sound on/off and exit out of the game.
+ *                    Invalid cards are grayed out.
  *
  * @version 21 April 2022
  */
