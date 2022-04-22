@@ -110,7 +110,7 @@ public class GameBoard extends AnimationSurface {
         else if(state.getPlayerIndex() == 1) {
             canvas.drawRect(slot2, slotHighlight);
         }
-        else if(state.getPlayerIndex() == 3) {
+        else if(state.getPlayerIndex() == 2) {
             canvas.drawRect(slot3, slotHighlight);
         } else {
             canvas.drawRect(slot4, slotHighlight);
