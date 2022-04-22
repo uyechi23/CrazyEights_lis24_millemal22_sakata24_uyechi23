@@ -32,6 +32,8 @@ import java.util.Random;
  * @author Tyler Sakata
  *
  * @CAVEAT Before playing with different numbers of players, you must make the new config default then rerun the game.
+ *         We are unsure whether our network play works or not since we did not have access to 2 different tablets
+ *         (some members used the AVD emulator for the majority of the course).
  *
  * @extraEnhancements Various sounds are implemented to play throughout the game.
  *                    Current player's turn is displayed with highlighted boxes and in top left corner.
