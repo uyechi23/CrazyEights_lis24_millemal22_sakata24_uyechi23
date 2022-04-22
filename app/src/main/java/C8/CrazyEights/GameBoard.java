@@ -61,6 +61,7 @@ public class GameBoard extends AnimationSurface {
 
     // paints
     Paint slotPaint = new Paint();
+    Paint slotHighlight = new Paint();
     Paint textPaint = new Paint();
     Paint largeTextPaint = new Paint();
     Paint playerPaint = new Paint();
@@ -101,6 +102,19 @@ public class GameBoard extends AnimationSurface {
         // since the getWidth() and getHeight() methods do not work
         // until the canvas is initialized
         initBoard();
+
+        // draw highlight on slot
+        if(state.getPlayerIndex() == 0) {
+            canvas.drawRect(slot1, slotHighlight);
+        }
+        else if(state.getPlayerIndex() == 1) {
+            canvas.drawRect(slot2, slotHighlight);
+        }
+        else if(state.getPlayerIndex() == 3) {
+            canvas.drawRect(slot3, slotHighlight);
+        } else {
+            canvas.drawRect(slot4, slotHighlight);
+        }
 
         // draw player names and hands
         if(this.playerNames.length >= 2) {
@@ -234,6 +248,7 @@ public class GameBoard extends AnimationSurface {
 
         // slot paint
         slotPaint.setColor(Color.BLACK);
+        slotHighlight.setColor(Color.YELLOW);
 
         // text paint
         textPaint.setColor(Color.BLACK);
